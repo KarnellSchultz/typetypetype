@@ -1,10 +1,13 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import useSwr from "swr";
 import Head from "next/head";
-import Image from "next/image";
 import styles from "../styles/Home.module.css";
+
+const fetcher = (url: RequestInfo) => fetch(url).then((res) => res.json());
 
 export default function Home() {
   const [state, setstate] = useState("");
+  const [wordList, setWordList] = useState<string[]>([]);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -12,6 +15,11 @@ export default function Home() {
       ? setstate("")
       : setstate(e.currentTarget.value);
   };
+
+  const { data, error } = useSwr("/api/words", fetcher);
+  if (error) return <div>Failed to load words</div>;
+  if (!data) return <div>Loading...</div>;
+
 
   return (
     <div className={styles.container}>
@@ -25,20 +33,12 @@ export default function Home() {
         <input type="text" onChange={(e) => handleInput(e)} value={state} />
 
         <p>{state}</p>
+        {data.wordList.map((el: {} | null | undefined) => (
+          <p key={el}>{el}</p>
+        ))}
       </main>
 
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{" "}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
+      <footer className={styles.footer}></footer>
     </div>
   );
 }
