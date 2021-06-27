@@ -17,7 +17,8 @@ const WordContext = React.createContext<
 >(undefined);
 
 const wordReducer = (state: State, action: Action) => {
-  switch (action.type) {
+  const { type } = action;
+  switch (type) {
     case "update": {
       return { ...state, word: action.payload };
     }
@@ -25,13 +26,14 @@ const wordReducer = (state: State, action: Action) => {
       return { ...state, word: "" };
     }
     default: {
-      throw new Error(`Unhandled action type: ${action.type}`);
+      throw new Error(`Unhandled action type: ${type}`);
     }
   }
 };
 
 export const WordProvider = ({ children }: WordProviderProps) => {
-  const [state, dispatch] = React.useReducer(wordReducer, { word: "" });
+  const initState = { word: "" };
+  const [state, dispatch] = React.useReducer(wordReducer, () => initState);
 
   const value = { state, dispatch };
 

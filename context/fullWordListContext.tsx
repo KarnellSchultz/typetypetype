@@ -4,13 +4,11 @@ import { words } from "../wordsArray";
 type FullWordListContextProviderProps = { children: React.ReactNode };
 type WordsResultArray = string[];
 
-const FullWordListContext = React.createContext<
-  | {
+const FullWordListContext = React.createContext<{
       fullWordListState: WordsResultArray;
       setFullWordListState: (value: WordsResultArray) => void;
     }
-  | undefined
->(undefined);
+>(null!);
 
 FullWordListContext.displayName = "Full Word List Context 🛰";
 
@@ -25,7 +23,7 @@ export const FullWordListContextProvider = ({
       // let randomWords = getRandomWord(wordsArray);
       let wordResultArray: WordsResultArray = [];
 
-      for (let step = 0; step < 10; step++) {
+      for (let step = 0; step < 50; step++) {
         wordResultArray.push(words[step]);
       }
 
@@ -46,7 +44,7 @@ export const FullWordListContextProvider = ({
 
 export const useFullWordList = () => {
   const context = React.useContext(FullWordListContext);
-  if (context === undefined) {
+  if (typeof context === undefined) {
     throw new Error("Must be used within a FullWordListContextProvider");
   }
   return context;
