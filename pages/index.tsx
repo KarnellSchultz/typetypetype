@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 
 import styles from "../styles/Home.module.css";
@@ -27,7 +27,7 @@ export default function Home() {
   const firstTen = currentTwentyWords.slice(0, 10);
   const nextTen = currentTwentyWords.slice(10, 20);
 
-  React.useEffect(() => {
+  useEffect(() => {
     makeSlice();
   }, [currentWordCount]);
 
