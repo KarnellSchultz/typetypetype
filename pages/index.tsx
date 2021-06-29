@@ -12,13 +12,11 @@ export default function Home() {
   // const { state:{word} } = useWord();
 
   const { fullWordListState } = useFullWordList();
-
   const [currentWordCount, setCurrentWordCount] = useState(0);
   const [currentSlice, setCurrentSlice] = useState([0, 20]);
   const [correctWordBank, setCorrectWordBank] = useState<string[]>([]);
   0;
   const [incorrectWordBank, setIncorrectWordBank] = useState<string[]>([]);
-
   const currentTwentyWords = fullWordListState.slice(
     currentSlice[0],
     currentSlice[1]
@@ -66,39 +64,44 @@ export default function Home() {
       e.currentTarget.value = "";
     }
   };
-  let time = new Date();
 
-  const {
-    start,
-    restartTimer,
-    isRunning,
-    days,
-    hours,
-    minutes,
-    seconds,
-  } = useTimerHook({ initTime: 32 });
+  const { start, restartTimer, isRunning, minutes, seconds } = useTimerHook({
+    initTime: 10,
+  });
 
-  console.log({ incorrectWordBank, correctWordBank });
+  // console.log({ incorrectWordBank, correctWordBank });
+
+let cal =( (correctWordBank.join(" ").length / 5 ) * 6).toFixed(0)
+
+console.log(correctWordBank.join(" ").length);
+
 
   return (
     <div className={styles.container}>
       <Head>
         <title>typetypetype app ⌨️</title>
-        <meta name="description" content="Type type type" />
+        <meta name="home" content="Type type type" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <input type="text" onChange={(e) => handleChange(e)} />
+        <p>{isRunning ? "Running" : "Not running"}</p>
+        <input
+          type="text"
+          onChange={(e) => handleChange(e)}
+          spellCheck="false"
+          autoComplete="off"
+          disabled={isRunning ? false : true}
+        />
         <h3>{fullWordListState[currentWordCount]}</h3>
         <h3>{firstTen}</h3>
         <h3>{nextTen}</h3>
 
         <button onClick={start}>Start</button>
         <button onClick={() => restartTimer()}>Restart</button>
-        <p>{isRunning ? "Running" : "Not running"}</p>
         <div style={{ fontSize: "40px" }}>
           <span>{minutes}</span>:<span>{seconds}</span>
         </div>
+  <div>{cal}</div>
       </main>
 
       <footer className={styles.footer}></footer>

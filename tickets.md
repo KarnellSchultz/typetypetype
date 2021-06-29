@@ -18,5 +18,5 @@
 ### Connect timer to input
 
 
-## Improve timer hook
+### Improve timer hook
 
