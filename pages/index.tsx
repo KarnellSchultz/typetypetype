@@ -10,8 +10,6 @@ import { useFullWordList } from "../context";
 import { useTimerHook } from "../hooks/useTimer";
 
 export default function Home() {
-  // const { state:{word} } = useWord();
-
   const { fullWordListState } = useFullWordList();
   const [currentWordCount, setCurrentWordCount] = useState(0);
   const [currentSlice, setCurrentSlice] = useState([0, 20]);
@@ -69,8 +67,6 @@ export default function Home() {
   const { start, restartTimer, isRunning, minutes, seconds } = useTimerHook({
     initTime: 10,
   });
-
-  // console.log({ incorrectWordBank, correctWordBank });
 
   let cal = ((correctWordBank.join(" ").length / 5) * 6).toFixed(0);
 
