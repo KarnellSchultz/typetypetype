@@ -16,7 +16,10 @@
 - create timer hook startTimer(time)
 
 ### Connect timer to input
-
+✅
 
 ### Improve timer hook
 
+### Add nextauth to the project
+- setup POC
+- 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
+import { useSession, signIn, signOut } from "next-auth/client";
 
 import styles from "../styles/Home.module.css";
 
@@ -71,9 +72,9 @@ export default function Home() {
 
   // console.log({ incorrectWordBank, correctWordBank });
 
-let cal =( (correctWordBank.join(" ").length / 5 ) * 6).toFixed(0)
+  let cal = ((correctWordBank.join(" ").length / 5) * 6).toFixed(0);
 
-console.log(correctWordBank.join(" ").length);
+  console.log(correctWordBank.join(" ").length);
 
 
   return (
@@ -84,6 +85,7 @@ console.log(correctWordBank.join(" ").length);
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
+
         <p>{isRunning ? "Running" : "Not running"}</p>
         <input
           type="text"
@@ -101,7 +103,7 @@ console.log(correctWordBank.join(" ").length);
         <div style={{ fontSize: "40px" }}>
           <span>{minutes}</span>:<span>{seconds}</span>
         </div>
-  <div>{cal}</div>
+        <div>{cal}</div>
       </main>
 
       <footer className={styles.footer}></footer>
