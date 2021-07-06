@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
-import { useSession, signIn, signOut } from "next-auth/client";
 
 import styles from "../styles/Home.module.css";
 
-import { InputBox } from "../components/inputBox";
-import { useWord } from "../context/word";
 import { useFullWordList } from "../context";
-import { useTimerHook } from "../hooks/useTimer";
+
+import { TextContainer } from "../components";
+import { TestBar } from "../components/testBar";
 
 export default function Home() {
   const { fullWordListState } = useFullWordList();
@@ -21,8 +20,8 @@ export default function Home() {
     currentSlice[1]
   );
 
-  const firstTen = currentTwentyWords.slice(0, 10);
-  const nextTen = currentTwentyWords.slice(10, 20);
+  const currentTenWords = currentTwentyWords.slice(0, 10);
+  const nextTenWords = currentTwentyWords.slice(10, 20);
 
   useEffect(() => {
     makeSlice();
@@ -34,44 +33,6 @@ export default function Home() {
     }
   };
 
-  const evaluateUserInput = (value: string) => {
-    value = Array.from(value)
-      .splice(0, value.length - 1)
-      .join("");
-    if (value !== fullWordListState[currentWordCount]) {
-      setIncorrectWordBank((prev) => [
-        ...prev,
-        fullWordListState[currentWordCount],
-      ]);
-      setCurrentWordCount((prev) => prev + 1);
-    }
-
-    if (value === fullWordListState[currentWordCount]) {
-      setCorrectWordBank((prev) => [
-        ...prev,
-        fullWordListState[currentWordCount],
-      ]);
-      setCurrentWordCount((prev) => prev + 1);
-    }
-  };
-
-  const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
-    let value = e.currentTarget.value.toLowerCase();
-
-    if (Array.from(value).pop() == " ") {
-      evaluateUserInput(value);
-      e.currentTarget.value = "";
-    }
-  };
-
-  const { start, restartTimer, isRunning, minutes, seconds } = useTimerHook({
-    initTime: 10,
-  });
-
-  let cal = ((correctWordBank.join(" ").length / 5) * 6).toFixed(0);
-
-  console.log(correctWordBank.join(" ").length);
-
 
   return (
     <div className={styles.container}>
@@ -81,25 +42,20 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-
-        <p>{isRunning ? "Running" : "Not running"}</p>
-        <input
-          type="text"
-          onChange={(e) => handleChange(e)}
-          spellCheck="false"
-          autoComplete="off"
-          disabled={isRunning ? false : true}
+        {/* <h3>{fullWordListState[currentWordCount]}</h3> */}
+        <TextContainer
+          nextTenWords={nextTenWords}
+          currentTenWords={currentTenWords}
         />
-        <h3>{fullWordListState[currentWordCount]}</h3>
-        <h3>{firstTen}</h3>
-        <h3>{nextTen}</h3>
+        <TestBar
+          currentWordCount={currentWordCount}
+          setCurrentWordCount={setCurrentWordCount}
+          setCorrectWordBank={setCorrectWordBank}
+          incorrectWordBank={incorrectWordBank}
+          correctWordBank={correctWordBank}
+          setIncorrectWordBank={setIncorrectWordBank}
+        />
 
-        <button onClick={start}>Start</button>
-        <button onClick={() => restartTimer()}>Restart</button>
-        <div style={{ fontSize: "40px" }}>
-          <span>{minutes}</span>:<span>{seconds}</span>
-        </div>
-        <div>{cal}</div>
       </main>
 
       <footer className={styles.footer}></footer>

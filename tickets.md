@@ -22,4 +22,17 @@
 
 ### Add nextauth to the project
 - setup POC
-- 
+- ❌BLOCKED by PP network stuff need to come back to this later
+
+### Make componets out of parts of the app
+
+- Nav component
+- Words to type component
+- Input component
+- WPM
+- Time 
+- Restart
+
+### Create Css Colors
+
+- Take colors from Tania Rascia site

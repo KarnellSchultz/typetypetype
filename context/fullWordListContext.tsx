@@ -2,7 +2,7 @@ import * as React from "react";
 import { words } from "../wordsArray";
 
 type FullWordListContextProviderProps = { children: React.ReactNode };
-type WordsResultArray = string[];
+export type WordsResultArray = string[];
 
 const FullWordListContext = React.createContext<{
       fullWordListState: WordsResultArray;
