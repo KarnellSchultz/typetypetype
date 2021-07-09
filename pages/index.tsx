@@ -10,6 +10,7 @@ import { TestBar } from "../components/testBar";
 
 export default function Home() {
   const { fullWordListState } = useFullWordList();
+  
   const [currentWordCount, setCurrentWordCount] = useState(0);
   const [currentSlice, setCurrentSlice] = useState([0, 20]);
   const [correctWordBank, setCorrectWordBank] = useState<string[]>([]);
@@ -20,8 +21,12 @@ export default function Home() {
     currentSlice[1]
   );
 
-  const currentTenWords = currentTwentyWords.slice(0, 10);
-  const nextTenWords = currentTwentyWords.slice(10, 20);
+  const currentTenWords = React.useMemo(() => currentTwentyWords.slice(0, 10), [
+    currentTwentyWords,
+  ]);
+  const nextTenWords = React.useMemo(() => currentTwentyWords.slice(10, 20), [
+    currentTwentyWords,
+  ]);
 
   useEffect(() => {
     makeSlice();
@@ -33,7 +38,6 @@ export default function Home() {
     }
   };
 
-
   return (
     <div className={styles.container}>
       <Head>
@@ -42,10 +46,11 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        {/* <h3>{fullWordListState[currentWordCount]}</h3> */}
+        <h3>{fullWordListState[currentWordCount]}</h3>
         <TextContainer
           nextTenWords={nextTenWords}
           currentTenWords={currentTenWords}
+          currentWordCount={currentWordCount}
         />
         <TestBar
           currentWordCount={currentWordCount}
@@ -55,7 +60,6 @@ export default function Home() {
           correctWordBank={correctWordBank}
           setIncorrectWordBank={setIncorrectWordBank}
         />
-
       </main>
 
       <footer className={styles.footer}></footer>
