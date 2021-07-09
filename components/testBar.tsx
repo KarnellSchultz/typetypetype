@@ -1,7 +1,43 @@
 import React from "react";
+import styled from "styled-components";
 
 import { useFullWordList } from "../context/fullWordListContext";
 import { useTimerHook } from "../hooks/useTimer";
+import { BasicColors, colors } from "../styles/colors";
+
+const StyledTestBar = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 0.5rem auto;
+  width: 100%;
+  justify-content: center;
+`;
+
+const StyledBarItems = styled.div`
+  display: flex;
+`;
+
+const Button = styled.div`
+  color: ${BasicColors.blue0};
+  background-color: ${BasicColors.success0};
+  padding: 0.75rem 1rem;
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+const StyledInput = styled.input`
+width: 100%;
+  z-index: 1;
+  outline: 0;
+  transition: 0.2s;
+  margin: 2rem 0;
+  width: 22rem;
+  border: 2px solid var(--grey-2);
+`;
 
 type TestBarProps = {
   currentWordCount: number;
@@ -58,22 +94,27 @@ export const TestBar = ({
   });
 
   return (
-    <div>
-      {" "}
-      <input
+    <StyledTestBar>
+      <StyledInput
         type="text"
         onChange={(e) => handleChange(e)}
         spellCheck="false"
         autoComplete="off"
         disabled={isRunning ? false : true}
       />
-      <button onClick={start}>Start</button>
-      <button onClick={() => restartTimer()}>Restart</button>
-      <div style={{ fontSize: "40px" }}>
-        <p >{isRunning ? "Running" : "Not running"}</p>
-        <span>{minutes}</span>:<span>{seconds}</span>
-      </div>
-      <div>{WPMCalculation}</div>
-    </div>
+      <StyledBarItems>
+        <Button role="button" onClick={start}>
+          Start
+        </Button>
+        <Button role="button" onClick={() => restartTimer()}>
+          Restart
+        </Button>
+        <div style={{ fontSize: "40px" }}>
+          <p>{isRunning ? "Running" : "Not running"}</p>
+          <span>{minutes}</span>:<span>{seconds}</span>
+        </div>
+        <div>{WPMCalculation}</div>
+      </StyledBarItems>
+    </StyledTestBar>
   );
 };

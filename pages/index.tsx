@@ -10,7 +10,7 @@ import { TestBar } from "../components/testBar";
 
 export default function Home() {
   const { fullWordListState } = useFullWordList();
-  
+
   const [currentWordCount, setCurrentWordCount] = useState(0);
   const [currentSlice, setCurrentSlice] = useState([0, 20]);
   const [correctWordBank, setCorrectWordBank] = useState<string[]>([]);
@@ -45,7 +45,7 @@ export default function Home() {
         <meta name="home" content="Type type type" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
+      <main className={styles.container}>
         <h3>{fullWordListState[currentWordCount]}</h3>
         <TextContainer
           nextTenWords={nextTenWords}
@@ -61,7 +61,6 @@ export default function Home() {
           setIncorrectWordBank={setIncorrectWordBank}
         />
       </main>
-
       <footer className={styles.footer}></footer>
     </div>
   );
