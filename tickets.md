@@ -47,3 +47,11 @@
 - DOD: when you type a word and move on you should see what was right / wrong
 
 ### fix input box styles
+
+
+### Create page header component
+
+- Create logo text "Typetypetype" ✅
+- Create nav with dummy buttons.✅
+  - "Test" , "About", "Login"✅
+

@@ -6,6 +6,7 @@ import styles from "../styles/Home.module.css";
 import { useFullWordList } from "../context";
 
 import { TextContainer } from "../components";
+import { Header } from "../components";
 import { TestBar } from "../components/testBar";
 
 export default function Home() {
@@ -45,6 +46,7 @@ export default function Home() {
         <meta name="home" content="Type type type" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Header />
       <main className={styles.container}>
         <h3>{fullWordListState[currentWordCount]}</h3>
         <TextContainer

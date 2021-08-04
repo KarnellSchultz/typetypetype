@@ -1,4 +1,3 @@
-import React from "react";
 import { useTimer } from "react-timer-hook";
 
 type UseTimerHook = { initTime: number; autoStart?: boolean };
@@ -8,7 +7,7 @@ export const useTimerHook = ({
   autoStart = false,
 }: UseTimerHook) => {
   let time = new Date();
-  let expiryTimestamp = time.setSeconds(time.getSeconds() + initTime);
+  let expiryTimestamp = time.setSeconds(time.getSeconds() + 10);
   
   const {
     seconds,

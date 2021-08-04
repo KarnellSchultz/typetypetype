@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { VscDebugRestart } from "react-icons/vsc";
 
 import { useFullWordList } from "../context/fullWordListContext";
 import { useTimerHook } from "../hooks/useTimer";
@@ -18,25 +19,37 @@ const StyledTestBar = styled.div`
 
 const StyledBarItems = styled.div`
   display: flex;
+  flex-direction: row;
+
+  padding: 1rem 2rem;
+  background-color: var(--operator);
 `;
 
 const Button = styled.div`
+  height: 4rem;
+  width: 4rem;
+  padding: 0.75rem 1rem;
+  margin: 1rem;
+  text-align: center;
   color: ${BasicColors.blue0};
   background-color: ${BasicColors.success0};
-  padding: 0.75rem 1rem;
   :hover {
     cursor: pointer;
   }
 `;
 
 const StyledInput = styled.input`
-width: 100%;
+  width: 100%;
   z-index: 1;
   outline: 0;
   transition: 0.2s;
   margin: 2rem 0;
   width: 22rem;
-  border: 2px solid var(--grey-2);
+  border: 2px solid ${colors.border};
+  border-radius: 4px;
+  :focus {
+    border: 2px solid ${BasicColors.blue2};
+  }
 `;
 
 type TestBarProps = {
@@ -93,25 +106,35 @@ export const TestBar = ({
     initTime: 10,
   });
 
+  const inputRef = React.useRef<HTMLInputElement>(null);
+
+  React.useEffect(() => {
+    inputRef?.current?.focus();
+  }, []);
+
+  const handleRestart = () => {
+    restartTimer();
+    inputRef?.current?.focus();
+  };
+
   return (
     <StyledTestBar>
       <StyledInput
-        type="text"
+        ref={inputRef}
         onChange={(e) => handleChange(e)}
+        type="text"
         spellCheck="false"
         autoComplete="off"
-        disabled={isRunning ? false : true}
+        // disabled={isRunning ? false : true}
       />
       <StyledBarItems>
-        <Button role="button" onClick={start}>
-          Start
+        <Button role="button" onClick={handleRestart}>
+          <VscDebugRestart />
+          RESTART
         </Button>
-        <Button role="button" onClick={() => restartTimer()}>
-          Restart
-        </Button>
-        <div style={{ fontSize: "40px" }}>
-          <p>{isRunning ? "Running" : "Not running"}</p>
-          <span>{minutes}</span>:<span>{seconds}</span>
+        <div style={{ fontSize: "20px" }}>
+          <p>{isRunning ? <div>✅</div> : <div>❌</div>}</p>
+          <span>{seconds}</span>
         </div>
         <div>{WPMCalculation}</div>
       </StyledBarItems>

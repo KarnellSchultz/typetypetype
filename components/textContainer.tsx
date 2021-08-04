@@ -61,21 +61,23 @@ export const TextContainer = ({
   return (
     <div>
       <StyledContainer>
-        <span>
+        <div>
           {currentTenWords.map((word) =>
             word === fullWordListState[currentWordCount] ? (
-              <TestWord active>{word}</TestWord>
+              <TestWord active key={word}>
+                {word}
+              </TestWord>
             ) : (
-              <TestWord>{word}</TestWord>
+              <TestWord key={word}>{word}</TestWord>
             )
           )}
-        </span>
-        <br></br>
-        <span>
+        </div>
+        <br/>
+        <div>
           {nextTenWords.map((word) => (
-            <TestWord>{word}</TestWord>
+            <TestWord key={word}>{word}</TestWord>
           ))}
-        </span>
+        </div>
       </StyledContainer>
     </div>
   );

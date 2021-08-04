@@ -5,28 +5,28 @@ type FullWordListContextProviderProps = { children: React.ReactNode };
 export type WordsResultArray = string[];
 
 const FullWordListContext = React.createContext<{
-      fullWordListState: WordsResultArray;
-      setFullWordListState: (value: WordsResultArray) => void;
-    }
->(null!);
+  fullWordListState: WordsResultArray;
+  setFullWordListState: (value: WordsResultArray) => void;
+}>(null!);
 
 FullWordListContext.displayName = "Full Word List Context 🛰";
+
+const getRandomWord = (wordArray: string[]) =>
+  wordArray[Math.floor(Math.random() * wordArray.length)];
 
 export const FullWordListContextProvider = ({
   children,
 }: FullWordListContextProviderProps) => {
   const [fullWordListState, setFullWordListState] = React.useState(() => {
-    // const getRandomWord = (wordArray: string[]) =>
-    //   wordArray[Math.floor(Math.random() * wordArray.length)];
-
     const getWordsArray = (words: string[]) => {
-      // let randomWords = getRandomWord(wordsArray);
+      // let randomWords = getRandomWord(words);
       let wordResultArray: WordsResultArray = [];
-
       for (let step = 0; step < 50; step++) {
-        wordResultArray.push(words[step]);
-      }
+        let randomWord  = getRandomWord(words)
 
+        wordResultArray.push(randomWord)
+        // wordResultArray.push(words[step]);
+      }
       return wordResultArray;
     };
 
