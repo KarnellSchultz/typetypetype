@@ -50,9 +50,11 @@ export default function Home() {
       <main className={styles.container}>
         <h3>{fullWordListState[currentWordCount]}</h3>
         <TextContainer
-          nextTenWords={nextTenWords}
-          currentTenWords={currentTenWords}
           currentWordCount={currentWordCount}
+          currentTenWords={currentTenWords}
+          nextTenWords={nextTenWords}
+          incorrectWordBank={incorrectWordBank}
+          correctWordBank={correctWordBank}
         />
         <TestBar
           currentWordCount={currentWordCount}

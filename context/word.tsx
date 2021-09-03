@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useReducer } from "react";
 
 type Action =
   | { type: "update"; payload: string }
@@ -33,7 +33,7 @@ const wordReducer = (state: State, action: Action) => {
 
 export const WordProvider = ({ children }: WordProviderProps) => {
   const initState = { word: "" };
-  const [state, dispatch] = React.useReducer(wordReducer, () => initState);
+  const [state, dispatch] = useReducer(wordReducer, initState);
 
   const value = { state, dispatch };
 

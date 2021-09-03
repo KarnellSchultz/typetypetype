@@ -1,5 +1,6 @@
 import React from "react";
-import { useFullWordList } from "../context";
+
+import { useFullWordList, useWord } from "../context";
 
 import { colors, BasicColors, border } from "../styles/colors";
 
@@ -7,6 +8,8 @@ import styled from "styled-components";
 
 type TestWordType = {
   active?: boolean;
+  correct?: boolean;
+  incorrect?: boolean;
 };
 
 const getAnimation = () => `animation: fade-in .1s forwards;
@@ -28,6 +31,10 @@ const TestWord = styled.span<TestWordType>`
   color: ${BasicColors.textLight};
 
   transition: background-color 0.15s ease;
+/* WORKING ON THIS RN */
+  ${({ correct }) => (correct ? "color: blue;" : null)}
+  ${({ incorrect }) => incorrect && "color: red;"}
+
   ${({ active }) =>
     active &&
     `background-color: ${
@@ -43,21 +50,33 @@ const StyledContainer = styled.div`
   line-height: 2rem;
   padding: 1.5rem 2rem;
   border-radius: ${border.borderRadious};
-
 `;
 
 type TextContainerProps = {
   nextTenWords: string[];
   currentTenWords: string[];
   currentWordCount: number;
+  incorrectWordBank: string[];
+  correctWordBank: string[];
 };
 
 export const TextContainer = ({
   nextTenWords,
   currentTenWords,
   currentWordCount,
+  incorrectWordBank,
+  correctWordBank,
 }: TextContainerProps) => {
   const { fullWordListState } = useFullWordList();
+
+  console.log(correctWordBank);
+
+  const getClassStatus = (word: string) => {
+    const correct = incorrectWordBank.includes(word) ? "incorrect" : "";
+    const incorrect = correctWordBank.includes(word) ? "correct" : "";
+
+    return correct + incorrect;
+  };
 
   return (
     <div>
@@ -65,11 +84,13 @@ export const TextContainer = ({
         <div>
           {currentTenWords.map((word) =>
             word === fullWordListState[currentWordCount] ? (
-              <TestWord active key={word}>
+              <TestWord active className={getClassStatus(word)} key={word}>
                 {word}
               </TestWord>
             ) : (
-              <TestWord key={word}>{word}</TestWord>
+              <TestWord className={getClassStatus(word)} key={word}>
+                {word}
+              </TestWord>
             )
           )}
         </div>
