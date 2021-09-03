@@ -13,9 +13,16 @@ const NavContainer = styled.div`
 
 const NavLink = styled.a`
   text-align: center;
+  font-weight: 700;
+  font-size: 1.1rem;
   background-color: var(--light-background);
   padding: 1rem 0.75rem;
   margin: 0rem 0.5rem;
+  border-radius: 0.3rem;
+
+  :hover {
+    background-color: var(--border-color);
+  }
 `;
 
 const Nav = styled.nav`
@@ -27,10 +34,8 @@ export const Header = () => {
     <NavContainer>
       <h1>typetypetype</h1>
       <Nav>
-        <NavLink href="/html/">HTML</NavLink>
-        <NavLink href="/css/">CSS</NavLink>
-        <NavLink href="/js/">JavaScript</NavLink>
-        <NavLink href="/python/">Python</NavLink>
+        <NavLink href="/">Test</NavLink>
+        <NavLink href="/">Profile</NavLink>
       </Nav>
     </NavContainer>
   );
