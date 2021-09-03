@@ -1,8 +1,7 @@
 import React from "react";
 import { useFullWordList } from "../context";
 
-import styles from "../styles/Home.module.css";
-import { colors, BasicColors } from "../styles/colors";
+import { colors, BasicColors, border } from "../styles/colors";
 
 import styled from "styled-components";
 
@@ -21,24 +20,30 @@ const getAnimation = () => `animation: fade-in .1s forwards;
   animation-play-state: running;`;
 
 const TestWord = styled.span<TestWordType>`
-  padding: 0.25rem 0.75rem 0.25rem 0.55rem;
-  font-size: 1.6rem;
-  font-weight: 500;
+  padding: 0.2rem 0.2rem 0.4rem 0.2rem;
+  font-size: 1.5rem;
+  font-weight: 400;
+  white-space: pre-wrap;
+  border-radius: ${border.borderRadious};
   color: ${BasicColors.textLight};
 
-  transition: background-color 0.1s ease;
+  transition: background-color 0.15s ease;
   ${({ active }) =>
-    active && `background-color: ${colors.string}; ${getAnimation()} `}
+    active &&
+    `background-color: ${
+      colors.background.activeWordBackground
+    }; ${getAnimation()} `}
 `;
 
 const StyledContainer = styled.div`
   overflow: hidden;
   box-sizing: border-box;
-  /* width: min(50rem, 100%); */
   user-select: none;
   background-color: ${colors.background.codeBackgroundColor};
   line-height: 2rem;
   padding: 1.5rem 2rem;
+  border-radius: ${border.borderRadious};
+
 `;
 
 type TextContainerProps = {
@@ -68,7 +73,7 @@ export const TextContainer = ({
             )
           )}
         </div>
-        <br/>
+        <br />
         <div>
           {nextTenWords.map((word) => (
             <TestWord key={word}>{word}</TestWord>

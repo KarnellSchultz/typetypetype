@@ -2,6 +2,8 @@ import React from "react";
 
 import styled from "styled-components";
 
+import { border } from "../styles/colors";
+
 const NavContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -16,9 +18,9 @@ const NavLink = styled.a`
   font-weight: 700;
   font-size: 1.1rem;
   background-color: var(--light-background);
-  padding: 1rem 0.75rem;
+  padding: 1rem 2.55rem;
   margin: 0rem 0.5rem;
-  border-radius: 0.3rem;
+  border-radius: ${border.borderRadious};
 
   :hover {
     background-color: var(--border-color);

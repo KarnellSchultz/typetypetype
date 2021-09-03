@@ -33,6 +33,7 @@
   --light-transparent-bg: rgba(255, 255, 255, 0.05);
   --border-color: #3b3b3b;
   --subtle-border: rgba(255, 255, 255, 0.1);
+  --active-word-background: #454545;
 }
 
 html,
@@ -41,7 +42,7 @@ body {
   margin: 0;
   color: var(--font-color);
   background-color: var(--background);
-  font-family: "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Roboto",
+  font-family:Rubik, "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Roboto",
     Roboto, Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI",
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }

@@ -35,24 +35,29 @@ export const colors = {
     lightBackground: `var(--light-background)`,
     lightBackgroundHover: `var(--light-background-hover)`,
     codeBackgroundColor: `var(--code-background-color)`,
+    activeWordBackground: `var(--active-word-background)`,
   },
 } as const;
 
 export const BasicColors = {
-    "textLight": "#eee",
-    "grey0": "#111",
-    "grey1": "#191919",
-    "grey2": "#2a2a2a",
-    "grey3": "#494949",
-    "grey4": "#616161",
-    "grey5": "#8f8f8f",
-    "blue0": "#55b2ff",
-    "blue1": "#3099f0",
-    "blue2": "#2d9efb",
-    "blue3": "#1375c5",
-    "danger0": "#f67070",
-    "danger1": "#ff4d4d",
-    "danger2": "#d13535",
-    "success0": "#80e766",
-    "success1": "#44a52c",
-} as const
+  textLight: "#eee",
+  grey0: "#111",
+  grey1: "#191919",
+  grey2: "#2a2a2a",
+  grey3: "#494949",
+  grey4: "#616161",
+  grey5: "#8f8f8f",
+  blue0: "#55b2ff",
+  blue1: "#3099f0",
+  blue2: "#2d9efb",
+  blue3: "#1375c5",
+  danger0: "#f67070",
+  danger1: "#ff4d4d",
+  danger2: "#d13535",
+  success0: "#80e766",
+  success1: "#44a52c",
+} as const;
+
+export const border = {
+  borderRadious: `2px`,
+};
