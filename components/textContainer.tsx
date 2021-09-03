@@ -34,15 +34,11 @@ const TestWord = styled.span<TestWordType>`
 const StyledContainer = styled.div`
   overflow: hidden;
   box-sizing: border-box;
-  width: min(50rem, 100%);
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
+  /* width: min(50rem, 100%); */
   user-select: none;
   background-color: ${colors.background.codeBackgroundColor};
-  line-height: 2.4rem;
-  padding: 1.5rem 2.25rem;
-  /* height: 10rem; */
+  line-height: 2rem;
+  padding: 1.5rem 2rem;
 `;
 
 type TextContainerProps = {
