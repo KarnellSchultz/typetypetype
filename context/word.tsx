@@ -4,9 +4,10 @@ type Action =
   | { type: "update"; payload: string }
   | { type: "check"; payload?: string };
 type Dispatch = (action: Action) => void;
+type State = { word: string };
+
 type WordProviderProps = { children: React.ReactNode };
 type WordContextProps = { word: string };
-type State = { word: string };
 
 const WordContext = React.createContext<
   | {
@@ -32,8 +33,8 @@ const wordReducer = (state: State, action: Action) => {
 };
 
 export const WordProvider = ({ children }: WordProviderProps) => {
-  const initState = { word: "" };
-  const [state, dispatch] = useReducer(wordReducer, initState);
+  // const initState = { word: "" };
+  const [state, dispatch] = useReducer(wordReducer, { word: "" });
 
   const value = { state, dispatch };
 

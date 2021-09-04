@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
+import styled from "styled-components";
 
 import styles from "../styles/Home.module.css";
 
@@ -8,6 +9,34 @@ import { useFullWordList } from "../context";
 import { TextContainer } from "../components";
 import { Header } from "../components";
 import { TestBar } from "../components/testBar";
+
+const Main = styled.main`
+  min-height: 100vh;
+  min-width: 100vw;
+  padding: 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: var(--background);
+`;
+
+const Footer = styled.footer`
+  width: 100%;
+  height: 100px;
+  border-top: 1px solid #eaeaea;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+`;
 
 export default function Home() {
   const { fullWordListState } = useFullWordList();
@@ -22,12 +51,14 @@ export default function Home() {
     currentSlice[1]
   );
 
-  const currentTenWords = React.useMemo(() => currentTwentyWords.slice(0, 10), [
-    currentTwentyWords,
-  ]);
-  const nextTenWords = React.useMemo(() => currentTwentyWords.slice(10, 20), [
-    currentTwentyWords,
-  ]);
+  const currentTenWords = React.useMemo(
+    () => currentTwentyWords.slice(0, 10),
+    [currentTwentyWords]
+  );
+  const nextTenWords = React.useMemo(
+    () => currentTwentyWords.slice(10, 20),
+    [currentTwentyWords]
+  );
 
   useEffect(() => {
     makeSlice();
@@ -47,7 +78,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <main className={styles.container}>
+      <Main>
         <h3>{fullWordListState[currentWordCount]}</h3>
         <TextContainer
           currentWordCount={currentWordCount}
@@ -64,8 +95,8 @@ export default function Home() {
           correctWordBank={correctWordBank}
           setIncorrectWordBank={setIncorrectWordBank}
         />
-      </main>
-      <footer className={styles.footer}></footer>
+      </Main>
+      <Footer></Footer>
     </div>
   );
 }

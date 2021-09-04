@@ -133,7 +133,7 @@ export const TestBar = ({
           RESTART
         </Button>
         <div style={{ fontSize: "20px" }}>
-          <p>{isRunning ? <div>✅</div> : <div>❌</div>}</p>
+          <p>{isRunning ? <span>✅</span> : <span>❌</span>}</p>
           <span>{seconds}</span>
         </div>
         <div>{WPMCalculation}</div>
