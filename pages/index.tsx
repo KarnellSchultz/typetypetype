@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Head from "next/head";
 import styled from "styled-components";
 
@@ -6,7 +6,7 @@ import styles from "../styles/Home.module.css";
 
 import { useFullWordList } from "../context";
 
-import { TextContainer } from "../components";
+import { TextContainer, StyledContainer } from "../components";
 import { Header } from "../components";
 import { TestBar } from "../components/testBar";
 
@@ -31,11 +31,11 @@ const Footer = styled.footer`
   align-items: center;
 
   a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
-}
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+  }
 `;
 
 export default function Home() {
@@ -51,11 +51,11 @@ export default function Home() {
     currentSlice[1]
   );
 
-  const currentTenWords = React.useMemo(
+  const currentTenWords = useMemo(
     () => currentTwentyWords.slice(0, 10),
     [currentTwentyWords]
   );
-  const nextTenWords = React.useMemo(
+  const nextTenWords = useMemo(
     () => currentTwentyWords.slice(10, 20),
     [currentTwentyWords]
   );
@@ -86,7 +86,7 @@ export default function Home() {
           nextTenWords={nextTenWords}
           incorrectWordBank={incorrectWordBank}
           correctWordBank={correctWordBank}
-        />
+        ></TextContainer>
         <TestBar
           currentWordCount={currentWordCount}
           setCurrentWordCount={setCurrentWordCount}

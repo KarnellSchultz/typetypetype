@@ -42,7 +42,7 @@ const TestWord = styled.span<TestWordType>`
     }; ${testWordAnimation()} `}
 `;
 
-const StyledContainer = styled.div`
+export const StyledContainer = styled.div`
   overflow: hidden;
   box-sizing: border-box;
   user-select: none;
@@ -61,6 +61,7 @@ type TextContainerProps = {
 };
 
 export const TextContainer = ({
+  children,
   nextTenWords,
   currentTenWords,
   currentWordCount,
@@ -99,6 +100,7 @@ export const TextContainer = ({
           ))}
         </div>
       </StyledContainer>
+      {children}
     </div>
   );
 };

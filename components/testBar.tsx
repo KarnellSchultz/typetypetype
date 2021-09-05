@@ -6,7 +6,7 @@ import { useFullWordList } from "../context/fullWordListContext";
 import { useTimerHook } from "../hooks/useTimer";
 import { BasicColors, colors } from "../styles/colors";
 
-const StyledTestBar = styled.div`
+const TestingDataBar = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -17,28 +17,45 @@ const StyledTestBar = styled.div`
   justify-content: center;
 `;
 
-const StyledBarItems = styled.div`
+const DataBarItems = styled.div`
+  padding-top: 1.5rem;
+  padding-bottom: 0.75rem;
   display: flex;
-  flex-direction: row;
-
-  padding: 1rem 2rem;
-  background-color: var(--operator);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  width: 16rem;
+  margin: 0.5rem;
+  
+  background-color: ${colors.background.activeWordBackground};
 `;
 
 const Button = styled.div`
-  height: 4rem;
-  width: 4rem;
-  padding: 0.75rem 1rem;
-  margin: 1rem;
-  text-align: center;
-  color: ${BasicColors.blue0};
-  background-color: ${BasicColors.success0};
+  justify-content: center;
+  align-items: center;
+  padding: 0.9rem 2rem;
+  margin: 0.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+  color: ${BasicColors.blue2};
+  background-color: ${colors.background.background};
   :hover {
+    color: ${BasicColors.grey2};
+    background-color: ${BasicColors.blue2};
     cursor: pointer;
   }
 `;
 
-const StyledInput = styled.input`
+const WordPerMin = styled.span`
+  font-size: 2rem;
+`;
+
+const Time = styled.span`
+  font-size: 2rem;
+`;
+
+const Input = styled.input`
   width: 100%;
   z-index: 1;
   outline: 0;
@@ -118,26 +135,28 @@ export const TestBar = ({
   };
 
   return (
-    <StyledTestBar>
-      <StyledInput
+    <>
+      <Input
         ref={inputRef}
         onChange={(e) => handleChange(e)}
         type="text"
         spellCheck="false"
         autoComplete="off"
-        // disabled={isRunning ? false : true}
+        disabled={isRunning ? false : true}
       />
-      <StyledBarItems>
-        <Button role="button" onClick={handleRestart}>
-          <VscDebugRestart />
-          RESTART
-        </Button>
-        <div style={{ fontSize: "20px" }}>
-          <p>{isRunning ? <span>✅</span> : <span>❌</span>}</p>
-          <span>{seconds}</span>
-        </div>
-        <div>{WPMCalculation}</div>
-      </StyledBarItems>
-    </StyledTestBar>
+      <TestingDataBar>
+        <DataBarItems>
+          <WordPerMin>{WPMCalculation} wpm</WordPerMin>
+          <Time>
+            <p>{isRunning ? <span>✅</span> : <span>❌</span>}</p>
+            <span>{seconds}</span>
+          </Time>
+          <Button role="button" onClick={handleRestart}>
+            <VscDebugRestart />
+            RESTART
+          </Button>
+        </DataBarItems>
+      </TestingDataBar>
+    </>
   );
 };
