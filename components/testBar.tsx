@@ -14,7 +14,6 @@ const TestingDataBar = styled.div`
   flex-wrap: wrap;
   margin: 0.5rem auto;
   width: 100%;
-  justify-content: center;
 `;
 
 const DataBarItems = styled.div`
@@ -56,7 +55,6 @@ const Time = styled.span`
 `;
 
 const Input = styled.input`
-  width: 100%;
   z-index: 1;
   outline: 0;
   transition: 0.2s;

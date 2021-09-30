@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "stylelint": "npx stylelint '**/*.css' '**/*.tsx'",
+    "stylelint:fix": "npx stylelint --fix '**/*.css' '**/*.tsx'"
   },
   "dependencies": {
     "@types/react-icons": "3.0.0",
