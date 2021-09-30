@@ -27,7 +27,7 @@ const DataBarItems = styled.div`
   border-radius: 4px;
   width: 16rem;
   margin: 0.5rem;
-  
+
   background-color: ${colors.background.activeWordBackground};
 `;
 
@@ -71,11 +71,11 @@ const Input = styled.input`
 
 type TestBarProps = {
   currentWordCount: number;
+  incorrectWordBank: string[];
+  correctWordBank: string[];
   setCurrentWordCount: React.Dispatch<React.SetStateAction<number>>;
   setCorrectWordBank: React.Dispatch<React.SetStateAction<string[]>>;
-  incorrectWordBank: string[];
   setIncorrectWordBank: React.Dispatch<React.SetStateAction<string[]>>;
-  correctWordBank: string[];
 };
 
 export const TestBar = ({
@@ -85,7 +85,7 @@ export const TestBar = ({
   setIncorrectWordBank,
   correctWordBank,
 }: TestBarProps) => {
-  const { fullWordListState } = useFullWordList();
+  const { fullWordListState, setFullWordListState } = useFullWordList();
 
   const evaluateUserInput = (value: string) => {
     value = Array.from(value)
@@ -120,7 +120,7 @@ export const TestBar = ({
   let WPMCalculation = ((correctWordBank.join(" ").length / 5) * 6).toFixed(0);
 
   const { start, restartTimer, isRunning, minutes, seconds } = useTimerHook({
-    initTime: 10,
+    initTime: 30,
   });
 
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -132,6 +132,13 @@ export const TestBar = ({
   const handleRestart = () => {
     restartTimer();
     inputRef?.current?.focus();
+    setFullWordListState([]);
+    setCorrectWordBank([]);
+    setIncorrectWordBank([]);
+    setCurrentWordCount(0);
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
   };
 
   return (

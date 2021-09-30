@@ -12,7 +12,6 @@
   --class: #e1a6f2;
   --tag: #6ab0f3;
   --error: #f2777a;
-
   --font-color: #b3b9c5;
   --heading-color: #ffd479;
   --dark-font-color: #ced4da;
@@ -42,15 +41,28 @@ body {
   margin: 0;
   color: var(--font-color);
   background-color: var(--background);
-  font-family:Rubik, "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Roboto",
-    Roboto, Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family:
+    Rubik,
+    "Helvetica Neue",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Roboto",
+    Roboto,
+    Arial,
+    "Noto Sans",
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol",
+    "Noto Color Emoji";
 }
 
 a {
   color: var(--link-color-darker);
   text-decoration: none;
 }
+
 a:hover {
   color: var(--dark-background-hover);
 }

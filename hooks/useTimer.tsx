@@ -7,8 +7,8 @@ export const useTimerHook = ({
   autoStart = false,
 }: UseTimerHook) => {
   let time = new Date();
-  let expiryTimestamp = time.setSeconds(time.getSeconds() + 10);
-  
+  let expiryTimestamp = time.setSeconds(time.getSeconds() + initTime);
+
   const {
     seconds,
     minutes,

@@ -79,7 +79,6 @@ export default function Home() {
       </Head>
       <Header />
       <Main>
-        <h3>{fullWordListState[currentWordCount]}</h3>
         <TextContainer
           currentWordCount={currentWordCount}
           currentTenWords={currentTenWords}
