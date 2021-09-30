@@ -6,9 +6,9 @@ import styles from "../styles/Home.module.css";
 
 import { useFullWordList } from "../context";
 
-import { TextContainer, StyledContainer } from "../components";
-import { Header } from "../components";
-import { TestBar } from "../components/testBar";
+import { TextContainer, StyledContainer } from "components";
+import { Header } from "components";
+import { TestBar } from "components/testBar";
 
 const Main = styled.main`
   min-height: 100vh;
