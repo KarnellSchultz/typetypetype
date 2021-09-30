@@ -29,7 +29,6 @@ const TestWord = styled.span<TestWordType>`
   white-space: pre-wrap;
   border-radius: ${border.borderRadious};
   color: ${BasicColors.textLight};
-
   transition: background-color 0.15s ease;
 
   ${({ correct }) => correct && `color: ${colors.string};`}

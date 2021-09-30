@@ -27,7 +27,6 @@ const DataBarItems = styled.div`
   border-radius: 4px;
   width: 16rem;
   margin: 0.5rem;
-
   background-color: ${colors.background.activeWordBackground};
 `;
 
@@ -40,6 +39,7 @@ const Button = styled.div`
   font-weight: 500;
   color: ${BasicColors.blue2};
   background-color: ${colors.background.background};
+
   :hover {
     color: ${BasicColors.grey2};
     background-color: ${BasicColors.blue2};
@@ -64,6 +64,7 @@ const Input = styled.input`
   width: 22rem;
   border: 2px solid ${colors.border};
   border-radius: 4px;
+
   :focus {
     border: 2px solid ${BasicColors.blue2};
   }

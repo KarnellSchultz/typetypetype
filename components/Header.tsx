@@ -9,7 +9,6 @@ const NavContainer = styled.div`
   justify-content: center;
   flex-direction: column;
   text-align: center;
-
   margin-top: 4rem;
 `;
 
@@ -19,7 +18,7 @@ const NavLink = styled.a`
   font-size: 1.1rem;
   background-color: var(--light-background);
   padding: 1rem 2.55rem;
-  margin: 0rem 0.5rem;
+  margin: 0 0.5rem;
   border-radius: ${border.borderRadious};
 
   :hover {
