@@ -1,7 +1,6 @@
-import {
-  useFullWordList,
-  FullWordListContextProvider,
-} from "./fullWordListContext";
-import { useWord, WordProvider } from "./word";
+import { WordDataContextProvider, useWordDataContext } from "./WordDataContext";
 
-export { useFullWordList, FullWordListContextProvider, useWord, WordProvider };
+export {
+  WordDataContextProvider,
+  useWordDataContext,
+};
