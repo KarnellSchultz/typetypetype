@@ -2,18 +2,34 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import Head from "next/head";
 
 import { useApplicationState } from "../context";
+import { useKeyPress } from "hooks/useKeyPress";
 
+const initInputState = "";
 export default function Home() {
   const { state, dispatch } = useApplicationState();
+  const [inputState, setInputState] = useState(initInputState);
+  const [currentWordCount, setCurrnetWordCount] = useState(0);
 
-  const [inputState, setInputState] = useState("");
+  const spacebarPress = useKeyPress(" ");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  useEffect(() => {
+    if (spacebarPress) {
+      console.log("hello");
+      handleSubmit();
+    }
+  }, [spacebarPress]);
+
+  const handleSubmit = () => {
     dispatch({
       type: "SubmitWord",
-      payload: { ...state, UserSubmittedWord: inputState },
+      payload: {
+        ...state,
+        UserSubmittedWord: inputState,
+        CurrentWordIndex: currentWordCount,
+      },
     });
+    setCurrnetWordCount(currentWordCount + 1);
+    setInputState(initInputState);
   };
 
   return (
@@ -37,13 +53,11 @@ export default function Home() {
         })}
       </ul>
 
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <input
-          value={inputState}
-          onChange={(e) => setInputState(e.currentTarget.value)}
-          type="text"
-        />
-      </form>
+      <input
+        value={inputState}
+        onChange={(e) => setInputState(e.currentTarget.value)}
+        type="text"
+      />
     </div>
   );
 }

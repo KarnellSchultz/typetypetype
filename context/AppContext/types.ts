@@ -1,5 +1,6 @@
 export const Status = {
   Start: "Start",
+  Ready: "Ready",
   Restart: "Restart",
   NextSlice: "NextSlice",
   SubmitWord: "SubmitWord",
@@ -13,6 +14,7 @@ export type State = {
   UserSubmittedWord?: string;
   CorrectWordBank: WordDataType[];
   IncorrectWordBank?: WordDataType[];
+  CurrentWordIndex:number
 };
 
 type ActionKind = typeof Status[keyof typeof Status];
