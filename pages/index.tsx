@@ -1,10 +1,20 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Head from "next/head";
 
 import { useApplicationState } from "../context";
 
 export default function Home() {
   const { state, dispatch } = useApplicationState();
+
+  const [inputState, setInputState] = useState("");
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    dispatch({
+      type: "SubmitWord",
+      payload: { ...state, UserSubmittedWord: inputState },
+    });
+  };
 
   return (
     <div>
@@ -21,6 +31,19 @@ export default function Home() {
           return <li key={id}>{word} </li>;
         })}
       </ul>
+      <ul>
+        {state.NextTenWordSlice.map(({ id, word }) => {
+          return <li key={id}>{word} </li>;
+        })}
+      </ul>
+
+      <form onSubmit={(e) => handleSubmit(e)}>
+        <input
+          value={inputState}
+          onChange={(e) => setInputState(e.currentTarget.value)}
+          type="text"
+        />
+      </form>
     </div>
   );
 }

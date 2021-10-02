@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useReducer } from "react";
 
 import { AppStateReducer } from "./AppStateReducer";
-import { State, Action, Status } from "./types";
+import { State, Action, Status, WordDataType } from "./types";
 import { getWordSlice } from "./util";
 
 const Ctx = createContext<{
@@ -9,11 +9,19 @@ const Ctx = createContext<{
   dispatch: React.Dispatch<Action>;
 } | null>(null);
 
+// function getInitTestWord(): WordDataType["word"] {
+//   return initialState.CurrentWordSlice[0].word;
+// }
+
 const initialState: State = {
-  status: Status.Start,
+  Status: Status.Start,
   CurrentWordSlice: getWordSlice(),
   NextTenWordSlice: getWordSlice(),
+  CorrectWordBank: [],
+  IncorrectWordBank: [],
+  CurrentTestWord: "hello",
 };
+
 export const ApplicationStateProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(AppStateReducer, initialState);
   const value = { state, dispatch };
