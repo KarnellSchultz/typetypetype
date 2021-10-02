@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Head from "next/head";
 
-import { useTestWords } from "hooks/useTestWords";
+import { useApplicationState } from "../context";
 
 export default function Home() {
-  const { WordSlices, slice, setSlice} = useTestWords()
-  
+  const { state, dispatch } = useApplicationState();
+
   return (
     <div>
       <Head>
@@ -13,6 +13,14 @@ export default function Home() {
         <meta name="home" content="Type type type" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <button onClick={() => dispatch({ type: "NextSlice" })} type="button">
+        Click
+      </button>
+      <ul>
+        {state.CurrentWordSlice.map(({ id, word }) => {
+          return <li key={id}>{word} </li>;
+        })}
+      </ul>
     </div>
   );
 }

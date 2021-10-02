@@ -1,7 +1,7 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { WordDataContextProvider } from "../context";
-import { ApplicationStateProvider } from "../context/ApplicationStateContext";
+import { ApplicationStateProvider } from "../context/AppContext/ApplicationStateContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
