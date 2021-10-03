@@ -1,4 +1,13 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+# TypeTypeType
+
+A typing speed testing app.
+
+## Needs fixin'
+
+- Add footer
+- Add header
+- Clicking start button should focus the input
 
 ## Getting Started
 
