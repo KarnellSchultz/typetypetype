@@ -11,7 +11,7 @@ export const AppStateReducer = (state: State, action: Action): State => {
       return { ...state };
     }
     case Status.Ready: {
-      const newTargetWord = state.CurrentWordSlice[0].word;
+      const newTargetWord = state.CurrentWordSlice[state.CurrentWordIndex].word;
       return { ...state, CurrentTestWord: newTargetWord };
     }
     case Status.NextSlice:
@@ -22,8 +22,7 @@ export const AppStateReducer = (state: State, action: Action): State => {
       };
     case Status.SubmitWord: {
       let isCorrect: boolean = false;
-      console.log(isCorrect);
-      
+
       if (payload?.UserSubmittedWord && payload.CurrentTestWord) {
         isCorrect = checkSubmittedWord(
           payload?.UserSubmittedWord,
@@ -41,6 +40,9 @@ export const AppStateReducer = (state: State, action: Action): State => {
           return {
             ...state,
             CorrectWordBank: tempCorrectBank as WordDataType[],
+            CurrentWordIndex: payload.CurrentWordIndex,
+            CurrentTestWord:
+              payload.CurrentWordSlice[payload.CurrentWordIndex].word,
           };
         }
       }
@@ -50,13 +52,15 @@ export const AppStateReducer = (state: State, action: Action): State => {
       );
       return {
         ...state,
+        CurrentWordIndex: payload?.CurrentWordIndex || 0,
+        CurrentTestWord:
+          payload?.CurrentWordSlice[payload.CurrentWordIndex].word,
         IncorrectWordBank: [
           ...(payload?.IncorrectWordBank as WordDataType[]),
           incorrectWordObj as WordDataType,
         ],
       };
     }
-
 
     default:
       throw new Error(
@@ -68,6 +72,5 @@ export const AppStateReducer = (state: State, action: Action): State => {
 };
 
 function checkSubmittedWord(userInput: string, targetWord: string): boolean {
-  debugger
   return userInput === targetWord ? true : false;
 }

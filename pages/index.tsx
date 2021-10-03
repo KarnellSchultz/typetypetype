@@ -29,9 +29,10 @@ export default function Home() {
       payload: {
         ...state,
         UserSubmittedWord: inputState.trim(),
+        CurrentWordIndex: currentWordCount + 1,
       },
     });
-    setCurrnetWordCount(currentWordCount + 1);
+    setCurrnetWordCount((c) => c + 1);
     setInputState(initInputState);
   };
 
