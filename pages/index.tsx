@@ -32,6 +32,13 @@ export default function Home() {
         CurrentWordIndex: currentWordCount + 1,
       },
     });
+
+    // Check to see if we need to witch to the next slice
+    // This can be moved to the reducer logic
+    if (currentWordCount % 9 === 0 && currentWordCount !== 0) {
+      dispatch({ type: "NextSlice" });
+      setCurrnetWordCount(0);
+    }
     setCurrnetWordCount((c) => c + 1);
     setInputState(initInputState);
   };

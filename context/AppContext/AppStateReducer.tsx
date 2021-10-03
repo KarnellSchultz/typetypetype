@@ -21,8 +21,11 @@ export const AppStateReducer = (state: State, action: Action): State => {
         NextTenWordSlice: getWordSlice(),
       };
     case Status.SubmitWord: {
-      let isCorrect: boolean = false;
+      if (payload) {
+        const updateSlice = payload?.CurrentWordIndex % 9 === 0 ? true : false;
+      }
 
+      let isCorrect: boolean = false;
       if (payload?.UserSubmittedWord && payload.CurrentTestWord) {
         isCorrect = checkSubmittedWord(
           payload?.UserSubmittedWord,
@@ -42,7 +45,8 @@ export const AppStateReducer = (state: State, action: Action): State => {
             CorrectWordBank: tempCorrectBank as WordDataType[],
             CurrentWordIndex: payload.CurrentWordIndex,
             CurrentTestWord:
-              payload.CurrentWordSlice[payload.CurrentWordIndex].word,
+              payload.CurrentWordSlice[payload.CurrentWordIndex]?.word ??
+              payload?.NextTenWordSlice[0]?.word,
           };
         }
       }
@@ -54,7 +58,8 @@ export const AppStateReducer = (state: State, action: Action): State => {
         ...state,
         CurrentWordIndex: payload?.CurrentWordIndex || 0,
         CurrentTestWord:
-          payload?.CurrentWordSlice[payload.CurrentWordIndex].word,
+          payload?.CurrentWordSlice[payload.CurrentWordIndex]?.word ??
+          payload?.NextTenWordSlice[0]?.word,
         IncorrectWordBank: [
           ...(payload?.IncorrectWordBank as WordDataType[]),
           incorrectWordObj as WordDataType,
