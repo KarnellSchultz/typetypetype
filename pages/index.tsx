@@ -19,13 +19,16 @@ export default function Home() {
     }
   }, [spacebarPress]);
 
+  useEffect(() => {
+    dispatch({ type: "Ready" });
+  }, []);
+
   const handleSubmit = () => {
     dispatch({
       type: "SubmitWord",
       payload: {
         ...state,
-        UserSubmittedWord: inputState,
-        CurrentWordIndex: currentWordCount,
+        UserSubmittedWord: inputState.trim(),
       },
     });
     setCurrnetWordCount(currentWordCount + 1);

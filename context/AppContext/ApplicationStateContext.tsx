@@ -9,9 +9,9 @@ const Ctx = createContext<{
   dispatch: React.Dispatch<Action>;
 } | null>(null);
 
-// function getInitTestWord(): WordDataType["word"] {
-//   return initialState.CurrentWordSlice[0].word;
-// }
+function getInitTestWord(): WordDataType["word"] {
+  return initialState.CurrentWordSlice[0].word;
+}
 
 const initialState: State = {
   Status: Status.Start,

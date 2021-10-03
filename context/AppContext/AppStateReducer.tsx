@@ -1,4 +1,4 @@
-import { Action, State, Status } from "./types";
+import { Action, State, Status, WordDataType } from "./types";
 import { getWordSlice } from "./util";
 
 export const AppStateReducer = (state: State, action: Action): State => {
@@ -7,10 +7,13 @@ export const AppStateReducer = (state: State, action: Action): State => {
     case Status.Start: {
       return { ...state };
     }
-    case Status.Restart:
+    case Status.Restart: {
       return { ...state };
-    case Status.Ready:
-      return { ...state };
+    }
+    case Status.Ready: {
+      const newTargetWord = state.CurrentWordSlice[0].word;
+      return { ...state, CurrentTestWord: newTargetWord };
+    }
     case Status.NextSlice:
       return {
         ...state,
@@ -18,24 +21,43 @@ export const AppStateReducer = (state: State, action: Action): State => {
         NextTenWordSlice: getWordSlice(),
       };
     case Status.SubmitWord: {
-      if (payload?.CurrentWordIndex) {
-        const tempWordObj = state.CurrentWordSlice[payload?.CurrentWordIndex];
-        const isCorrect =
-          tempWordObj.word ===
-          state.CurrentWordSlice[payload?.CurrentWordIndex].word;
-
+      let isCorrect: boolean = false;
+      console.log(isCorrect);
+      
+      if (payload?.UserSubmittedWord && payload.CurrentTestWord) {
+        isCorrect = checkSubmittedWord(
+          payload?.UserSubmittedWord,
+          payload?.CurrentTestWord
+        );
         if (isCorrect) {
+          const correctWordObj = payload.CurrentWordSlice.find(
+            (el) => el.word === payload.CurrentTestWord
+          );
+          const tempCorrectBank: WordDataType[] = [
+            ...payload.CorrectWordBank,
+            correctWordObj as WordDataType,
+          ];
+
           return {
             ...state,
-            CorrectWordBank: [...state.CorrectWordBank, tempWordObj],
+            CorrectWordBank: tempCorrectBank as WordDataType[],
           };
         }
-        return {
-          ...state,
-          IncorrectWordBank: [...state.CorrectWordBank, tempWordObj],
-        };
       }
+
+      const incorrectWordObj = payload?.CurrentWordSlice.find(
+        (el) => el.word === payload.CurrentTestWord
+      );
+      return {
+        ...state,
+        IncorrectWordBank: [
+          ...(payload?.IncorrectWordBank as WordDataType[]),
+          incorrectWordObj as WordDataType,
+        ],
+      };
     }
+
+
     default:
       throw new Error(
         `You passed in ${type} and ${JSON.stringify(
@@ -44,3 +66,8 @@ export const AppStateReducer = (state: State, action: Action): State => {
       );
   }
 };
+
+function checkSubmittedWord(userInput: string, targetWord: string): boolean {
+  debugger
+  return userInput === targetWord ? true : false;
+}
