@@ -6,11 +6,17 @@ import { useStopwatch, useTimer } from "react-timer-hook";
 import { useApplicationState } from "../context";
 import { useKeyPress } from "hooks/useKeyPress";
 
-const initInputState = "";
+const getNewTimestamp = (timeInSeconds = 30) => {
+  const date = new Date();
+  return new Date(date.setSeconds(date.getSeconds() + timeInSeconds));
+};
+
 export default function Home() {
+  const initInputState = "";
   const { state, dispatch } = useApplicationState();
   const [inputState, setInputState] = useState(initInputState);
   const [currentWordCount, setCurrnetWordCount] = useState(0);
+  const [wordsPerMin, setWordsPerMin] = useState(0);
 
   const spacebarPress = useKeyPress(" ");
 
@@ -20,6 +26,10 @@ export default function Home() {
       handleSubmit();
     }
   }, [spacebarPress]);
+
+  useEffect(() => {
+    calculateWpm();
+  }, [currentWordCount]);
 
   useEffect(() => {
     dispatch({ type: "Ready" });
@@ -45,16 +55,26 @@ export default function Home() {
     setInputState(initInputState);
   };
 
-  const getNewTimestamp = (timeInSeconds = 10) => {
-    const date = new Date();
-    return new Date(date.setSeconds(date.getSeconds() + timeInSeconds));
-  };
-
   const { seconds, isRunning, restart } = useTimer({
     expiryTimestamp: getNewTimestamp(),
     onExpire: () => console.warn("onExpire called"),
     autoStart: false,
   });
+
+  //https://www.speedtypingonline.com/typing-equations
+  const calculateWpm = (): void => {
+    const tempCorrectWordArr = state?.CorrectWordBank?.map((el) => el.length);
+    if (!tempCorrectWordArr.length) {
+      return;
+    }
+    const temp = tempCorrectWordArr.reduce((a, c) => a + c);
+
+    const numerator = temp + state.CorrectWordBank.length;
+    // half a min is .5 one min is 1
+    const denominator = 0.5;
+    let result = Math.floor(numerator / denominator);
+    setWordsPerMin(result);
+  };
 
   return (
     <div>
@@ -88,12 +108,14 @@ export default function Home() {
         <button
           onClick={() => {
             restart(getNewTimestamp());
+            setWordsPerMin(0);
             dispatch({ type: "Restart" });
           }}
           type="reset"
         >
           Start / Restart
         </button>
+        <p>{wordsPerMin}</p>
         <p>{seconds}</p>
       </div>
     </div>
