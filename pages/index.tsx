@@ -17,7 +17,7 @@ const Ul = styled.ul`
   display: flex;
 `;
 
-type LiProps = { highlighted: boolean };
+type LiProps = { highlighted?: boolean };
 const Li = styled.li<LiProps>`
   padding: 0 0.2rem;
   background-color: ${({ highlighted }) => highlighted && `#020202`};
