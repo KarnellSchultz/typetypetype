@@ -15,10 +15,13 @@ const getNewTimestamp = (timeInSeconds = 30) => {
 const Ul = styled.ul`
   list-style: none;
   display: flex;
+`;
 
-  li {
-    padding-right: 0.5rem;
-  }
+type LiProps = { highlighted: boolean };
+const Li = styled.li<LiProps>`
+  padding: 0 0.2rem;
+  background-color: ${({ highlighted }) => highlighted && `#020202`};
+  transition: all 0.2s ease;
 `;
 
 const InformationContainer = styled.div`
@@ -105,12 +108,18 @@ export default function Home() {
       <div>
         <Ul>
           {state.CurrentWordSlice.map(({ id, word }) => {
-            return <li key={id}>{word} </li>;
+            const highlighted =
+              state.CurrentWordSlice[currentWordCount].id === id ? true : false;
+            return (
+              <Li key={id} highlighted={highlighted}>
+                {word}{" "}
+              </Li>
+            );
           })}
         </Ul>
         <Ul>
           {state.NextTenWordSlice.map(({ id, word }) => {
-            return <li key={id}>{word} </li>;
+            return <Li key={id}>{word} </Li>;
           })}
         </Ul>
         <div
@@ -130,9 +139,11 @@ export default function Home() {
       </div>
       <InformationContainer>
         <button
+          // move logic into func
           onClick={() => {
             restart(getNewTimestamp());
             setWordsPerMin(0);
+            setCurrnetWordCount(0);
             dispatch({ type: "Restart" });
           }}
           type="reset"
