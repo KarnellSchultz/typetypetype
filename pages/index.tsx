@@ -1,15 +1,32 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
 
-import { useStopwatch, useTimer } from "react-timer-hook";
+import { useTimer } from "react-timer-hook";
 
 import { useApplicationState } from "../context";
 import { useKeyPress } from "hooks/useKeyPress";
+import styled from "styled-components";
 
 const getNewTimestamp = (timeInSeconds = 30) => {
   const date = new Date();
   return new Date(date.setSeconds(date.getSeconds() + timeInSeconds));
 };
+
+const Ul = styled.ul`
+  list-style: none;
+  display: flex;
+
+  li {
+    padding-right: 0.5rem;
+  }
+`;
+
+const InformationContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding-top: 2rem;
+`;
 
 export default function Home() {
   const initInputState = "";
@@ -55,6 +72,7 @@ export default function Home() {
     setInputState(initInputState);
   };
 
+  //use the onExpire for something slick
   const { seconds, isRunning, restart } = useTimer({
     expiryTimestamp: getNewTimestamp(),
     onExpire: () => console.warn("onExpire called"),
@@ -83,28 +101,34 @@ export default function Home() {
         <meta name="home" content="Type type type" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <button onClick={() => dispatch({ type: "NextSlice" })} type="button">
-        Click
-      </button>
 
-      <ul>
-        {state.CurrentWordSlice.map(({ id, word }) => {
-          return <li key={id}>{word} </li>;
-        })}
-      </ul>
-      <ul>
-        {state.NextTenWordSlice.map(({ id, word }) => {
-          return <li key={id}>{word} </li>;
-        })}
-      </ul>
-
-      <input
-        disabled={!isRunning}
-        value={inputState}
-        onChange={(e) => setInputState(e.currentTarget.value)}
-        type="text"
-      />
       <div>
+        <Ul>
+          {state.CurrentWordSlice.map(({ id, word }) => {
+            return <li key={id}>{word} </li>;
+          })}
+        </Ul>
+        <Ul>
+          {state.NextTenWordSlice.map(({ id, word }) => {
+            return <li key={id}>{word} </li>;
+          })}
+        </Ul>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <input
+            disabled={!isRunning}
+            value={inputState}
+            onChange={(e) => setInputState(e.currentTarget.value)}
+            type="text"
+          />
+        </div>
+      </div>
+      <InformationContainer>
         <button
           onClick={() => {
             restart(getNewTimestamp());
@@ -115,9 +139,15 @@ export default function Home() {
         >
           Start / Restart
         </button>
-        <p>{wordsPerMin}</p>
-        <p>{seconds}</p>
-      </div>
+        <div style={{ textAlign: "center" }}>
+          <p>Time</p>
+          <p>{seconds}</p>
+        </div>
+        <div style={{ textAlign: "center" }}>
+          <p>WPM</p>
+          <p>{wordsPerMin}</p>
+        </div>
+      </InformationContainer>
     </div>
   );
 }
