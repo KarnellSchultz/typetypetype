@@ -1,5 +1,7 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
+
+import { useStopwatch, useTimer } from "react-timer-hook";
 
 import { useApplicationState } from "../context";
 import { useKeyPress } from "hooks/useKeyPress";
@@ -43,6 +45,17 @@ export default function Home() {
     setInputState(initInputState);
   };
 
+  const getNewTimestamp = (timeInSeconds = 10) => {
+    const date = new Date();
+    return new Date(date.setSeconds(date.getSeconds() + timeInSeconds));
+  };
+
+  const { seconds, isRunning, restart } = useTimer({
+    expiryTimestamp: getNewTimestamp(),
+    onExpire: () => console.warn("onExpire called"),
+    autoStart: false,
+  });
+
   return (
     <div>
       <Head>
@@ -53,6 +66,7 @@ export default function Home() {
       <button onClick={() => dispatch({ type: "NextSlice" })} type="button">
         Click
       </button>
+
       <ul>
         {state.CurrentWordSlice.map(({ id, word }) => {
           return <li key={id}>{word} </li>;
@@ -65,10 +79,23 @@ export default function Home() {
       </ul>
 
       <input
+        disabled={!isRunning}
         value={inputState}
         onChange={(e) => setInputState(e.currentTarget.value)}
         type="text"
       />
+      <div>
+        <button
+          onClick={() => {
+            restart(getNewTimestamp());
+            dispatch({ type: "Restart" });
+          }}
+          type="reset"
+        >
+          Start / Restart
+        </button>
+        <p>{seconds}</p>
+      </div>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { Action, State, Status, WordDataType } from "./types";
+import { initialState } from "./ApplicationStateContext";
 import { getWordSlice } from "./util";
 
 export const AppStateReducer = (state: State, action: Action): State => {
@@ -8,7 +9,14 @@ export const AppStateReducer = (state: State, action: Action): State => {
       return { ...state };
     }
     case Status.Restart: {
-      return { ...state };
+      const tempSlice = getWordSlice();
+      const { word } = tempSlice[0];
+      return {
+        ...initialState,
+        CurrentWordSlice: tempSlice,
+        NextTenWordSlice: getWordSlice(),
+        CurrentTestWord: word,
+      };
     }
     case Status.Ready: {
       const newTargetWord = state.CurrentWordSlice[state.CurrentWordIndex].word;

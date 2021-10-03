@@ -9,11 +9,7 @@ const Ctx = createContext<{
   dispatch: React.Dispatch<Action>;
 } | null>(null);
 
-function getInitTestWord(): WordDataType["word"] {
-  return initialState.CurrentWordSlice[0].word;
-}
-
-const initialState: State = {
+export const initialState: State = {
   Status: Status.Start,
   CurrentWordSlice: getWordSlice(),
   NextTenWordSlice: getWordSlice(),
@@ -22,7 +18,6 @@ const initialState: State = {
   CurrentTestWord: "",
   CurrentWordIndex: 0,
 };
-
 export const ApplicationStateProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(AppStateReducer, initialState);
   useEffect(() => {
