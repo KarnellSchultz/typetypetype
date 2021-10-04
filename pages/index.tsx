@@ -6,7 +6,7 @@ import { useTimer } from "react-timer-hook";
 import { useApplicationState } from "../context";
 import { useKeyPress } from "hooks/useKeyPress";
 import styled from "styled-components";
-import { calculateWpm } from "./util";
+import { calculateWpm } from "../util/util";
 
 const getNewTimestamp = (timeInSeconds = 30) => {
   const date = new Date();

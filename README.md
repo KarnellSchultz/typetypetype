@@ -3,6 +3,18 @@
 
 A typing speed testing app.
 
+## Ideas 
+
+- Maybe add Zustand to this project for state management - https://github.com/pmndrs/zustand
+
+## Features
+
+- Add a graph of user type speed
+- change from word specific correctness to letter correctness
+- user accounts
+- Leaderboard
+- test word color chagne for right/wrong words. green/red kinda thing.
+
 ## Needs fixin'
 
 - Style the start button
