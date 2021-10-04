@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Head from "next/head";
 
 import { useTimer } from "react-timer-hook";
@@ -6,6 +6,7 @@ import { useTimer } from "react-timer-hook";
 import { useApplicationState } from "../context";
 import { useKeyPress } from "hooks/useKeyPress";
 import styled from "styled-components";
+import { calculateWpm } from "./util";
 
 const getNewTimestamp = (timeInSeconds = 30) => {
   const date = new Date();
@@ -48,10 +49,6 @@ export default function Home() {
   }, [spacebarPress]);
 
   useEffect(() => {
-    calculateWpm();
-  }, [currentWordCount]);
-
-  useEffect(() => {
     dispatch({ type: "Ready" });
   }, []);
 
@@ -75,6 +72,17 @@ export default function Home() {
     setInputState(initInputState);
   };
 
+  const handleStartClick = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    setInputState(initInputState);
+    restart(getNewTimestamp());
+    setWordsPerMin(0);
+    setCurrnetWordCount(0);
+    dispatch({ type: "Restart" });
+  };
+
   //use the onExpire for something slick
   const { seconds, isRunning, restart } = useTimer({
     expiryTimestamp: getNewTimestamp(),
@@ -82,21 +90,19 @@ export default function Home() {
     autoStart: false,
   });
 
-  //https://www.speedtypingonline.com/typing-equations
-  const calculateWpm = (): void => {
-    const tempCorrectWordArr = state?.CorrectWordBank?.map((el) => el.length);
-    if (!tempCorrectWordArr.length) {
-      return;
+  useEffect(() => {
+    const WPM = calculateWpm(state.CorrectWordBank);
+    setWordsPerMin(WPM);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [seconds]);
+
+  useEffect(() => {
+    if (isRunning) {
+      inputRef.current?.focus();
     }
-    const temp = tempCorrectWordArr.reduce((a, c) => a + c);
+  }, [isRunning, seconds]);
 
-    const numerator = temp + state.CorrectWordBank.length;
-    // half a min is .5 one min is 1
-    const denominator = 0.5;
-    let result = Math.floor(numerator / denominator);
-    setWordsPerMin(result);
-  };
-
+  const inputRef = useRef<HTMLInputElement | null>(null);
   return (
     <div>
       <Head>
@@ -134,17 +140,15 @@ export default function Home() {
             value={inputState}
             onChange={(e) => setInputState(e.currentTarget.value)}
             type="text"
+            ref={inputRef}
           />
         </div>
       </div>
       <InformationContainer>
         <button
           // move logic into func
-          onClick={() => {
-            restart(getNewTimestamp());
-            setWordsPerMin(0);
-            setCurrnetWordCount(0);
-            dispatch({ type: "Restart" });
+          onClick={(e) => {
+            handleStartClick(e);
           }}
           type="reset"
         >
