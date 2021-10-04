@@ -62,13 +62,13 @@ export default function Home() {
       },
     });
 
-    // Check to see if we need to witch to the next slice
+    setCurrnetWordCount((c) => c + 1);
+    // Check to see if we need to switch to the next slice
     // This can be moved to the reducer logic
     if (currentWordCount % 9 === 0 && currentWordCount !== 0) {
       dispatch({ type: "NextSlice" });
       setCurrnetWordCount(0);
     }
-    setCurrnetWordCount((c) => c + 1);
     setInputState(initInputState);
   };
 
@@ -115,7 +115,9 @@ export default function Home() {
         <Ul>
           {state.CurrentWordSlice.map(({ id, word }) => {
             const highlighted =
-              state.CurrentWordSlice[currentWordCount].id === id ? true : false;
+              state?.CurrentWordSlice[currentWordCount]?.id === id
+                ? true
+                : false;
             return (
               <Li key={id} highlighted={highlighted}>
                 {word}{" "}
