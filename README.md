@@ -5,10 +5,16 @@ A typing speed testing app.
 
 ## Needs fixin'
 
+- Style the start button
 - Add footer
 - Add header
-- Clicking start button should focus the input
+- text contrast. hard to read text.
 
+## fixed
+
+- Clicking start button should focus the input
+- bug - when the line changes the focus word in at index 1 instead of zero
+- 
 ## Getting Started
 
 First, run the development server:

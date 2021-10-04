@@ -46,11 +46,12 @@ export default function Home() {
       console.log("hello");
       handleSubmit();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [spacebarPress]);
 
   useEffect(() => {
     dispatch({ type: "Ready" });
-  }, []);
+  }, [dispatch]);
 
   const handleSubmit = () => {
     dispatch({
