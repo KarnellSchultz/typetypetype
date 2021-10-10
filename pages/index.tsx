@@ -92,7 +92,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="grid pt-4 justify-items-center bg-gray-100">
+      <div className="grid pt-4 justify-items-center">
         <header>
           <h1 className=" py-6 text-2xl font-semibold">typetypetype</h1>
           <nav className="grid grid-cols-2 mb-8">
@@ -110,7 +110,7 @@ export default function Home() {
             </div>
           </nav>
         </header>
-        <section className="bg-gray-100 text-gray-800">
+        <section className="text-gray-800">
           <ul className="flex">
             {state.CurrentWordSlice.map(({ id, word }) => {
               const highlighted =
@@ -140,7 +140,7 @@ export default function Home() {
           </ul>
           <div className="p-4 grid justify-items-center ">
             <input
-              className="rounded-sm py-2 px-3 border-gray-200 bg-gray-200 shadow-sm
+              className="rounded-sm py-2 px-3 border-gray-600 bg-gray-300 shadow-sm
             focus:outline-none  focus:ring-1 focus:ring-indigo-400
             "
               disabled={!isRunning}
