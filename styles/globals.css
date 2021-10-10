@@ -1,85 +1,15 @@
-:root {
-  --string: #92d192;
-  --variable: #f2777a;
-  --property: #abb2bf;
-  --number: #fca369;
-  --operator: #ac8d58;
-  --punctuation: #d5d8df;
-  --comment: #848991;
-  --function: #62cfcf;
-  --keyword: #ffeead;
-  --attribute: #ffd479;
-  --class: #e1a6f2;
-  --tag: #6ab0f3;
-  --error: #f2777a;
-  --font-color: #b3b9c5;
-  --heading-color: #ffd479;
-  --dark-font-color: #ced4da;
-  --background: #1f2022;
-  --medium-font-color: #dee2e6;
-  --light-font-color: #868e96;
-  --light-background: #2d2d31;
-  --light-background-hover: #3b3b3e;
-  --code-background-color: #2e2e30;
-  --border: #404040;
-  --link-color: #6ab0f3;
-  --link-color-darker: #4a72a5;
-  --link-hover-color: #e1a6f2;
-  --navbar-color: #1d1d1d;
-  --blockquote: #2a4661;
-  --transparent-text: rgba(255, 255, 255, 0.7);
-  --transparent-bg: rgba(0, 0, 0, 0.2);
-  --light-transparent-bg: rgba(255, 255, 255, 0.05);
-  --border-color: #3b3b3b;
-  --subtle-border: rgba(255, 255, 255, 0.1);
-  --active-word-background: #454545;
-}
 
 html,
 body {
-  padding: 0;
-  margin: 0;
-  color: rgb(241, 241, 241);
-  font-size: large;
-  background-color: var(--background);
   font-family:
     Rubik,
     "Helvetica Neue",
     BlinkMacSystemFont,
     "Roboto",
-    Arial,
-    "Noto Sans",
     sans-serif,
     "Apple Color Emoji",
     "Segoe UI",
     "Segoe UI Emoji",
     "Segoe UI Symbol",
     "Noto Color Emoji";
-}
-
-a {
-  color: var(--link-color-darker);
-  text-decoration: none;
-}
-
-a:hover {
-  color: var(--dark-background-hover);
-}
-
-* {
-  box-sizing: border-box;
-}
-
-input {
-  background-color: var(--code-background-color);
-  padding: 1rem 1.25rem;
-  font: inherit;
-  color: inherit;
-  border-radius: 4px;
-  z-index: 1;
-  outline: 0;
-  transition: 0.2s;
-  margin: 0.5rem 0;
-  width: 22rem;
-  border: 2px solid var(--grey-2);
 }

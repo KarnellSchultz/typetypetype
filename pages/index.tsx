@@ -5,32 +5,12 @@ import { useTimer } from "react-timer-hook";
 
 import { useApplicationState } from "../context";
 import { useKeyPress } from "hooks/useKeyPress";
-import styled from "styled-components";
 import { calculateWpm } from "../util/util";
 
 const getNewTimestamp = (timeInSeconds = 30) => {
   const date = new Date();
   return new Date(date.setSeconds(date.getSeconds() + timeInSeconds));
 };
-
-const Ul = styled.ul`
-  list-style: none;
-  display: flex;
-`;
-
-type LiProps = { highlighted?: boolean };
-const Li = styled.li<LiProps>`
-  padding: 0 0.2rem;
-  background-color: ${({ highlighted }) => highlighted && `#020202`};
-  transition: all 0.2s ease;
-`;
-
-const InformationContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  padding-top: 2rem;
-`;
 
 export default function Home() {
   const initInputState = "";
@@ -105,67 +85,76 @@ export default function Home() {
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   return (
-    <div>
+    <div className="bg-gray-100 h-screen grid place-items-center ">
       <Head>
         <title>typetypetype app ⌨️</title>
         <meta name="home" content="Type type type" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div>
-        <Ul>
-          {state.CurrentWordSlice.map(({ id, word }) => {
-            const highlighted =
-              state?.CurrentWordSlice[currentWordCount]?.id === id
-                ? true
-                : false;
-            return (
-              <Li key={id} highlighted={highlighted}>
-                {word}{" "}
-              </Li>
-            );
-          })}
-        </Ul>
-        <Ul>
-          {state.NextTenWordSlice.map(({ id, word }) => {
-            return <Li key={id}>{word} </Li>;
-          })}
-        </Ul>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <input
-            disabled={!isRunning}
-            value={inputState}
-            onChange={(e) => setInputState(e.currentTarget.value)}
-            type="text"
-            ref={inputRef}
-          />
+      <div className="grid pt-4 justify-items-center bg-gray-100">
+        <section className="bg-gray-100 text-gray-800">
+          <ul className="flex">
+            {state.CurrentWordSlice.map(({ id, word }) => {
+              const highlighted =
+                state?.CurrentWordSlice[currentWordCount]?.id === id
+                  ? true
+                  : false;
+              return (
+                <li
+                  className={`px-1 rounded-sm text-center transition-colors ${
+                    highlighted && `bg-gray-300`
+                  } `}
+                  key={id}
+                >
+                  {word}
+                </li>
+              );
+            })}
+          </ul>
+          <ul className="flex">
+            {state.NextTenWordSlice.map(({ id, word }) => {
+              return (
+                <li className="px-1 text-center" key={id}>
+                  {word}{" "}
+                </li>
+              );
+            })}
+          </ul>
+          <div className="p-4 grid justify-items-center ">
+            <input
+              className="rounded-sm py-2 px-3 border-gray-200 bg-gray-200 shadow-sm
+            focus:outline-none  focus:ring-1 focus:ring-indigo-400
+            "
+              disabled={!isRunning}
+              value={inputState}
+              onChange={(e) => setInputState(e.currentTarget.value)}
+              type="text"
+              ref={inputRef}
+            />
+          </div>
+        </section>
+        <div className="p-4 grid grid-cols-3 gap-4">
+          <button
+            className="px-3 py-1 shadow-sm rounded-sm font-semibold text-gray-50 tracking-wider	focus:outline-none focus:ring-2 focus:ring-purple-300 focus:ring-opacity-50
+          bg-indigo-500 hover:bg-indigo-600 "
+            onClick={(e) => {
+              handleStartClick(e);
+            }}
+            type="reset"
+          >
+            Start / Restart
+          </button>
+          <div style={{ textAlign: "center" }}>
+            <p>Time</p>
+            <p>{seconds}</p>
+          </div>
+          <div style={{ textAlign: "center" }}>
+            <p>WPM</p>
+            <p>{wordsPerMin}</p>
+          </div>
         </div>
       </div>
-      <InformationContainer>
-        <button
-          // move logic into func
-          onClick={(e) => {
-            handleStartClick(e);
-          }}
-          type="reset"
-        >
-          Start / Restart
-        </button>
-        <div style={{ textAlign: "center" }}>
-          <p>Time</p>
-          <p>{seconds}</p>
-        </div>
-        <div style={{ textAlign: "center" }}>
-          <p>WPM</p>
-          <p>{wordsPerMin}</p>
-        </div>
-      </InformationContainer>
     </div>
   );
 }
