@@ -1,4 +1,7 @@
 {
     "workbench.editor.enablePreview": false,
-    "breadcrumbs.enabled": false
+    "breadcrumbs.enabled": false,
+    "tailwindCSS.includeLanguages": {
+        "plaintext": "javascript"
+    }
 }
