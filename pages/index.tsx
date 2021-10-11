@@ -6,15 +6,15 @@ import { useTimer } from "react-timer-hook";
 import { useApplicationState } from "../context";
 import { useKeyPress } from "hooks/useKeyPress";
 import { calculateWpm } from "../util/util";
-import { Header } from "components/Header";
 import { TestBar } from "components/TestBar";
+import { Layout } from "components/Layout";
 
 const getNewTimestamp = (timeInSeconds = 30) => {
   const date = new Date();
   return new Date(date.setSeconds(date.getSeconds() + timeInSeconds));
 };
 
-export default function Home() {
+function Home() {
   const initInputState = "";
   const { state, dispatch } = useApplicationState();
   const [inputState, setInputState] = useState(initInputState);
@@ -87,58 +87,60 @@ export default function Home() {
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   return (
-    <div className="bg-gray-100 text-gray-900 h-screen grid place-items-start justify-items-center ">
-      <Head>
-        <title>typetypetype ⌨️</title>
-        <meta name="home" content="Type type type" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <div className="grid pt-4 justify-items-center ">
-        <Header />
-        <section className="text-gray-800">
-          <ul className="flex">
-            {state.CurrentWordSlice.map(({ id, word }) => {
-              const highlighted =
-                state?.CurrentWordSlice[currentWordCount]?.id === id
-                  ? true
-                  : false;
-              return (
-                <li
-                  className={`px-1 rounded-sm text-center transition-colors ${
-                    highlighted && `bg-gray-300`
-                  } `}
-                  key={id}
-                >
-                  {word}
-                </li>
-              );
-            })}
-          </ul>
-          <ul className="flex">
-            {state.NextTenWordSlice.map(({ id, word }) => {
-              return (
-                <li className="px-1 text-center" key={id}>
-                  {word}{" "}
-                </li>
-              );
-            })}
-          </ul>
-          <div className="p-4 grid justify-items-center ">
-            <input
-              className="rounded-sm shadow-sm py-2 px-3 border-gray-900 border-2 border-opacity-10 bg-gray-300 
+    <Layout pageTitle="Test">
+      <div >
+        <div className="grid pt-4 justify-items-center ">
+          <section className="text-gray-800">
+            <ul className="flex">
+              {state.CurrentWordSlice.map(({ id, word }) => {
+                const highlighted =
+                  state?.CurrentWordSlice[currentWordCount]?.id === id
+                    ? true
+                    : false;
+                return (
+                  <li
+                    className={`px-1 rounded-sm text-center transition-colors ${
+                      highlighted && `bg-gray-300`
+                    } `}
+                    key={id}
+                  >
+                    {word}
+                  </li>
+                );
+              })}
+            </ul>
+            <ul className="flex">
+              {state.NextTenWordSlice.map(({ id, word }) => {
+                return (
+                  <li className="px-1 text-center" key={id}>
+                    {word}{" "}
+                  </li>
+                );
+              })}
+            </ul>
+            <div className="p-4 grid justify-items-center ">
+              <input
+                className="rounded-sm shadow-sm py-2 px-3 border-gray-900 border-2 border-opacity-10 bg-gray-300 
             focus:outline-none  focus:ring-1 focus:ring-indigo-400
             "
-              disabled={!isRunning}
-              value={inputState}
-              onChange={(e) => setInputState(e.currentTarget.value)}
-              type="text"
-              ref={inputRef}
-            />
-          </div>
-        </section>
-        <TestBar handleStartClick={handleStartClick} seconds={seconds} wordsPerMin={wordsPerMin} isRunning={isRunning} />
+                disabled={!isRunning}
+                value={inputState}
+                onChange={(e) => setInputState(e.currentTarget.value)}
+                type="text"
+                ref={inputRef}
+              />
+            </div>
+          </section>
+          <TestBar
+            handleStartClick={handleStartClick}
+            seconds={seconds}
+            wordsPerMin={wordsPerMin}
+            isRunning={isRunning}
+          />
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 }
+
+export default Home;
