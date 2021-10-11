@@ -7,6 +7,13 @@ A typing speed testing app.
 
 https://typetypetype.vercel.app/
 
+## Tech Stack
+
+- NextJs
+- React
+- TypeScript
+- Tailwind Css
+
 ## Ideas 
 
 - Maybe add Zustand to this project for state management - https://github.com/pmndrs/zustand
