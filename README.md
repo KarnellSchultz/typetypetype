@@ -22,6 +22,7 @@ https://typetypetype.vercel.app/
 - test word color chagne for right/wrong words. green/red kinda thing.
 - change from word specific correctness to letter correctness
 - Correct / incorrect word bank display
+- Dark Mode
 - user accounts
 - Leaderboard
 - Add a graph of user type speed
