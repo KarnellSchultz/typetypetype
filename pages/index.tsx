@@ -6,6 +6,8 @@ import { useTimer } from "react-timer-hook";
 import { useApplicationState } from "../context";
 import { useKeyPress } from "hooks/useKeyPress";
 import { calculateWpm } from "../util/util";
+import { Header } from "components/Header";
+import { TestBar } from "components/TestBar";
 
 const getNewTimestamp = (timeInSeconds = 30) => {
   const date = new Date();
@@ -85,35 +87,15 @@ export default function Home() {
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   return (
-    <div className="bg-gray-100 text-gray-900 h-screen grid place-items-center ">
+    <div className="bg-gray-100 text-gray-900 h-screen grid place-items-start justify-items-center ">
       <Head>
         <title>typetypetype ⌨️</title>
         <meta name="home" content="Type type type" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="grid pt-4 justify-items-center">
-        <header>
-          <h1 className=" py-6 text-2xl font-semibold">
-            <span>type</span>
-            <span className="text-indigo-700">type</span>
-            <span>type</span>
-          </h1>
-          <nav className="grid grid-cols-2 mb-8">
-            <div
-              className="px-3 py-1 mr-2 shadow-sm rounded-sm font-semibold text-gray-50 tracking-wider	focus:outline-none focus:ring-2 focus:ring-purple-300 focus:ring-opacity-50
-          bg-indigo-500 hover:bg-indigo-600"
-            >
-              <a href="#">Test</a>
-            </div>
-            <div
-              className="px-3 py-1 shadow-sm rounded-sm font-semibold text-gray-50 tracking-wider	focus:outline-none focus:ring-2 focus:ring-purple-300 focus:ring-opacity-50
-          bg-indigo-500 hover:bg-indigo-600"
-            >
-              <a href="#">About</a>
-            </div>
-          </nav>
-        </header>
+      <div className="grid pt-4 justify-items-center ">
+        <Header />
         <section className="text-gray-800">
           <ul className="flex">
             {state.CurrentWordSlice.map(({ id, word }) => {
@@ -144,7 +126,7 @@ export default function Home() {
           </ul>
           <div className="p-4 grid justify-items-center ">
             <input
-              className="rounded-sm py-2 px-3 border-gray-600 bg-gray-300 shadow-sm
+              className="rounded-sm shadow-sm py-2 px-3 border-gray-900 border-2 border-opacity-10 bg-gray-300 
             focus:outline-none  focus:ring-1 focus:ring-indigo-400
             "
               disabled={!isRunning}
@@ -155,26 +137,7 @@ export default function Home() {
             />
           </div>
         </section>
-        <div className="p-4 grid grid-cols-3 gap-4">
-          <button
-            className="px-3 py-1 shadow-sm rounded-sm font-semibold text-gray-50 tracking-wider	focus:outline-none focus:ring-2 focus:ring-purple-300 focus:ring-opacity-50
-          bg-indigo-500 hover:bg-indigo-600 "
-            onClick={(e) => {
-              handleStartClick(e);
-            }}
-            type="reset"
-          >
-            Start / Restart
-          </button>
-          <div style={{ textAlign: "center" }}>
-            <p>Time</p>
-            <p>{seconds}</p>
-          </div>
-          <div style={{ textAlign: "center" }}>
-            <p>WPM</p>
-            <p>{wordsPerMin}</p>
-          </div>
-        </div>
+        <TestBar handleStartClick={handleStartClick} seconds={seconds} wordsPerMin={wordsPerMin} isRunning={isRunning} />
       </div>
     </div>
   );
