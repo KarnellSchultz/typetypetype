@@ -23,7 +23,7 @@
     "swr": "1.0.1"
   },
   "devDependencies": {
-    "@types/react": "17.0.29",
+    "@types/react": "17.0.30",
     "eslint": "8.0.1",
     "eslint-config-next": "11.1.2",
     "stylelint": "13.13.1",
