@@ -4,7 +4,7 @@ import { useTimer } from "react-timer-hook";
 
 import { useApplicationState } from "../context";
 import { useKeyPress } from "hooks/useKeyPress";
-import { calculateWpm } from "../util/util";
+import { calculateWpm, testWordColor } from "../util";
 import { TestBar } from "components/TestBar";
 import { Layout } from "components/Layout";
 
@@ -109,9 +109,9 @@ function Home() {
                     : false;
                 return (
                   <li
-                    className={`px-1 rounded-sm text-center transition-colors ${
-                      highlighted && `bg-gray-300`
-                    } `}
+                    className={`px-1 rounded-sm text-center transition-colors
+                    ${testWordColor(word, state)}  
+                    ${highlighted && `bg-gray-300`} `}
                     key={id}
                   >
                     {word}

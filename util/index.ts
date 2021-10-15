@@ -1,4 +1,5 @@
 import { WordDataType } from "context";
+import { State } from "context/AppContext/types";
 
 // https://www.speedtypingonline.com/typing-equations
 export const calculateWpm = (wordBank: WordDataType[]): number => {
@@ -13,4 +14,19 @@ export const calculateWpm = (wordBank: WordDataType[]): number => {
   const denominator = 0.5;
   const result = Math.round(numerator / denominator);
   return result;
+};
+
+type TestWordColor = (testWord: string, appState: State) => string;
+export const testWordColor: TestWordColor = (testWord, appState) => {
+  const correct = JSON.stringify(appState.CorrectWordBank).includes(testWord);
+  const incorrect = JSON.stringify(appState.IncorrectWordBank).includes(
+    testWord
+  );
+  if (correct) {
+    return `text-green-700`;
+  }
+  if (incorrect) {
+    return `text-red-700`;
+  }
+  return "";
 };
