@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "lint": "next lint",
     "stylelint": "npx stylelint '**/*.css' '**/*.tsx'",
     "stylelint:fix": "npx stylelint --fix '**/*.css' '**/*.tsx'"
   },
@@ -25,7 +26,7 @@
   },
   "devDependencies": {
     "@types/react": "17.0.30",
-    "eslint": "8.0.1",
+    "eslint": "^7.0.1",
     "eslint-config-next": "11.1.2",
     "stylelint": "13.13.1",
     "stylelint-config-standard": "22.0.0",
