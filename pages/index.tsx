@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import Head from "next/head";
 
 import { useTimer } from "react-timer-hook";
+import create from "zustand";
 
 import { useApplicationState } from "../context";
 import { useKeyPress } from "hooks/useKeyPress";
@@ -14,12 +14,22 @@ const getNewTimestamp = (timeInSeconds = 30) => {
   return new Date(date.setSeconds(date.getSeconds() + timeInSeconds));
 };
 
+const useStore = create((set) => ({
+  inputState: "",
+  setInputState: (value) => set((state) => ({ inputState: value })),
+  // currentWordCount: 0,
+  // wordsPerMin: 0,
+}));
+
 function Home() {
   const initInputState = "";
   const { state, dispatch } = useApplicationState();
-  const [inputState, setInputState] = useState(initInputState);
+
+  // const [inputState, setInputState] = useState(initInputState);
   const [currentWordCount, setCurrnetWordCount] = useState(0);
   const [wordsPerMin, setWordsPerMin] = useState(0);
+
+  const inputState = useStore((state) => state.inputState);
 
   const spacebarPress = useKeyPress(" ");
 
@@ -88,7 +98,7 @@ function Home() {
   const inputRef = useRef<HTMLInputElement | null>(null);
   return (
     <Layout pageTitle="Test">
-      <div >
+      <div>
         <div className="grid pt-4 justify-items-center ">
           <section className="text-gray-800">
             <ul className="flex">
