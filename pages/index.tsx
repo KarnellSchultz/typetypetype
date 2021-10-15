@@ -1,5 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
-import Head from "next/head";
+import React, { useEffect, useRef } from "react";
 
 import { useTimer } from "react-timer-hook";
 
@@ -9,6 +8,8 @@ import { calculateWpm } from "../util/util";
 import { TestBar } from "components/TestBar";
 import { Layout } from "components/Layout";
 
+import { useStore, useWordCountStore } from "../zu-stores";
+
 const getNewTimestamp = (timeInSeconds = 30) => {
   const date = new Date();
   return new Date(date.setSeconds(date.getSeconds() + timeInSeconds));
@@ -17,9 +18,18 @@ const getNewTimestamp = (timeInSeconds = 30) => {
 function Home() {
   const initInputState = "";
   const { state, dispatch } = useApplicationState();
-  const [inputState, setInputState] = useState(initInputState);
-  const [currentWordCount, setCurrnetWordCount] = useState(0);
-  const [wordsPerMin, setWordsPerMin] = useState(0);
+
+  const inputState = useStore((state) => state.inputState);
+  const setInputState = useStore((state) => state.setInputState);
+
+  const wordsPerMin = useStore((state) => state.wordsPerMin);
+  const setWordsPerMin = useStore((state) => state.setWordsPerMin);
+
+  const currentWordCount = useWordCountStore((state) => state.currentWordCount);
+  const resetWordCount = useWordCountStore((state) => state.resetWordCount);
+  const incramentWordCount = useWordCountStore(
+    (state) => state.incramentWordCount
+  );
 
   const spacebarPress = useKeyPress(" ");
 
@@ -45,12 +55,12 @@ function Home() {
       },
     });
 
-    setCurrnetWordCount((c) => c + 1);
+    incramentWordCount();
     // Check to see if we need to switch to the next slice
     // This can be moved to the reducer logic
     if (currentWordCount % 9 === 0 && currentWordCount !== 0) {
       dispatch({ type: "NextSlice" });
-      setCurrnetWordCount(0);
+      resetWordCount();
     }
     setInputState(initInputState);
   };
@@ -62,7 +72,7 @@ function Home() {
     setInputState(initInputState);
     restart(getNewTimestamp());
     setWordsPerMin(0);
-    setCurrnetWordCount(0);
+    resetWordCount();
     dispatch({ type: "Restart" });
   };
 
@@ -88,7 +98,7 @@ function Home() {
   const inputRef = useRef<HTMLInputElement | null>(null);
   return (
     <Layout pageTitle="Test">
-      <div >
+      <div>
         <div className="grid pt-4 justify-items-center ">
           <section className="text-gray-800">
             <ul className="flex">
