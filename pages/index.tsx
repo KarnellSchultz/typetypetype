@@ -107,12 +107,20 @@ function Home() {
                   state?.CurrentWordSlice[currentWordCount]?.id === id
                     ? true
                     : false;
+                const correct = JSON.stringify(state.CorrectWordBank).includes(
+                  word
+                );
+                const incorrect = JSON.stringify(
+                  state.IncorrectWordBank
+                ).includes(word);
+
                 return (
                   <li
-                    className={`px-1 rounded-sm text-center transition-colors
-                    ${testWordColor(word, state)}  
-                    ${highlighted && `bg-gray-300`} `}
                     key={id}
+                    className={`px-1 rounded-sm text-center transition-colors 
+                    ${correct && `text-green-700`}
+                    ${incorrect && `text-red-700`}
+                    ${highlighted && `bg-gray-300`}`}
                   >
                     {word}
                   </li>
