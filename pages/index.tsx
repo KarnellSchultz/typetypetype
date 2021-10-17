@@ -96,6 +96,7 @@ function Home() {
   }, [isRunning, seconds]);
 
   const inputRef = useRef<HTMLInputElement | null>(null);
+  
   return (
     <Layout pageTitle="Test">
       <div>

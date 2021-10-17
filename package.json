@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "prettier:fix": "npx prettier --write . --ignore-path .gitignore",
+    "prettier:check": "npx prettier --check . --ignore-path .gitignore",
     "stylelint": "npx stylelint '**/*.css' '**/*.tsx'",
     "stylelint:fix": "npx stylelint --fix '**/*.css' '**/*.tsx'"
   },
@@ -29,6 +31,8 @@
     "@types/tailwindcss": "^2.2.1",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2",
+    "eslint-config-prettier": "^8.3.0",
+    "prettier": "^2.4.1",
     "stylelint": "13.13.1",
     "stylelint-config-standard": "22.0.0",
     "tailwindcss": "2.2.17",
