@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@types/react-icons": "3.0.0",
+    "@types/styled-components": "^5.1.21",
     "autoprefixer": "10.3.7",
     "next": "11.1.2",
     "next-auth": "3.29.0",
@@ -23,8 +24,7 @@
     "react-icons": "4.3.1",
     "react-timer-hook": "3.0.5",
     "styled-components": "^5.3.3",
-    "swr": "1.0.1",
-    "zustand": "3.5.13"
+    "swr": "1.0.1"
   },
   "devDependencies": {
     "@types/react": "17.0.30",
