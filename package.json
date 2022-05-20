@@ -15,7 +15,7 @@
   "dependencies": {
     "@types/react-icons": "3.0.0",
     "@types/styled-components": "^5.1.21",
-    "autoprefixer": "10.3.7",
+    "autoprefixer": "10.4.7",
     "next": "^12.1.6",
     "postcss": "8.3.9",
     "react": "17.0.2",
