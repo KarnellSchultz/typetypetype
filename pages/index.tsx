@@ -1,4 +1,5 @@
-import { Layout } from 'components/Layout'
+import { Layout } from 'components/layout'
+import { TestBar } from 'components/test-bar'
 import React, { useState } from 'react'
 
 import { WordListData } from '../wordData'
@@ -37,10 +38,13 @@ const Home = ({ staticTestWords }: HomeProps) => {
     const [testWords] = useState(staticTestWords)
     const [inputValue, setInputValue] = useState('')
 
+    const firstTestWordSlice = testWords.slice(0, 10)
+    const secondTestWordSlice = testWords.slice(10, 20)
+
     return (
         <Layout pageTitle="About">
             <div className="flex">
-                {testWords.slice(0, 10).map((wordObj) => {
+                {firstTestWordSlice.map((wordObj) => {
                     return (
                         <div className="p-1" key={wordObj.id}>
                             {wordObj.word}
@@ -49,7 +53,7 @@ const Home = ({ staticTestWords }: HomeProps) => {
                 })}
             </div>
             <div className="flex">
-                {testWords.slice(15, 20).map((wordObj) => {
+                {secondTestWordSlice.map((wordObj) => {
                     return (
                         <div className="p-1" key={wordObj.id}>
                             {wordObj.word}
@@ -60,7 +64,6 @@ const Home = ({ staticTestWords }: HomeProps) => {
             <form
                 onSubmit={(e) => {
                     e.preventDefault
-                    console.log(inputValue)
                 }}
             >
                 <input
@@ -70,8 +73,18 @@ const Home = ({ staticTestWords }: HomeProps) => {
                     name="test-input"
                     id="input"
                 />
-                <button onClick={() => {}}>Click</button>
             </form>
+            <TestBar
+                // Add func for starting the app
+                handleStartClick={function (
+                    e: MouseEvent<HTMLButtonElement, MouseEvent>
+                ): void {
+                    throw new Error('Function not implemented.')
+                }}
+                seconds={0}
+                wordsPerMin={0}
+                isRunning={false}
+            />
         </Layout>
     )
 }

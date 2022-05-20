@@ -14,8 +14,8 @@ export const Header = () => {
                     <Link href="/">
                         <a
                             className="px-3 py-1 mr-2 shadow-sm rounded-sm font-semibold text-gray-50 hover:text-white tracking-wider	
-                  focus:outline-none focus:ring-2 focus:ring-purple-300 focus:ring-opacity-50
-                bg-indigo-500 hover:bg-indigo-600"
+                            focus:outline-none focus:ring-2 focus:ring-purple-300 focus:ring-opacity-50
+                          bg-indigo-500 hover:bg-indigo-600"
                         >
                             Test
                         </a>
@@ -25,8 +25,8 @@ export const Header = () => {
                     <Link href="/about">
                         <a
                             className="px-3 py-1 shadow-sm rounded-sm font-semibold text-gray-50 hover:text-white tracking-wider	
-            focus:outline-none focus:ring-2 focus:ring-purple-300 focus:ring-opacity-50
-          bg-indigo-500 hover:bg-indigo-600"
+                            focus:outline-none focus:ring-2 focus:ring-purple-300 focus:ring-opacity-50
+                          bg-indigo-500 hover:bg-indigo-600"
                         >
                             About
                         </a>
