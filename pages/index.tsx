@@ -10,15 +10,31 @@ const MaxTestWords = 200
 
 const createTestList = () => {
     let res = new Set()
-    new Array(MaxTestWords).fill({}).forEach((element) => {
+    new Array(MaxTestWords).fill(null).forEach((_) => {
         res.add(getRandomWord())
     })
 
     return Array.from(res)
 }
 
-const Home = () => {
-    const [testWords, setTestWords] = useState(() => createTestList())
+export async function getStaticProps() {
+    return {
+        props: {
+            staticTestWords: createTestList(),
+        },
+    }
+}
+
+type TestWordType = {
+    id: number
+    length: number
+    word: string
+}
+
+type HomeProps = { staticTestWords: TestWordType[] }
+
+const Home = ({ staticTestWords }: HomeProps) => {
+    const [testWords] = useState(staticTestWords)
     const [inputValue, setInputValue] = useState('')
 
     return (
