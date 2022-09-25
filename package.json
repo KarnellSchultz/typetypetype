@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@types/react-icons": "3.0.0",
-    "@types/styled-components": "^5.1.21",
+    "@types/styled-components": "5.1.26",
     "autoprefixer": "10.3.7",
     "next": "^12.1.6",
     "postcss": "8.3.9",
@@ -22,7 +22,7 @@
     "react-dom": "17.0.2",
     "react-icons": "4.3.1",
     "react-timer-hook": "3.0.5",
-    "styled-components": "^5.3.3",
+    "styled-components": "5.3.5",
     "swr": "1.0.1"
   },
   "devDependencies": {
