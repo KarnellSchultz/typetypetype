@@ -76,10 +76,8 @@ const Home = ({ staticTestWords }: HomeProps) => {
             </form>
             <TestBar
                 // Add func for starting the app
-                handleStartClick={function (
-                    e: MouseEvent<HTMLButtonElement, MouseEvent>
-                ): void {
-                    throw new Error('Function not implemented.')
+                handleStartClick={(e: any) => {
+                    console.warn('FUNC NOT CREATED YET')
                 }}
                 seconds={0}
                 wordsPerMin={0}

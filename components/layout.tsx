@@ -1,16 +1,16 @@
 import { Header } from 'components/header'
 import Head from 'next/head'
-import React from 'react'
 
 interface AppWrapperProps {
     pageTitle: string
+    children: React.ReactNode
 }
 
-export const Layout: React.FC<AppWrapperProps> = ({ pageTitle, children }) => {
+export const Layout = ({ pageTitle, children }: AppWrapperProps) => {
     return (
         <>
             <Head>
-                <title>{pageTitle} - typetypetype ⌨️</title>
+                <title>{`${pageTitle} - typetypetype`} ⌨️</title>
                 <meta name="home" content="Typetypetype" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
