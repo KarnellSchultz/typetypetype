@@ -35,10 +35,9 @@ const MAX_TEST_WORDS = 200
 
 export const useWordList = (count = MAX_TEST_WORDS) => {
   const [list, setList] = useState<TestWordType[]>([])
-  
+
   const getRandomIndex = () => Math.floor(Math.random() * WordListData.length)
   const getRandomWord = () => WordListData[getRandomIndex()]
-
 
   const getUniqueWord = (set: Set<any>): TestWordType => {
     const randomWord = getRandomWord()

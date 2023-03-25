@@ -1,8 +1,8 @@
 'use client'
 
-import { TestBar } from 'components/test-bar'
 import { useWordList } from 'components/hooks'
 import React, { useState } from 'react'
+import { TestWordType } from 'wordData'
 
 
 // type HomeProps = { testWords: TestWordType }
@@ -11,78 +11,83 @@ const Home = () => {
     const wordList = useWordList()
 
     const [inputValue, setInputValue] = useState('')
+    const [currentWordIndex, setCurrectWordIndex] = useState(0)
+    const [correctList, setCorrectList] = useState<TestWordType[]>([])
+    const [incorrectList, setIncorrectList] = useState<TestWordType[]>([])
+    const initSliceStep = 10
+    const [sliceStep, setSliceStep] = useState(initSliceStep)
 
-    const firstWordSlice = wordList.slice(0, 10)
-    const secondWordSlice = wordList.slice(10, 20)
+
+    const firstWordSlice = wordList.slice(sliceStep - initSliceStep, sliceStep)
+    const secondWordSlice = wordList.slice(sliceStep, sliceStep + initSliceStep)
+
+    const currentWord = wordList[currentWordIndex]
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        setCurrectWordIndex(p => p += 1)
+        const isLastofSlice = currentWordIndex + 1 === sliceStep
+
+        if (isLastofSlice) setSliceStep(p => p += initSliceStep)
+
+        if (inputValue.toLocaleLowerCase().trim() !== currentWord.word) {
+            setIncorrectList(p => [...p, currentWord])
+            setInputValue("")
+            return
+        }
+
+        setCorrectList(p => [...p, currentWord])
+        setInputValue("")
+    }
 
     return (
         <div className=''>
             <div className="flex">
-                {firstWordSlice.map((item) => {
+                {firstWordSlice.map((testWord) => {
+                    const isCurrentWord = testWord.word === currentWord.word
                     return (
-                        <span className="p-1" key={item.id}>
-                            {item.word}
+                        <span
+                            key={testWord.id}
+                            aria-label={`${testWord.word}-${testWord.id}`}
+                            className={`p-1 ${isCurrentWord && "bg-slate-300"}`} >
+                            {testWord.word}
                         </span>
                     )
                 })}
             </div>
             <div className="flex">
-                {secondWordSlice.map((item) => {
+                {secondWordSlice.map((testWord) => {
                     return (
-                        <span className="p-1" key={item.id}>
-                            {item.word}
+                        <span className="p-1" key={testWord.id}>
+                            {testWord.word}
                         </span>
                     )
                 })}
             </div>
 
-            <form
-                onSubmit={(e) => {
-                    e.preventDefault
-                }}
-            >
-                <input
-                    onChange={(e) => setInputValue(e.currentTarget.value)}
-                    value={inputValue}
-                    type="text"
-                    name="test-input"
-                    id="input"
-                />
-            </form>
+            <div>
+                <div>correct:{correctList.length}</div>
+                <div>incorrect:{incorrectList.length}</div>
+            </div>
 
-
-            <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
-                        Username
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="test-input">
+                        test-input
                     </label>
-                    <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username" />
+                    <input
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.currentTarget.value)}
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="test-input" type="text" placeholder="Username" />
                 </div>
-                <div className="mb-6">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
-                        Password
-                    </label>
-                    <input className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************" />
-                    <p className="text-red-500 text-xs italic">Please choose a password.</p>
-                </div>
+
                 <div className="flex items-center justify-between">
                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
-                        Sign In
+                        Start
                     </button>
-                    <a className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
-                        Forgot Password?
-                    </a>
                 </div>
             </form>
-            <TestBar
-                // Add func for starting the app
-                handleStartClick={(e: any) => {
-                    console.warn('FUNC NOT CREATED YET')
-                }}
-                seconds={0}
-                wordsPerMin={0}
-                isRunning={false}
-            />
+
         </div>
     )
 }

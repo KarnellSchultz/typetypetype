@@ -1,13 +1,10 @@
 
 import '../styles/globals.css'
 
-
 export const metadata = {
     title: 'Home',
     description: 'typetypetype is a typing game',
 };
-
-
 
 export default function RootLayout({
     // Layouts must accept a children prop.
