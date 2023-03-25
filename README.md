@@ -29,9 +29,9 @@ https://typetypetype.vercel.app/
 
 ## Needs fixin'
 
-[x] Style the start button
-[x] Add header
-[x] text contrast. hard to read text.
+- [x] Style the start button
+- [x] Add header
+- [x] text contrast. hard to read text
 
 - About page contnent
 - Add footer
@@ -45,21 +45,19 @@ https://typetypetype.vercel.app/
 
 #### First, run the development server:
 
-```bash
+```zsh
 get clone https://github.com/KarnellSchultz/typetypetype.git
 ```
 
 #### Install packages
 
-```bash
-get clone https://github.com/KarnellSchultz/typetypetype.git
+```zsh
+yarn install
 ```
 
 #### Then, run the development server:
 
-```bash
-npm run dev
-# or
+```zsh
 yarn dev
 ```
 
