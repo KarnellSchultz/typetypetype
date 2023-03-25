@@ -15,7 +15,7 @@
   "dependencies": {
     "@types/react-icons": "3.0.0",
     "autoprefixer": "10.3.7",
-    "next": "^12.3.1",
+    "next": "^13.0.0",
     "postcss": "8.3.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -28,7 +28,7 @@
     "@types/react": "17.0.30",
     "@types/tailwindcss": "^2.2.1",
     "eslint": "7.32.0",
-    "eslint-config-next": "11.1.2",
+    "eslint-config-next": "13.2.4",
     "eslint-config-prettier": "^8.3.0",
     "prettier": "^2.4.1",
     "tailwindcss": "2.2.17",
