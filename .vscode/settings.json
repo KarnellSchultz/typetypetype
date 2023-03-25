@@ -1,7 +1,9 @@
 {
-    "workbench.editor.enablePreview": false,
-    "breadcrumbs.enabled": false,
-    "tailwindCSS.includeLanguages": {
-        "plaintext": "javascript"
-    }
+  "workbench.editor.enablePreview": false,
+  "breadcrumbs.enabled": false,
+  "tailwindCSS.includeLanguages": {
+    "plaintext": "javascript"
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
 }

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { TestWordType, WordListData } from "wordData";
 
 export function useKeyPress(targetKey: string): boolean {
   // State for keeping track of whether key is pressed
@@ -27,4 +28,35 @@ export function useKeyPress(targetKey: string): boolean {
     };
   }, []); // Empty array ensures that effect is only run on mount and unmount
   return keyPressed;
+}
+
+
+const MAX_TEST_WORDS = 200
+
+export const useWordList = (count = MAX_TEST_WORDS) => {
+  const [list, setList] = useState<TestWordType[]>([])
+  
+  const getRandomIndex = () => Math.floor(Math.random() * WordListData.length)
+  const getRandomWord = () => WordListData[getRandomIndex()]
+
+
+  const getUniqueWord = (set: Set<any>): TestWordType => {
+    const randomWord = getRandomWord()
+    if (set.has(randomWord)) return getUniqueWord(set)
+    return randomWord
+  }
+
+  const createTestList = () => {
+    const list: Set<TestWordType> = new Set()
+    for (let i = 1; i <= count; i++) {
+      list.add(getUniqueWord(list))
+    }
+    return Array.from(list)
+  }
+
+  useEffect(() => {
+    setList(createTestList())
+  }, [])
+
+  return list
 }

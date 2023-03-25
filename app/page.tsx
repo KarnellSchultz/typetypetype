@@ -1,55 +1,22 @@
-import { Layout } from 'components/layout'
+'use client'
+
 import { TestBar } from 'components/test-bar'
+import { useWordList } from 'components/hooks'
 import React, { useState } from 'react'
 
-import { WordListData } from '../wordData'
 
-type TestWordType = {
-    id: number
-    length: number
-    word: string
-}
+// type HomeProps = { testWords: TestWordType }
 
-const getRandomWordIndex = () => Math.floor(Math.random() * WordListData.length)
-const getRandomWord = () => WordListData[getRandomWordIndex()]
+const Home = () => {
+    const testWords = useWordList()
 
-const MAX_TEST_WORDS = 200
-
-const getUniqueWord = (set: Set<any>): TestWordType => {
-    const randomWord = getRandomWord()
-    if (set.has(randomWord)) return getUniqueWord(set)
-    return randomWord
-}
-
-const createTestList = () => {
-    const list = new Set()
-    for (let i = 1; i <= MAX_TEST_WORDS; i++) {
-        list.add(getUniqueWord(list))
-    }
-    return Array.from(list)
-}
-
-
-
-export async function getStaticProps() {
-    const testWords = createTestList()
-    return {
-        props: {
-            testWords,
-        },
-    }
-}
-
-type HomeProps = { testWords: TestWordType[] }
-
-const Home = ({ testWords }: HomeProps) => {
     const [inputValue, setInputValue] = useState('')
 
     const firstTestWordSlice = testWords.slice(0, 10)
     const secondTestWordSlice = testWords.slice(10, 20)
 
     return (
-        <Layout pageTitle="About">
+        <div>
             <div className="flex">
                 {firstTestWordSlice.map((wordObj) => {
                     return (
@@ -91,7 +58,8 @@ const Home = ({ testWords }: HomeProps) => {
                 wordsPerMin={0}
                 isRunning={false}
             />
-        </Layout>
+        </div>
     )
 }
 export default Home
+

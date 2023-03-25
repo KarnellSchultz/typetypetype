@@ -1,3 +1,9 @@
+export type TestWordType = {
+  id: number
+  length: number
+  word: string
+}
+
 export const WordListData = [
   { id: 1, word: "the", length: 3 },
   { id: 2, word: "of", length: 2 },
@@ -999,4 +1005,4 @@ export const WordListData = [
   { id: 998, word: "teeth", length: 5 },
   { id: 999, word: "shell", length: 5 },
   { id: 1000, word: "neck", length: 4 },
-];
+] as const
