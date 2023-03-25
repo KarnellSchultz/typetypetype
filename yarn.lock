@@ -188,14 +188,14 @@
   integrity sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
 
 "@types/node@^18.0.0":
-  version "18.15.8"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.15.8.tgz#222383320e71f9a1397d25c416e9c62d347758e0"
-  integrity sha512-kzGNJZ57XEH7RdckxZ7wfRjB9hgZABF+NLgR1B2zogUvV0gmK0/60VYA4yb4oKZckPiiJlmmfpdqTfCN0VRX+Q==
+  version "18.15.9"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.15.9.tgz#a9b529d2a16ae73122b3875969e7db18c9f3e790"
+  integrity sha512-dUxhiNzBLr6IqlZXz6e/rN2YQXlFgOei/Dxy+e3cyXTJ4txSUbGT2/fmnD6zd/75jDMeW5bDee+YXxlFKHoV0A==
 
 "@types/prop-types@*":
-  version "15.7.3"
-  resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.3.tgz#2ab0d5da2e5815f94b0b9d4b95d1e5f243ab2ca7"
-  integrity sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw==
+  version "15.7.5"
+  resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.5.tgz#5f19d2b85a98e9558036f6a3cacc8819420f05cf"
+  integrity sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==
 
 "@types/react-icons@3.0.0":
   version "3.0.0"
