@@ -4,38 +4,45 @@ import React, { useState } from 'react'
 
 import { WordListData } from '../wordData'
 
-const getRandomWordIndex = () => Math.floor(Math.random() * WordListData.length)
-const getRandomWord = () => WordListData[getRandomWordIndex()]
-
-const MaxTestWords = 200
-
-const createTestList = () => {
-    let res = new Set()
-    new Array(MaxTestWords).fill(null).forEach((_) => {
-        res.add(getRandomWord())
-    })
-
-    return Array.from(res)
-}
-
-export async function getStaticProps() {
-    return {
-        props: {
-            staticTestWords: createTestList(),
-        },
-    }
-}
-
 type TestWordType = {
     id: number
     length: number
     word: string
 }
 
-type HomeProps = { staticTestWords: TestWordType[] }
+const getRandomWordIndex = () => Math.floor(Math.random() * WordListData.length)
+const getRandomWord = () => WordListData[getRandomWordIndex()]
 
-const Home = ({ staticTestWords }: HomeProps) => {
-    const [testWords] = useState(staticTestWords)
+const MAX_TEST_WORDS = 200
+
+const getUniqueWord = (set: Set<any>): TestWordType => {
+    const randomWord = getRandomWord()
+    if (set.has(randomWord)) return getUniqueWord(set)
+    return randomWord
+}
+
+const createTestList = () => {
+    const list = new Set()
+    for (let i = 1; i <= MAX_TEST_WORDS; i++) {
+        list.add(getUniqueWord(list))
+    }
+    return Array.from(list)
+}
+
+
+
+export async function getStaticProps() {
+    const testWords = createTestList()
+    return {
+        props: {
+            testWords,
+        },
+    }
+}
+
+type HomeProps = { testWords: TestWordType[] }
+
+const Home = ({ testWords }: HomeProps) => {
     const [inputValue, setInputValue] = useState('')
 
     const firstTestWordSlice = testWords.slice(0, 10)
@@ -61,6 +68,7 @@ const Home = ({ staticTestWords }: HomeProps) => {
                     )
                 })}
             </div>
+
             <form
                 onSubmit={(e) => {
                     e.preventDefault
