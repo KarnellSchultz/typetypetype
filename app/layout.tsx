@@ -1,6 +1,5 @@
 
 import '../styles/globals.css'
-import 'tailwindcss/tailwind.css'
 
 
 export const metadata = {
