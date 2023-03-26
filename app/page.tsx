@@ -1,4 +1,5 @@
 'use client'
+export const runtime = 'experimental-edge';
 
 import { useWordList } from 'components/hooks'
 import React, { useState } from 'react'
