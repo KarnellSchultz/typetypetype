@@ -7,10 +7,6 @@ import { TestWordType } from 'wordData'
 import useSWR from 'swr'
 
 import { useCountdown } from 'components/hooks'
-import { useTimer } from 'react-timer-hook';
-
-
-
 
 type Props = {
     games: {
@@ -38,8 +34,7 @@ export const TypingGame = ({ games }: Props) => {
 
     const user = useUser()
 
-    // const [seconds, reset] = useCountdown(30)
-    const { seconds } = useTimer({ expiryTimestamp: new Date(new Date().getDate() + 30 * 1000), onExpire: () => console.warn('onExpire called') });
+    const { timeLeft, reset } = useCountdown(30)
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -61,7 +56,7 @@ export const TypingGame = ({ games }: Props) => {
     return (
         <div>
 
-            <div>{seconds}</div>
+            <div>{timeLeft}</div>
             <div className="flex">
                 {firstWordSlice.map((testWord) => {
                     const isCurrentWord = testWord.word === currentWord.word
@@ -115,7 +110,9 @@ export const TypingGame = ({ games }: Props) => {
                 </div>
 
                 <div className="flex items-center justify-between">
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                    <button onClick={() => {
+                        reset(30)
+                    }} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
                         Start
                     </button>
                 </div>
@@ -155,17 +152,20 @@ const UsersTopGames = () => {
             {data && data.games &&
                 data.games.map((game) => {
                     return (
-                        <div key={game.id}>
+
+                        <div className='p-2 mt-2 bg-lime-100 rounded-md' key={game.id}>
                             <div>id:{game.id}</div>
                             <div>score:{game.score}
                                 <div>time:{game.time}</div>
                                 <div>userId:{game.userId}</div>
                             </div>
+                        </div>
 
-                        </div>)
+                    )
+
                 })
             }
 
-        </div>
+        </div >
     )
 }

@@ -83,5 +83,5 @@ export const useCountdown = (seconds: number) => {
     setTimeLeft(seconds);
   };
 
-  return [timeLeft, reset];
+  return { timeLeft, reset }
 }
