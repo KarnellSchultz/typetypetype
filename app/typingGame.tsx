@@ -150,7 +150,7 @@ const UsersTopGames = () => {
             {error && <div>Error</div>}
 
             {data && data.games &&
-                data.games.map((game) => {
+                data.games.map((game: any) => {
                     return (
 
                         <div className='p-2 mt-2 bg-lime-100 rounded-md' key={game.id}>
