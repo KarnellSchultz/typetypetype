@@ -4,19 +4,16 @@ export const config = {
 }
 
 import { SignIn } from './signIn'
-import { UserButton } from "@clerk/clerk-react";
 import { TypingGame } from './typingGame';
 
 const Home = () => {
-
     return (
         <div className=''>
+            <TypingGame />
             <section>
                 <div>account:</div>
                 <SignIn />
-                {/* <UserButton /> */}
             </section>
-            <TypingGame />
         </div>
     )
 }

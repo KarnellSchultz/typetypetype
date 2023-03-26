@@ -8,7 +8,7 @@ export const SignIn = () => {
 
     if (!isLoaded || !isSignedIn) {
         return (
-            <Link href={'/sing-in'}  >
+            <Link href={'/sign-in'}  >
                 <button className="p-2 bg-blue-400 rounded-md" type="button">
                     sign in
                 </button>
