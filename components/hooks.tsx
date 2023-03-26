@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { TestWordType, WordListData } from "wordData";
 
 export function useKeyPress(targetKey: string): boolean {
@@ -58,4 +58,30 @@ export const useWordList = (count = MAX_TEST_WORDS) => {
   }, [])
 
   return list
+}
+
+
+export const useCountdown = (seconds: number) => {
+  const [timeLeft, setTimeLeft] = useState(seconds);
+  const intervalRef = useRef<any>();
+
+  useEffect(() => {
+    intervalRef.current = setInterval(() => {
+      setTimeLeft((t) => t - 1);
+    }, 1000);
+    return () => clearInterval(intervalRef.current);
+  }, []);
+
+  useEffect(() => {
+    if (timeLeft <= 0) {
+      clearInterval(intervalRef.current);
+    }
+  }, [timeLeft]);
+
+
+  const reset = (seconds: number) => {
+    setTimeLeft(seconds);
+  };
+
+  return [timeLeft, reset];
 }

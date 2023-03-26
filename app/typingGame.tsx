@@ -4,8 +4,23 @@ import { useWordList } from 'components/hooks'
 import React, { useState } from 'react'
 import { TestWordType } from 'wordData'
 
+import useSWR from 'swr'
 
-export const TypingGame = () => {
+import { useCountdown } from 'components/hooks'
+import { useTimer } from 'react-timer-hook';
+
+
+
+
+type Props = {
+    games: {
+        id: string,
+        score: number,
+        time: number,
+        userId: string
+    }[]
+}
+export const TypingGame = ({ games }: Props) => {
     const wordList = useWordList()
 
     const [inputValue, setInputValue] = useState('')
@@ -23,6 +38,8 @@ export const TypingGame = () => {
 
     const user = useUser()
 
+    // const [seconds, reset] = useCountdown(30)
+    const { seconds } = useTimer({ expiryTimestamp: new Date(new Date().getDate() + 30 * 1000), onExpire: () => console.warn('onExpire called') });
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -44,6 +61,7 @@ export const TypingGame = () => {
     return (
         <div>
 
+            <div>{seconds}</div>
             <div className="flex">
                 {firstWordSlice.map((testWord) => {
                     const isCurrentWord = testWord.word === currentWord.word
@@ -103,7 +121,51 @@ export const TypingGame = () => {
                 </div>
             </form>
 
+
+            <UsersTopGames />
+
+            {/* {
+                games.map((game) => {
+                    return (
+                        <div key={game.id}>
+                            <div>id:{game.id}</div>
+                            <div>score:{game.score}</div>
+                            <div>time:{game.time}</div>
+                            <div>userId:{game.userId}</div>
+                        </div>)
+                })
+            } */}
         </div>
     )
+}
 
+
+const getGames = (url: string) => fetch(url).then(res => res.json())
+
+const UsersTopGames = () => {
+    const { user } = useUser()
+    const { data, error, isLoading } = useSWR(`/api/game/${user?.id}`, getGames)
+
+    return (
+        <div>
+            <div className='text-xl text-cyan-600'>Leaderboard</div>
+            {isLoading && <div>Loading...</div>}
+            {error && <div>Error</div>}
+
+            {data && data.games &&
+                data.games.map((game) => {
+                    return (
+                        <div key={game.id}>
+                            <div>id:{game.id}</div>
+                            <div>score:{game.score}
+                                <div>time:{game.time}</div>
+                                <div>userId:{game.userId}</div>
+                            </div>
+
+                        </div>)
+                })
+            }
+
+        </div>
+    )
 }

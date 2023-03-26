@@ -7,7 +7,6 @@ export async function GET(request: NextRequest) {
 
   try {
     const games = await prisma.game.findMany()
-    console.log('Request method', games);
     return NextResponse.json({ games })
   } catch (e) {
     console.error('Request error', e)
@@ -17,10 +16,8 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const res = await request.json();
-  console.log('Request method', res);
-
   try {
-    const game = await prisma.game.create({
+    await prisma.game.create({
       data: {
         ...res
       }
