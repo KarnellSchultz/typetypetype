@@ -3,6 +3,9 @@
 import { useWordList } from 'components/hooks'
 import React, { useState } from 'react'
 import { TestWordType } from 'wordData'
+import { SignIn } from './signIn'
+import { UserButton } from "@clerk/clerk-react";
+
 
 
 // type HomeProps = { testWords: TestWordType }
@@ -42,6 +45,11 @@ const Home = () => {
 
     return (
         <div className=''>
+            <section>
+                <div>account:</div>
+                <SignIn />
+                <UserButton />
+            </section>
             <div className="flex">
                 {firstWordSlice.map((testWord) => {
                     const isCurrentWord = testWord.word === currentWord.word
@@ -69,6 +77,8 @@ const Home = () => {
                 <div>correct:{correctList.length}</div>
                 <div>incorrect:{incorrectList.length}</div>
             </div>
+
+
 
             <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <div className="mb-4">
