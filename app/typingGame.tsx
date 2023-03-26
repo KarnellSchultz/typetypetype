@@ -1,4 +1,5 @@
 'use client'
+import { useUser } from '@clerk/nextjs'
 import { useWordList } from 'components/hooks'
 import React, { useState } from 'react'
 import { TestWordType } from 'wordData'
@@ -18,6 +19,9 @@ export const TypingGame = () => {
     const secondWordSlice = wordList.slice(sliceStep, sliceStep + initSliceStep)
 
     const currentWord = wordList[currentWordIndex]
+
+
+    const user = useUser()
 
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -67,6 +71,18 @@ export const TypingGame = () => {
                 <div>correct:{correctList.length}</div>
                 <div>incorrect:{incorrectList.length}</div>
             </div>
+
+            <button type="button"
+                onClick={() => {
+                    const res = fetch('/api/game', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ userId: user.user?.id, score: 10, time: 60, })
+                    })
+                }}
+            >Click</button>
 
 
             <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">

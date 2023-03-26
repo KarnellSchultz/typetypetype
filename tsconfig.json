@@ -35,7 +35,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-, "app/games/route.ts", "lib/prisma.js"  ],
+, "app/api/game/route.ts", "lib/prisma.js"  ],
   "exclude": [
     "node_modules"
   ]
