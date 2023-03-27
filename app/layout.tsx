@@ -10,7 +10,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <ClerkProvider>
-                <body>{children}</body>
+                <body className="px-10" >{children}</body>
             </ClerkProvider>
         </html>
     );

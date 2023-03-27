@@ -26,15 +26,22 @@ export const TypingGame = ({ games }: Props) => {
     const initSliceStep = 10
     const [sliceStep, setSliceStep] = useState(initSliceStep)
 
+    const [selectedDuration, setSelectedDuration] = useState(30)
+    const durationClickHandler = (duration: number) => {
+        setSelectedDuration(duration)
+    }
     const firstWordSlice = wordList.slice(sliceStep - initSliceStep, sliceStep)
     const secondWordSlice = wordList.slice(sliceStep, sliceStep + initSliceStep)
 
     const currentWord = wordList[currentWordIndex]
 
-
     const user = useUser()
+    const { timeLeft, reset } = useCountdown(selectedDuration)
 
-    const { timeLeft, reset } = useCountdown(30)
+    const handleResetClick = () => {
+        reset(selectedDuration)
+        setCurrectWordIndex(0)
+    }
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -53,32 +60,59 @@ export const TypingGame = ({ games }: Props) => {
         setInputValue("")
     }
 
-    return (
-        <div>
+    const handleInputChange = (e: React.FocusEvent<HTMLInputElement>) => {
+        setInputValue(e.currentTarget.value)
+    }
 
-            <div>{timeLeft}</div>
-            <div className="flex">
-                {firstWordSlice.map((testWord) => {
-                    const isCurrentWord = testWord.word === currentWord.word
-                    return (
-                        <span
-                            key={testWord.id}
-                            aria-label={`${testWord.word}-${testWord.id}`}
-                            className={`p-1 ${isCurrentWord && "bg-slate-300"}`} >
-                            {testWord.word}
-                        </span>
-                    )
-                })}
-            </div>
-            <div className="flex">
-                {secondWordSlice.map((testWord) => {
-                    return (
-                        <span className="p-1" key={testWord.id}>
-                            {testWord.word}
-                        </span>
-                    )
-                })}
-            </div>
+    return (
+        <div className='' >
+            <section>
+                <h1 className='text-2xl flex justify-center py-8'>type
+                    <span className='text-purple-600'>
+                        type
+                    </span>
+                    type</h1>
+            </section>
+            <section className='py-8 flex justify-evenly'>
+                <button className='bg-gray-200 px-2  py-1 rounded-sm'>
+                    Test
+                </button>
+                <button className='bg-gray-200 px-2  py-1 rounded-sm'>
+                    About
+                </button>
+                <button className='bg-gray-200 px-2  py-1 rounded-sm'>
+                    Profile
+                </button>
+            </section>
+
+            <section className='bg-red-50 '>
+                <div>
+                    <div className="flex">
+                        {firstWordSlice.map((testWord) => {
+                            const isCurrentWord = testWord.word === currentWord.word
+                            return (
+                                <span
+                                    key={testWord.id}
+                                    aria-label={`${testWord.word}-${testWord.id}`}
+                                    className={`p-1 ${isCurrentWord && "bg-slate-300"}`} >
+                                    {testWord.word}
+                                </span>
+                            )
+                        })}
+                    </div>
+                    <div className="flex flex-wrap">
+                        {secondWordSlice.map((testWord) => {
+                            return (
+                                <span className="p-1" key={testWord.id}>
+                                    {testWord.word}
+                                </span>
+                            )
+                        })}
+                    </div>
+                </div>
+
+            </section>
+
 
             <div>
                 <div>correct:{correctList.length}</div>
@@ -97,42 +131,52 @@ export const TypingGame = ({ games }: Props) => {
                 }}
             >Click</button>
 
+            <div>{timeLeft}</div>
+
 
             <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="test-input">
-                        test-input
-                    </label>
                     <input
                         value={inputValue}
-                        onChange={(e) => setInputValue(e.currentTarget.value)}
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="test-input" type="text" placeholder="Username" />
+                        onChange={handleInputChange}
+                        autoComplete='off'
+                        type="text"
+                        spellCheck='false'
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="test-input" type="text" />
                 </div>
 
                 <div className="flex items-center justify-between">
-                    <button onClick={() => {
-                        reset(30)
-                    }} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
-                        Start
+                    <button onClick={handleResetClick
+                    } className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                        Reset
                     </button>
                 </div>
             </form>
 
-
+            <h3 className='text-xl flex justify-center py-4' >Options</h3>
+            <TestDuration selectedDuration={selectedDuration} durationClickHandler={durationClickHandler} />
             <UsersTopGames />
-
-            {/* {
-                games.map((game) => {
-                    return (
-                        <div key={game.id}>
-                            <div>id:{game.id}</div>
-                            <div>score:{game.score}</div>
-                            <div>time:{game.time}</div>
-                            <div>userId:{game.userId}</div>
-                        </div>)
-                })
-            } */}
         </div>
+    )
+}
+
+type TestDurationProps = { selectedDuration: number, durationClickHandler: (duration: number) => void }
+const TestDuration = ({ selectedDuration, durationClickHandler }: TestDurationProps) => {
+    const durationsArr = [10, 30, 60]
+    return (
+        <div className="flex justify-center gap-2">
+            {
+                durationsArr.map((duration) => {
+                    const selected = duration === selectedDuration
+                    return (
+                        <button key={duration} onClick={() => durationClickHandler(duration)} className={`rounded-full bg-gray-200 p-2
+                          ${selected && "bg-slate-500 text-white"} `}
+                            type='button' > {duration}</button>
+                    )
+                })
+            }
+
+        </div >
     )
 }
 

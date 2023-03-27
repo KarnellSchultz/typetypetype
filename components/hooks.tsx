@@ -70,7 +70,7 @@ export const useCountdown = (seconds: number) => {
       setTimeLeft((t) => t - 1);
     }, 1000);
     return () => clearInterval(intervalRef.current);
-  }, []);
+  }, [timeLeft]);
 
   useEffect(() => {
     if (timeLeft <= 0) {
