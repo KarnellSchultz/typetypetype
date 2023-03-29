@@ -39,7 +39,7 @@
     "lib/prisma.js",
     "app/api/games/[userId]",
     "app/api/leaderboard/",
-    "app/api/leaderboard/[userId]",
+    "app/api/leaderboard/[userId]", "app/providers.js", "app/providers.js",
   ],
   "exclude": [
     "node_modules"

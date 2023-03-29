@@ -6,8 +6,10 @@ import React, { useState } from 'react'
 import { TestWordType } from 'wordData'
 import { useCountdown } from 'components/hooks'
 import Link from 'next/link'
-import { Leaderboard, UsersLeaderboard } from './leaderboard'
+import { Leaderboard } from './leaderboard'
 import { TestDuration } from './testDuration'
+import { SLICE_STEP, useGameState } from './store'
+
 
 type Props = {
     games: {
@@ -17,18 +19,22 @@ type Props = {
         userId: string
     }[]
 }
+
 export const TypingGame = ({ games }: Props) => {
     const wordList = useWordList()
 
-    const [inputValue, setInputValue] = useState('')
-    const [currentWordIndex, setCurrectWordIndex] = useState(0)
-    const [correctList, setCorrectList] = useState<TestWordType[]>([])
-    const [incorrectList, setIncorrectList] = useState<TestWordType[]>([])
-    const initSliceStep = 20
-    const [sliceStep, setSliceStep] = useState(initSliceStep)
-    const [selectedDuration, setSelectedDuration] = useState(30)
+    const [inputValue, setInputValue] = useGameState(({ inputValue, setInputValue }) => [inputValue, setInputValue])
+    const [currentWordIndex, incrementCurrentWordIndex, resetCurrentWordIndex] = useGameState(({ currentWordIndex, incrementCurrentWordIndex, resetCurrentWordIndex }) =>
+        [currentWordIndex, incrementCurrentWordIndex, resetCurrentWordIndex])
+    const [correctList, setCorrectList] = useGameState(({ correctList, setCorrectList }) =>
+        ([correctList, setCorrectList]))
+    const [incorrectList, setIncorrectList] = useGameState(({ incorrectList, setIncorrectList }) =>
+        ([incorrectList, setIncorrectList]))
 
-    const wordSlice = wordList.slice(sliceStep - initSliceStep, sliceStep)
+    const [sliceStep, incrementSlice] = useGameState(({ sliceStep, incrementSlice }) => [sliceStep, incrementSlice])
+    const [selectedDuration, setSelectedDuration] = useGameState(({ selectedDuration, setSelectedDuration }) => [selectedDuration, setSelectedDuration])
+
+    const wordSlice = wordList.slice(sliceStep - SLICE_STEP, sliceStep)
 
     const currentWord = wordList[currentWordIndex]
 
@@ -38,7 +44,7 @@ export const TypingGame = ({ games }: Props) => {
 
     // https://support.sunburst.com/hc/en-us/articles/229335208-Type-to-Learn-How-are-Words-Per-Minute-and-Accuracy-Calculated-#:~:text=Calculating%20Words%20per%20Minute%20(WPM)&text=Therefore%2C%20the%20number%20of%20words,elapsed%20time%20(in%20minutes).
     const getWordsPerMinute = () => {
-        const totalWords = correctList.length + incorrectList.length
+        const totalWords = correctList.size + incorrectList.size
         const elapsedInMinutes = (selectedDuration - seconds) / 60 !== 0 ? (selectedDuration - seconds) / 60 : 1
         const wpm = totalWords / elapsedInMinutes
         return Math.round(wpm)
@@ -46,13 +52,9 @@ export const TypingGame = ({ games }: Props) => {
     const wpm = getWordsPerMinute()
 
     // Handlers
-    const handleResetClick = () => {
-        reset(selectedDuration)
-        setCurrectWordIndex(0)
-    }
     const handleStartClick = () => {
         startAndStop()
-        setCurrectWordIndex(0)
+        resetCurrentWordIndex()
     }
 
     const durationClickHandler = (duration: number) => {
@@ -62,18 +64,18 @@ export const TypingGame = ({ games }: Props) => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        setCurrectWordIndex(p => p += 1)
+        incrementCurrentWordIndex()
         const isLastofSlice = currentWordIndex + 1 === sliceStep
 
-        if (isLastofSlice) setSliceStep(p => p += initSliceStep)
+        if (isLastofSlice) incrementSlice()
 
         if (inputValue.toLocaleLowerCase().trim() !== currentWord.word) {
-            setIncorrectList(p => [...p, currentWord])
+            setIncorrectList(currentWord)
             setInputValue("")
             return
         }
 
-        setCorrectList(p => [...p, currentWord])
+        setCorrectList(currentWord)
         setInputValue("")
     }
 
@@ -119,8 +121,8 @@ export const TypingGame = ({ games }: Props) => {
                 <div className='flex flex-wrap text-center'>
                     {wordSlice.map((testWord) => {
                         const isCurrentWord = testWord.word === currentWord.word
-                        const isCorrect = correctList.find((word) => word.word === testWord.word)
-                        const isIncorrect = incorrectList.find((word) => word.word === testWord.word)
+                        const isCorrect = correctList.has(testWord.id)
+                        const isIncorrect = incorrectList.has(testWord.id)
                         return (
                             <span
                                 key={testWord.id}
