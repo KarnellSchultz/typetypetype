@@ -6,7 +6,7 @@ const AboutPage = () => {
                 Typetypetype is a typing game that helps you learn new words.
             </p>
             <p className="text-xl">
-                It's built with Next.js, Tailwind CSS, and Clerk.
+                woot
             </p>
         </div>
     );

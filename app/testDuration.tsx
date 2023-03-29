@@ -1,8 +1,8 @@
-import { GameDurations } from "./store"
+import { GameDurations, TGameDuration } from "./store"
 
+type Props = { selectedDuration: TGameDuration, durationClickHandler: (duration: TGameDuration) => void }
 
-type TestDurationProps = { selectedDuration: number, durationClickHandler: (duration: number) => void }
-export const TestDuration = ({ selectedDuration, durationClickHandler }: TestDurationProps) => {
+export const TestDuration = ({ selectedDuration, durationClickHandler }: Props) => {
     const gameDurationsArray = Object.values(GameDurations)
     return (
         <div className="flex justify-center gap-2">

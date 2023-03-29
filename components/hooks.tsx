@@ -1,5 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useTypeStore } from "app/store";
+import { useEffect, useState } from "react";
 import { TestWordType, WordListData } from "wordData";
+
 
 export function useKeyPress(targetKey: string): boolean {
   // State for keeping track of whether key is pressed
@@ -62,33 +64,42 @@ export const useWordList = (count = MAX_TEST_WORDS) => {
 
 
 export const useCountdown = (initSeconds: number) => {
-  const [time, setTime] = useState(initSeconds);
+  const [seconds, setSeconds] = useTypeStore(({ seconds, setSeconds }) => [seconds, setSeconds]);
   // state to check stopwatch running or not
   const [isRunning, setIsRunning] = useState(false);
   useEffect(() => {
     let intervalId: any;
     if (isRunning) {
-      intervalId = setInterval(() => setTime(time - 1), 1000);
+      intervalId = setInterval(() => setSeconds(seconds - 1), 1000);
     }
     return () => clearInterval(intervalId);
-  }, [isRunning, time]);
+  }, [isRunning, seconds]);
 
   useEffect(() => {
-    if (time <= 0) {
+    if (seconds <= 0) {
       setIsRunning(false);
     }
-  }, [time, isRunning]);
-
-  const seconds = Math.floor(time % 6000);
+  }, [seconds, isRunning]);
 
   const startAndStop = () => {
     setIsRunning(!isRunning);
   };
 
   const reset = (initSeconds: number) => {
-    setTime(initSeconds);
+    setSeconds(initSeconds);
     setIsRunning(false);
   };
 
   return { seconds, startAndStop, isRunning, reset }
+}
+
+// https://support.sunburst.com/hc/en-us/articles/229335208-Type-to-Learn-How-are-Words-Per-Minute-and-Accuracy-Calculated-#:~:text=Calculating%20Words%20per%20Minute%20(WPM)&text=Therefore%2C%20the%20number%20of%20words,elapsed%20time%20(in%20minutes).
+export const useWPM = () => {
+  const { correctList, incorrectList, selectedDuration, seconds } =
+    useTypeStore(({ correctList, incorrectList, selectedDuration, seconds }) =>
+      ({ correctList, incorrectList, selectedDuration, seconds }))
+  const totalWords = correctList.size + incorrectList.size
+  const elapsedInMinutes = (selectedDuration - seconds) / 60 !== 0 ? (selectedDuration - seconds) / 60 : 1
+  const wpm = totalWords / elapsedInMinutes
+  return Math.round(wpm)
 }

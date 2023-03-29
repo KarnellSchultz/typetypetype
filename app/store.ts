@@ -11,15 +11,15 @@ export const GameDurations = {
 
 export type TGameDuration = typeof GameDurations[keyof typeof GameDurations]
 
-const GameStates = {
+const GameStatus = {
     INIT: "INIT",
     PLAYING: 'PLAYING',
     GAMEOVER: 'GAMEOVER',
 } as const
 
-export type TGameStatus = typeof GameStates[keyof typeof GameStates]
+export type TGameStatus = typeof GameStatus[keyof typeof GameStatus]
 
-export type TGameState = {
+export type TTypeStore = {
     inputValue: string
     setInputValue: (value: string) => void
     currentWordIndex: number
@@ -32,12 +32,16 @@ export type TGameState = {
 
     sliceStep: number,
     incrementSlice: () => void
-    selectedDuration: number,
+    selectedDuration: TGameDuration,
     setSelectedDuration: (value: TGameDuration) => void
     gameStatus: TGameStatus,
     setGameStatus: (value: TGameStatus) => void
+
+    seconds: number
+    setSeconds: (value: number) => void
 }
-export const useGameState = create<TGameState>((set) => ({
+
+export const useTypeStore = create<TTypeStore>((set) => ({
     inputValue: '',
     setInputValue: (value: string) => set({ inputValue: value }),
 
@@ -54,6 +58,10 @@ export const useGameState = create<TGameState>((set) => ({
     incrementSlice: () => set((state) => ({ sliceStep: state.sliceStep + SLICE_STEP })),
     selectedDuration: GameDurations.FIFTEEN,
     setSelectedDuration: (value) => set({ selectedDuration: value }),
-    gameStatus: GameStates.INIT,
+
+    gameStatus: GameStatus.INIT,
     setGameStatus: (value) => set({ gameStatus: value }),
+
+    seconds: GameDurations.FIFTEEN,
+    setSeconds: (value) => set({ seconds: value }),
 }))

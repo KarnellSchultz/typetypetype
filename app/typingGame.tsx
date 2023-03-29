@@ -1,14 +1,14 @@
 'use client'
 
 import { useUser } from '@clerk/nextjs'
-import { useWordList } from 'components/hooks'
-import React, { useState } from 'react'
-import { TestWordType } from 'wordData'
+import { useWPM, useWordList } from 'components/hooks'
 import { useCountdown } from 'components/hooks'
 import Link from 'next/link'
 import { Leaderboard } from './leaderboard'
 import { TestDuration } from './testDuration'
-import { SLICE_STEP, useGameState } from './store'
+import { SLICE_STEP, TGameDuration, useTypeStore } from './store'
+import { useEffect } from 'react'
+import { Api } from './api/services'
 
 
 type Props = {
@@ -23,16 +23,18 @@ type Props = {
 export const TypingGame = ({ games }: Props) => {
     const wordList = useWordList()
 
-    const [inputValue, setInputValue] = useGameState(({ inputValue, setInputValue }) => [inputValue, setInputValue])
-    const [currentWordIndex, incrementCurrentWordIndex, resetCurrentWordIndex] = useGameState(({ currentWordIndex, incrementCurrentWordIndex, resetCurrentWordIndex }) =>
+    const [inputValue, setInputValue] = useTypeStore(({ inputValue, setInputValue }) => [inputValue, setInputValue])
+    const [currentWordIndex, incrementCurrentWordIndex, resetCurrentWordIndex] = useTypeStore(({ currentWordIndex, incrementCurrentWordIndex, resetCurrentWordIndex }) =>
         [currentWordIndex, incrementCurrentWordIndex, resetCurrentWordIndex])
-    const [correctList, setCorrectList] = useGameState(({ correctList, setCorrectList }) =>
+    const [correctList, setCorrectList] = useTypeStore(({ correctList, setCorrectList }) =>
         ([correctList, setCorrectList]))
-    const [incorrectList, setIncorrectList] = useGameState(({ incorrectList, setIncorrectList }) =>
+    const [incorrectList, setIncorrectList] = useTypeStore(({ incorrectList, setIncorrectList }) =>
         ([incorrectList, setIncorrectList]))
-
-    const [sliceStep, incrementSlice] = useGameState(({ sliceStep, incrementSlice }) => [sliceStep, incrementSlice])
-    const [selectedDuration, setSelectedDuration] = useGameState(({ selectedDuration, setSelectedDuration }) => [selectedDuration, setSelectedDuration])
+    const [sliceStep, incrementSlice] = useTypeStore(({ sliceStep, incrementSlice }) => [sliceStep, incrementSlice])
+    const [selectedDuration, setSelectedDuration] = useTypeStore(({ selectedDuration, setSelectedDuration }) => {
+        return [selectedDuration, setSelectedDuration]
+    })
+    const [gameStatus, setGameStatus] = useTypeStore(({ gameStatus, setGameStatus }) => [gameStatus, setGameStatus])
 
     const wordSlice = wordList.slice(sliceStep - SLICE_STEP, sliceStep)
 
@@ -42,22 +44,30 @@ export const TypingGame = ({ games }: Props) => {
 
     const { seconds, isRunning, startAndStop, reset } = useCountdown(selectedDuration)
 
-    // https://support.sunburst.com/hc/en-us/articles/229335208-Type-to-Learn-How-are-Words-Per-Minute-and-Accuracy-Calculated-#:~:text=Calculating%20Words%20per%20Minute%20(WPM)&text=Therefore%2C%20the%20number%20of%20words,elapsed%20time%20(in%20minutes).
-    const getWordsPerMinute = () => {
-        const totalWords = correctList.size + incorrectList.size
-        const elapsedInMinutes = (selectedDuration - seconds) / 60 !== 0 ? (selectedDuration - seconds) / 60 : 1
-        const wpm = totalWords / elapsedInMinutes
-        return Math.round(wpm)
-    }
-    const wpm = getWordsPerMinute()
+    const wpm = useWPM()
 
     // Handlers
     const handleStartClick = () => {
         startAndStop()
         resetCurrentWordIndex()
+        setGameStatus("PLAYING")
     }
 
-    const durationClickHandler = (duration: number) => {
+    useEffect(() => {
+        if (seconds <= 0) {
+            setGameStatus("GAMEOVER")
+            console.log("game over");
+            const res = fetch(Api.Routes.games, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ userId: user.user?.id, score: wpm, time: selectedDuration, })
+            })
+        }
+    }, [seconds, selectedDuration, wpm, user.user?.id])
+
+    const durationClickHandler = (duration: TGameDuration) => {
         reset(duration)
         setSelectedDuration(duration)
     }

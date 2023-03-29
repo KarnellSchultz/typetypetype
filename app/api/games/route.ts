@@ -20,14 +20,14 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const res = await request.json();
   try {
+    const res = await request.json();
     await prisma.game.create({
       data: {
         ...res
       }
     })
-    return
+    return NextResponse.json({ message: 'Game created' })
   } catch (e) {
     console.error('Request error', e)
     return NextResponse.json({ error: 'Error fetching posts' })

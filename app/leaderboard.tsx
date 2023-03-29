@@ -6,9 +6,9 @@ export const getGames = (url: string) => fetch(url).then(res => res.json())
 
 export const UsersLeaderboard = () => {
     const { user } = useUser()
-    if (!user) return null
+    const { data, error, isLoading } = useSWR(Api.Routes.gamesId(user?.id ?? ""), getGames)
 
-    const { data, error, isLoading } = useSWR(Api.Routes.gamesId(user?.id), getGames)
+    if (!user) return null
 
     return (
         <div>
