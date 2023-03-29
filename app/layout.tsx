@@ -10,7 +10,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <ClerkProvider>
-                <body className="px-10" >{children}</body>
+                <body className="w-4/5 mx-auto max-w-xl" >{children}</body>
             </ClerkProvider>
         </html>
     );

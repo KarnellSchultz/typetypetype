@@ -1,12 +1,14 @@
 'use client'
+
 import { useUser } from '@clerk/nextjs'
 import { useWordList } from 'components/hooks'
 import React, { useState } from 'react'
 import { TestWordType } from 'wordData'
-
 import useSWR from 'swr'
-
 import { useCountdown } from 'components/hooks'
+import Link from 'next/link'
+
+// import Balancer from 'react-wrap-balancer'
 
 type Props = {
     games: {
@@ -23,24 +25,41 @@ export const TypingGame = ({ games }: Props) => {
     const [currentWordIndex, setCurrectWordIndex] = useState(0)
     const [correctList, setCorrectList] = useState<TestWordType[]>([])
     const [incorrectList, setIncorrectList] = useState<TestWordType[]>([])
-    const initSliceStep = 10
+    const initSliceStep = 20
     const [sliceStep, setSliceStep] = useState(initSliceStep)
 
     const [selectedDuration, setSelectedDuration] = useState(30)
-    const durationClickHandler = (duration: number) => {
-        setSelectedDuration(duration)
-    }
-    const firstWordSlice = wordList.slice(sliceStep - initSliceStep, sliceStep)
-    const secondWordSlice = wordList.slice(sliceStep, sliceStep + initSliceStep)
+
+    const wordSlice = wordList.slice(sliceStep - initSliceStep, sliceStep)
 
     const currentWord = wordList[currentWordIndex]
 
     const user = useUser()
-    const { timeLeft, reset } = useCountdown(selectedDuration)
 
+    const { seconds, isRunning, startAndStop, reset } = useCountdown(selectedDuration)
+
+    // https://support.sunburst.com/hc/en-us/articles/229335208-Type-to-Learn-How-are-Words-Per-Minute-and-Accuracy-Calculated-#:~:text=Calculating%20Words%20per%20Minute%20(WPM)&text=Therefore%2C%20the%20number%20of%20words,elapsed%20time%20(in%20minutes).
+    const getWordsPerMinute = () => {
+        const totalWords = correctList.length + incorrectList.length
+        const elapsedInMinutes = (selectedDuration - seconds) / 60 !== 0 ? (selectedDuration - seconds) / 60 : 1
+        const wpm = totalWords / elapsedInMinutes
+        return Math.round(wpm)
+    }
+    const wpm = getWordsPerMinute()
+
+    // Handlers
     const handleResetClick = () => {
         reset(selectedDuration)
         setCurrectWordIndex(0)
+    }
+    const handleStartClick = () => {
+        startAndStop()
+        setCurrectWordIndex(0)
+    }
+
+    const durationClickHandler = (duration: number) => {
+        reset(duration)
+        setSelectedDuration(duration)
     }
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -64,6 +83,8 @@ export const TypingGame = ({ games }: Props) => {
         setInputValue(e.currentTarget.value)
     }
 
+
+
     return (
         <div className='' >
             <section>
@@ -74,52 +95,60 @@ export const TypingGame = ({ games }: Props) => {
                     type</h1>
             </section>
             <section className='py-8 flex justify-evenly'>
-                <button className='bg-gray-200 px-2  py-1 rounded-sm'>
-                    Test
-                </button>
-                <button className='bg-gray-200 px-2  py-1 rounded-sm'>
-                    About
-                </button>
-                <button className='bg-gray-200 px-2  py-1 rounded-sm'>
-                    Profile
-                </button>
+                <Link href={"/"}>
+                    <button className='bg-gray-200 px-2  py-1 rounded-sm'>
+                        Test
+                    </button>
+                </Link>
+                <Link href={'/about'}>
+                    <button className='bg-gray-200 px-2  py-1 rounded-sm'>
+                        About
+                    </button>
+                </Link>
+
+                <Link href={"/profile"} >
+                    <button className='bg-gray-200 px-2  py-1 rounded-sm'>
+                        Profile
+                    </button>
+                </Link>
             </section>
 
-            <section className='bg-red-50 '>
-                <div>
-                    <div className="flex">
-                        {firstWordSlice.map((testWord) => {
-                            const isCurrentWord = testWord.word === currentWord.word
-                            return (
-                                <span
-                                    key={testWord.id}
-                                    aria-label={`${testWord.word}-${testWord.id}`}
-                                    className={`p-1 ${isCurrentWord && "bg-slate-300"}`} >
-                                    {testWord.word}
-                                </span>
-                            )
-                        })}
-                    </div>
-                    <div className="flex flex-wrap">
-                        {secondWordSlice.map((testWord) => {
-                            return (
-                                <span className="p-1" key={testWord.id}>
-                                    {testWord.word}
-                                </span>
-                            )
-                        })}
-                    </div>
+            <section className=' p-4 bg-gray-50'>
+                <div className='flex flex-wrap text-center'>
+                    {wordSlice.map((testWord) => {
+                        const isCurrentWord = testWord.word === currentWord.word
+                        const isCorrect = correctList.find((word) => word.word === testWord.word)
+                        const isIncorrect = incorrectList.find((word) => word.word === testWord.word)
+                        return (
+                            <span
+                                key={testWord.id}
+                                aria-label={`${testWord.word}-${testWord.id}`}
+                                className={`px-1 rounded-sm ${isCorrect && "text-lime-600"} ${isIncorrect && "text-red-600"}
+                                    ${isCurrentWord && "bg-gray-300 transition-[background] ease-in-out"}`} >
+                                {testWord.word}
+                            </span>
+                        )
+                    })}
                 </div>
-
             </section>
 
+            <form onSubmit={handleSubmit} className="px-8">
+                <div className="py-4">
+                    <input
+                        disabled={!isRunning}
+                        value={inputValue}
+                        onChange={handleInputChange}
+                        autoComplete='off'
+                        type="text"
+                        spellCheck='false'
+                        className={`shadow appearance-none border rounded w-full py-2 px-3
+                         leading-tight focus:outline-none focus:shadow-outline ${!isRunning && "cursor-not-allowed"}`} id="test-input" />
+                </div>
+                <div className="flex items-center justify-between">
+                </div>
+            </form>
 
-            <div>
-                <div>correct:{correctList.length}</div>
-                <div>incorrect:{incorrectList.length}</div>
-            </div>
-
-            <button type="button"
+            <button type="button" className='bg-gray-200 px-2  py-1 rounded-sm'
                 onClick={() => {
                     const res = fetch('/api/game', {
                         method: 'POST',
@@ -130,31 +159,21 @@ export const TypingGame = ({ games }: Props) => {
                     })
                 }}
             >Click</button>
-
-            <div>{timeLeft}</div>
-
-
-            <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                <div className="mb-4">
-                    <input
-                        value={inputValue}
-                        onChange={handleInputChange}
-                        autoComplete='off'
-                        type="text"
-                        spellCheck='false'
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="test-input" type="text" />
-                </div>
-
-                <div className="flex items-center justify-between">
-                    <button onClick={handleResetClick
-                    } className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
-                        Reset
+            <section>
+                <div className='flex justify-center gap-2'>
+                    <div className='p-2 px-4 bg-gray-200 rounded-sm' >{seconds}</div>
+                    <div className='p-2 px-4 bg-gray-200 rounded-sm' >{wpm}</div>
+                    <button onClick={handleStartClick}
+                        className="py-2 px-4 rounded-sm bg-gray-200 hover:bg-gray-400 " type="button">
+                        {isRunning ? "Stop" : "Start"}
                     </button>
                 </div>
-            </form>
+            </section>
 
-            <h3 className='text-xl flex justify-center py-4' >Options</h3>
-            <TestDuration selectedDuration={selectedDuration} durationClickHandler={durationClickHandler} />
+            <section>
+                <h3 className='text-xl flex justify-center py-4' >Options</h3>
+                <TestDuration selectedDuration={selectedDuration} durationClickHandler={durationClickHandler} />
+            </section>
             <UsersTopGames />
         </div>
     )
@@ -175,7 +194,6 @@ const TestDuration = ({ selectedDuration, durationClickHandler }: TestDurationPr
                     )
                 })
             }
-
         </div >
     )
 }
@@ -187,6 +205,8 @@ const UsersTopGames = () => {
     const { user } = useUser()
     const { data, error, isLoading } = useSWR(`/api/game/${user?.id}`, getGames)
 
+    if (!user) return null
+
     return (
         <div>
             <div className='text-xl text-cyan-600'>Leaderboard</div>
@@ -196,7 +216,6 @@ const UsersTopGames = () => {
             {data && data.games &&
                 data.games.map((game: any) => {
                     return (
-
                         <div className='p-2 mt-2 bg-lime-100 rounded-md' key={game.id}>
                             <div>id:{game.id}</div>
                             <div>score:{game.score}
@@ -206,10 +225,8 @@ const UsersTopGames = () => {
                         </div>
 
                     )
-
                 })
             }
-
         </div >
     )
 }

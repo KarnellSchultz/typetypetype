@@ -61,27 +61,34 @@ export const useWordList = (count = MAX_TEST_WORDS) => {
 }
 
 
-export const useCountdown = (seconds: number) => {
-  const [timeLeft, setTimeLeft] = useState(seconds);
-  const intervalRef = useRef<any>();
-
+export const useCountdown = (initSeconds: number) => {
+  const [time, setTime] = useState(initSeconds);
+  // state to check stopwatch running or not
+  const [isRunning, setIsRunning] = useState(false);
   useEffect(() => {
-    intervalRef.current = setInterval(() => {
-      setTimeLeft((t) => t - 1);
-    }, 1000);
-    return () => clearInterval(intervalRef.current);
-  }, [timeLeft]);
-
-  useEffect(() => {
-    if (timeLeft <= 0) {
-      clearInterval(intervalRef.current);
+    let intervalId: any;
+    if (isRunning) {
+      intervalId = setInterval(() => setTime(time - 1), 1000);
     }
-  }, [timeLeft]);
+    return () => clearInterval(intervalId);
+  }, [isRunning, time]);
 
+  useEffect(() => {
+    if (time <= 0) {
+      setIsRunning(false);
+    }
+  }, [time, isRunning]);
 
-  const reset = (seconds: number) => {
-    setTimeLeft(seconds);
+  const seconds = Math.floor(time % 6000);
+
+  const startAndStop = () => {
+    setIsRunning(!isRunning);
   };
 
-  return { timeLeft, reset }
+  const reset = (initSeconds: number) => {
+    setTime(initSeconds);
+    setIsRunning(false);
+  };
+
+  return { seconds, startAndStop, isRunning, reset }
 }
