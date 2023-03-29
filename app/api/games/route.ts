@@ -6,7 +6,12 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function GET(request: NextRequest) {
 
   try {
-    const games = await prisma.game.findMany()
+    const games = await prisma.game.findMany({
+      take: 10,
+      orderBy: {
+        score: 'desc',
+      },
+    })
     return NextResponse.json({ games })
   } catch (e) {
     console.error('Request error', e)

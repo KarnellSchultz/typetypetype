@@ -4,11 +4,10 @@ import { useUser } from '@clerk/nextjs'
 import { useWordList } from 'components/hooks'
 import React, { useState } from 'react'
 import { TestWordType } from 'wordData'
-import useSWR from 'swr'
 import { useCountdown } from 'components/hooks'
 import Link from 'next/link'
-
-// import Balancer from 'react-wrap-balancer'
+import { Leaderboard, UsersLeaderboard } from './leaderboard'
+import { TestDuration } from './testDuration'
 
 type Props = {
     games: {
@@ -27,7 +26,6 @@ export const TypingGame = ({ games }: Props) => {
     const [incorrectList, setIncorrectList] = useState<TestWordType[]>([])
     const initSliceStep = 20
     const [sliceStep, setSliceStep] = useState(initSliceStep)
-
     const [selectedDuration, setSelectedDuration] = useState(30)
 
     const wordSlice = wordList.slice(sliceStep - initSliceStep, sliceStep)
@@ -83,8 +81,6 @@ export const TypingGame = ({ games }: Props) => {
         setInputValue(e.currentTarget.value)
     }
 
-
-
     return (
         <div className='' >
             <section>
@@ -106,11 +102,17 @@ export const TypingGame = ({ games }: Props) => {
                     </button>
                 </Link>
 
-                <Link href={"/profile"} >
-                    <button className='bg-gray-200 px-2  py-1 rounded-sm'>
-                        Profile
-                    </button>
-                </Link>
+                {
+                    !user.isSignedIn ? <Link href={"/sign-in"} >
+                        <button className='bg-gray-200 px-2  py-1 rounded-sm'>
+                            Sign in
+                        </button>
+                    </Link> : <Link href={"/profile"} >
+                        <button className='bg-gray-200 px-2  py-1 rounded-sm'>
+                            Profile
+                        </button>
+                    </Link>
+                }
             </section>
 
             <section className=' p-4 bg-gray-50'>
@@ -150,12 +152,12 @@ export const TypingGame = ({ games }: Props) => {
 
             <button type="button" className='bg-gray-200 px-2  py-1 rounded-sm'
                 onClick={() => {
-                    const res = fetch('/api/game', {
+                    const res = fetch('/api/games', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({ userId: user.user?.id, score: 10, time: 60, })
+                        body: JSON.stringify({ userId: user.user?.id, score: 1, time: 10, })
                     })
                 }}
             >Click</button>
@@ -174,59 +176,7 @@ export const TypingGame = ({ games }: Props) => {
                 <h3 className='text-xl flex justify-center py-4' >Options</h3>
                 <TestDuration selectedDuration={selectedDuration} durationClickHandler={durationClickHandler} />
             </section>
-            <UsersTopGames />
+            <Leaderboard />
         </div>
-    )
-}
-
-type TestDurationProps = { selectedDuration: number, durationClickHandler: (duration: number) => void }
-const TestDuration = ({ selectedDuration, durationClickHandler }: TestDurationProps) => {
-    const durationsArr = [10, 30, 60]
-    return (
-        <div className="flex justify-center gap-2">
-            {
-                durationsArr.map((duration) => {
-                    const selected = duration === selectedDuration
-                    return (
-                        <button key={duration} onClick={() => durationClickHandler(duration)} className={`rounded-full bg-gray-200 p-2
-                          ${selected && "bg-slate-500 text-white"} `}
-                            type='button' > {duration}</button>
-                    )
-                })
-            }
-        </div >
-    )
-}
-
-
-const getGames = (url: string) => fetch(url).then(res => res.json())
-
-const UsersTopGames = () => {
-    const { user } = useUser()
-    const { data, error, isLoading } = useSWR(`/api/game/${user?.id}`, getGames)
-
-    if (!user) return null
-
-    return (
-        <div>
-            <div className='text-xl text-cyan-600'>Leaderboard</div>
-            {isLoading && <div>Loading...</div>}
-            {error && <div>Error</div>}
-
-            {data && data.games &&
-                data.games.map((game: any) => {
-                    return (
-                        <div className='p-2 mt-2 bg-lime-100 rounded-md' key={game.id}>
-                            <div>id:{game.id}</div>
-                            <div>score:{game.score}
-                                <div>time:{game.time}</div>
-                                <div>userId:{game.userId}</div>
-                            </div>
-                        </div>
-
-                    )
-                })
-            }
-        </div >
     )
 }

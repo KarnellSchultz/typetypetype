@@ -1,10 +1,7 @@
 'use client'
 
-export const config = {
-    runtime: 'edge',
-}
-
 import { UserButton } from "@clerk/clerk-react";
+import { UsersLeaderboard } from "app/leaderboard";
 
 const Page = () => {
     return (
@@ -14,7 +11,7 @@ const Page = () => {
                 <div>Profile:</div>
                 <UserButton />
             </section>
-
+            <UsersLeaderboard />
         </div>
     )
 }
