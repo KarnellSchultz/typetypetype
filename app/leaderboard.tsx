@@ -1,5 +1,5 @@
 'use client'
-import useSWR from 'swr'
+import useSWR, { Fetcher } from 'swr'
 import { useUser } from "@clerk/nextjs"
 import { Api, TGame } from 'lib/utils'
 
