@@ -11,10 +11,11 @@ generator client {
 model Game {
   id        String   @id @default(cuid())
   takenAt DateTime @default(now())
-  score     Int      @default(0)
-  time      Int      @default(0)
+  wpm     Int      @default(0)
+  duration      Int      @default(0)
   accuracy  Int      @default(0)
   userId    String
+  userName  String
 
   @@index([userId])
 }

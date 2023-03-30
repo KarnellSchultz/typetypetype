@@ -18,3 +18,13 @@ export const PageRoutes = {
 } as const
 
 export type TPageRoutes = typeof PageRoutes[keyof typeof PageRoutes]
+
+export type TGame = {
+    id: string
+    takenAt: string
+    wpm: number
+    duration: number
+    accuracy: number
+    userId: string
+    userName: string
+}

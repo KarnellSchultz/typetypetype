@@ -61,7 +61,11 @@ export const TypingGame = ({ games }: Props) => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ userId: user.user?.id, score: wpm, time: selectedDuration, })
+                body: JSON.stringify({
+                    userId: user.user?.id, wpm,
+                    duration: selectedDuration,
+                    userName: user.user?.username
+                })
             })
         }
     }, [seconds, selectedDuration, wpm, user.user?.id])
@@ -129,17 +133,6 @@ export const TypingGame = ({ games }: Props) => {
                 </div>
             </form>
 
-            <button type="button" className='bg-gray-200 px-2  py-1 rounded-sm'
-                onClick={() => {
-                    const res = fetch('/api/games', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ userId: user.user?.id, score: 1, time: 10, })
-                    })
-                }}
-            >Click</button>
             <section>
                 <div className='flex justify-center gap-2'>
                     <div className='p-2 px-4 bg-gray-200 rounded-sm' >{seconds}</div>
