@@ -1,6 +1,6 @@
 import useSWR from 'swr'
 import { useUser } from "@clerk/nextjs"
-import { Api } from 'app/api/services'
+import { Api } from 'lib/utils'
 
 export const getGames = (url: string) => fetch(url).then(res => res.json())
 

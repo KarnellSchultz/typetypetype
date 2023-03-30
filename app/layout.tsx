@@ -3,13 +3,14 @@ import '../styles/globals.css'
 import { ClerkProvider, currentUser } from "@clerk/nextjs/app-beta";
 import Link from "next/link";
 import { User } from "@clerk/nextjs/dist/api";
+import { PageRoutes } from "lib/utils";
 
+export const metadata = {
+    title: 'Home',
+    description: 'typetypetype is a typing game',
+};
 
-export default async function RootLayout({
-    children,
-}: {
-    children: React.ReactNode;
-}) {
+export default async function RootLayout({children,}: {children: React.ReactNode;}) {
     return (
         <ClerkProvider>
             <html lang="en">
@@ -25,10 +26,7 @@ export default async function RootLayout({
     );
 }
 
-export const metadata = {
-    title: 'Home',
-    description: 'typetypetype is a typing game',
-};
+
 
 
 const Heading = () => {
@@ -39,16 +37,7 @@ const Heading = () => {
     )
 }
 
-const PageRoutes = {
-    home: '/',
-    about: '/about',
-    signIn: '/sign-in',
-    signUp: '/sign-up',
-    profile: '/profile',
-    leaderboard: '/leaderboard',
-} as const
 
-type TPageRoutes = typeof PageRoutes[keyof typeof PageRoutes]
 
 const Navigation = async () => {
     const user: User | null = await currentUser()

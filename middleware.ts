@@ -1,9 +1,12 @@
 import { withClerkMiddleware, getAuth } from "@clerk/nextjs/server";
+import { PageRoutes, Api } from "lib/utils";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 // Set the paths that don't require the user to be signed in
-const publicPaths = ["/", "/sign-in*", "/sign-up*", "/about", "/api/games/**"];
+const publicPaths = [PageRoutes.home, `${PageRoutes.signIn}*`, `${PageRoutes.signUp}*`,
+PageRoutes.about, PageRoutes.leaderboard, `${Api.Routes.games}*`];
+
 
 const isPublic = (path: string) => {
   return publicPaths.find((x) =>

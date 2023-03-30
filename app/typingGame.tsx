@@ -3,12 +3,11 @@
 import { useUser } from '@clerk/nextjs'
 import { useWPM, useWordList } from 'components/hooks'
 import { useCountdown } from 'components/hooks'
-import Link from 'next/link'
 import { Leaderboard } from './leaderboard'
 import { TestDuration } from './testDuration'
 import { SLICE_STEP, TGameDuration, useTypeStore } from './store'
 import { useEffect } from 'react'
-import { Api } from './api/services'
+import { Api } from 'lib/utils'
 
 
 type Props = {

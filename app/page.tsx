@@ -1,5 +1,4 @@
 import prisma from 'lib/prisma';
-import { SignIn } from './signIn'
 import { TypingGame } from './typingGame';
 
 
@@ -13,9 +12,7 @@ const getGamesData = async () => {
 
 const Home = async () => {
     const [games] = await Promise.all([getGamesData()])
-    return (
-        <TypingGame games={games} />
-    )
+    return <TypingGame games={games} />
 }
 export default Home
 
