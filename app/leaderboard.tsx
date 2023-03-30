@@ -36,6 +36,7 @@ export const UsersLeaderboard = () => {
 
 export const Leaderboard = () => {
     const { data, error, isLoading } = useSWR(Api.Routes.games, getGames)
+
     if (!data) return null
 
     return (

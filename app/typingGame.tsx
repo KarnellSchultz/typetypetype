@@ -94,38 +94,8 @@ export const TypingGame = ({ games }: Props) => {
     }
 
     return (
-        <div className='' >
-            <section>
-                <h1 className='text-2xl flex justify-center py-8'>type
-                    <span className='text-purple-600'>
-                        type
-                    </span>
-                    type</h1>
-            </section>
-            <section className='py-8 flex justify-evenly'>
-                <Link href={"/"}>
-                    <button className='bg-gray-200 px-2  py-1 rounded-sm'>
-                        Test
-                    </button>
-                </Link>
-                <Link href={'/about'}>
-                    <button className='bg-gray-200 px-2  py-1 rounded-sm'>
-                        About
-                    </button>
-                </Link>
-
-                {
-                    !user.isSignedIn ? <Link href={"/sign-in"} >
-                        <button className='bg-gray-200 px-2  py-1 rounded-sm'>
-                            Sign in
-                        </button>
-                    </Link> : <Link href={"/profile"} >
-                        <button className='bg-gray-200 px-2  py-1 rounded-sm'>
-                            Profile
-                        </button>
-                    </Link>
-                }
-            </section>
+        <div>
+           
 
             <section className=' p-4 bg-gray-50'>
                 <div className='flex flex-wrap text-center'>

@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
 
   try {
     const games = await prisma.game.findMany({
-      take: 10,
+      take: 20,
       orderBy: {
         score: 'desc',
       },
