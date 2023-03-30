@@ -13,12 +13,12 @@ export default async function RootLayout({
     return (
         <ClerkProvider>
             <html lang="en">
-                <body>
+                <body className="w-4/5 mx-auto max-w-xl">
                     <Heading />
                     {/* https://beta.nextjs.org/docs/configuring/typescript#async-server-component-typescript-error */}
                     {/* @ts-expect-error Async Server Component */}
                     <Navigation />
-                    <main className="w-4/5 mx-auto max-w-xl" >{children}</main>
+                    <main className="flex justify-center">{children}</main>
                 </body>
             </html>
         </ClerkProvider>

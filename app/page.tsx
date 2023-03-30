@@ -14,13 +14,7 @@ const getGamesData = async () => {
 const Home = async () => {
     const [games] = await Promise.all([getGamesData()])
     return (
-        <div className=''>
-            <section>
-                <div>account:</div>
-                <SignIn />
-            </section>
-            <TypingGame games={games} />
-        </div>
+        <TypingGame games={games} />
     )
 }
 export default Home

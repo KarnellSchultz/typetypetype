@@ -95,8 +95,6 @@ export const TypingGame = ({ games }: Props) => {
 
     return (
         <div>
-           
-
             <section className=' p-4 bg-gray-50'>
                 <div className='flex flex-wrap text-center'>
                     {wordSlice.map((testWord) => {
