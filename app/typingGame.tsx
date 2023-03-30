@@ -144,7 +144,7 @@ export const TypingGame = ({ games }: Props) => {
                 </div>
             </section>
 
-            <section>
+            <section className='py-4'>
                 <h3 className='text-xl flex justify-center py-4' >Options</h3>
                 <TestDuration selectedDuration={selectedDuration} durationClickHandler={durationClickHandler} />
             </section>
