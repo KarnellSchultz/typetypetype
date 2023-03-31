@@ -52,14 +52,12 @@ export const TypingGame = () => {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    userId: user.user?.id,
-                    userName: user.user?.username,
                     wpm,
                     duration: selectedDuration,
                 })
             })
         }
-    }, [seconds, selectedDuration, wpm, user.user?.id])
+    }, [seconds, selectedDuration, wpm])
 
     const durationClickHandler = (duration: TGameDuration) => {
         reset(duration)
