@@ -19,8 +19,6 @@ const getUserGames = async () => {
     }))
 }
 const getGamesData = async () => {
-    const { userId } = auth();
-    if (!userId) return []
     const gamesData = await prisma.game.findMany({
         take: 30,
         orderBy: { wpm: 'desc' },

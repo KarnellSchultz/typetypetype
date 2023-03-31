@@ -17,7 +17,7 @@ export default async function RootLayout({ children, }: { children: React.ReactN
                 <body className="w-4/5 mx-auto max-w-xl">
                     <Heading />
                     <Navigation />
-                    <main className="flex flex-col justify-center">{children}</main>
+                    <main className="flex flex-col justify-center items-center">{children}</main>
                 </body>
             </html>
         </ClerkProvider>

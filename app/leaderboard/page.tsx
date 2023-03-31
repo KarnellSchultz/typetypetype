@@ -2,13 +2,11 @@ import { ServerLeaderboard } from "app/profile/ServerLeaderboard";
 
 const Page = () => {
     return (
-        <div className=''>
+        <section className="w-full" >
             <h1 className="text-xl text-center" >🚧All time leaderboard 🚧</h1>
-            <section>
-                {/* @ts-expect-error Async Server Component */}
-                <ServerLeaderboard type="general" />
-            </section>
-        </div>
+            {/* @ts-expect-error Async Server Component */}
+            <ServerLeaderboard type="general" />
+        </section>
     )
 }
 export default Page

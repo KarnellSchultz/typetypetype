@@ -26,13 +26,12 @@ export async function POST(request: NextRequest) {
   const user: User | null = await currentUser();
 
   try {
-    const res = await request.json();
-    console.log("POST request", res);
+    const req = await request.json();
     await prisma.game.create({
       data: {
-        ...res,
+        ...req,
         userName: user?.username ?? 'Player Unknown',
-        userId: user?.id,
+        userId: user?.id ?? '0',
       }
     })
     return NextResponse.json({ message: 'Game created' })
