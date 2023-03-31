@@ -3,23 +3,13 @@
 import { useUser } from '@clerk/nextjs'
 import { useWPM, useWordList } from 'components/hooks'
 import { useCountdown } from 'components/hooks'
-import { Leaderboard } from './leaderboard'
 import { TestDuration } from './testDuration'
 import { SLICE_STEP, TGameDuration, useTypeStore } from './store'
 import { useEffect } from 'react'
 import { Api } from 'lib/utils'
+import { mutate } from "swr"
 
-
-type Props = {
-    games: {
-        id: string,
-        score: number,
-        time: number,
-        userId: string
-    }[]
-}
-
-export const TypingGame = ({ games }: Props) => {
+export const TypingGame = () => {
     const wordList = useWordList()
 
     const [inputValue, setInputValue] = useTypeStore(({ inputValue, setInputValue }) => [inputValue, setInputValue])
@@ -55,16 +45,17 @@ export const TypingGame = ({ games }: Props) => {
     useEffect(() => {
         if (seconds <= 0) {
             setGameStatus("GAMEOVER")
-            console.log("game over");
-            const res = fetch(Api.Routes.games, {
-                method: 'POST',
+
+            fetch(Api.Routes.games, {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json'
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    userId: user.user?.id, wpm,
+                    userId: user.user?.id,
+                    userName: user.user?.username,
+                    wpm,
                     duration: selectedDuration,
-                    userName: user.user?.username
                 })
             })
         }
@@ -148,7 +139,6 @@ export const TypingGame = ({ games }: Props) => {
                 <h3 className='text-xl flex justify-center py-4' >Options</h3>
                 <TestDuration selectedDuration={selectedDuration} durationClickHandler={durationClickHandler} />
             </section>
-            <Leaderboard />
         </div>
     )
 }

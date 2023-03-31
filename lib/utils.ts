@@ -1,3 +1,4 @@
+import prisma from "./prisma"
 
 export const Api = {
     Routes: {
@@ -28,3 +29,4 @@ export type TGame = {
     userId: string
     userName: string
 }
+

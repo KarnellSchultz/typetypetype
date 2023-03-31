@@ -1,18 +1,17 @@
-import prisma from 'lib/prisma';
+import { ServerLeaderboard } from './profile/ServerLeaderboard';
 import { TypingGame } from './typingGame';
 
-
-const getGamesData = async () => {
-    const gamesData = await prisma.game.findMany({})
-    return gamesData.map((game) => ({
-        ...game, createdAt: game.takenAt.toDateString(),
-        takenAt: game.takenAt.toDateString()
-    }))
-}
-
-const Home = async () => {
-    const [games] = await Promise.all([getGamesData()])
-    return <TypingGame games={games} />
+const Home = () => {
+    return (
+        <>
+            <TypingGame />
+            <section className='py-4'>
+                <h1 className='text-xl capitalize text-center py-4'>leaderboard</h1>
+                {/* @ts-expect-error Async Server Component */}
+                <ServerLeaderboard />
+            </section>
+        </>
+    )
 }
 export default Home
 
