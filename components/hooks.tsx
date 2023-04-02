@@ -100,6 +100,6 @@ export const useWPM = () => {
       ({ correctList, incorrectList, selectedDuration, seconds }))
   const totalWords = correctList.size + incorrectList.size
   const elapsedInMinutes = (selectedDuration - seconds) / 60 !== 0 ? (selectedDuration - seconds) / 60 : 1
-  const wpm = totalWords / elapsedInMinutes
-  return Math.round(wpm)
+  const wpm = Math.round(totalWords / elapsedInMinutes)
+  return wpm
 }

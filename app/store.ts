@@ -15,6 +15,7 @@ const GameStatus = {
     INIT: "INIT",
     PLAYING: 'PLAYING',
     GAMEOVER: 'GAMEOVER',
+    RESET: "RESET"
 } as const
 
 export type TGameStatus = typeof GameStatus[keyof typeof GameStatus]
@@ -60,7 +61,51 @@ export const useTypeStore = create<TTypeStore>((set) => ({
     setSelectedDuration: (value) => set({ selectedDuration: value }),
 
     gameStatus: GameStatus.INIT,
-    setGameStatus: (value) => set({ gameStatus: value }),
+    setGameStatus: (value) => {
+        if (value === GameStatus.INIT) {
+            set((state) => ({
+                ...state,
+                gameStatus: GameStatus.INIT,
+                correctList: new Map(),
+                incorrectList: new Map(),
+                currentWordIndex: 0,
+                sliceStep: SLICE_STEP,
+                inputValue: '',
+                seconds: state.selectedDuration,
+            }))
+        }
+        if (value === GameStatus.PLAYING) {
+            set((state) => ({
+                ...state,
+                gameStatus: GameStatus.PLAYING,
+                correctList: new Map(),
+                incorrectList: new Map(),
+                currentWordIndex: 0,
+                sliceStep: SLICE_STEP,
+                inputValue: '',
+            }))
+        }
+        if (value === GameStatus.RESET) {
+            set((state) => ({
+                ...state,
+                gameStatus: GameStatus.RESET,
+                correctList: new Map(),
+                incorrectList: new Map(),
+                currentWordIndex: 0,
+                sliceStep: SLICE_STEP,
+                inputValue: '',
+                seconds: state.selectedDuration,
+            }))
+        }
+        if (value === GameStatus.GAMEOVER) {
+            set((state) => ({
+                ...state,
+                gameStatus: GameStatus.GAMEOVER,
+                inputValue: '',
+                seconds: state.selectedDuration,
+            }))
+        }
+    },
 
     seconds: GameDurations.FIFTEEN,
     setSeconds: (value) => set({ seconds: value }),
