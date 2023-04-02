@@ -8,6 +8,9 @@ const getUserGames = async () => {
     const { userId } = auth();
     if (!userId) return []
     const games = await prisma.game.findMany({
+        where: {
+            userId,
+        },
         take: 20,
         orderBy: {
             wpm: 'desc',
