@@ -2,19 +2,20 @@
   "extends": [
     "config:base"
   ],
+  "schedule": [
+    "on tuesday and saturday"
+  ],
+  "prCreation": "not-pending",
+  "stabilityDays": 5,
+  "labels": [
+    "deps"
+  ],
   "packageRules": [
     {
-      "schedule": [
-        "after 10pm every weekday",
-        "before 5am every weekday",
-        "every weekend"
-      ],
       "matchUpdateTypes": [
         "major",
         "minor",
-        "patch",
-        "pin",
-        "digest"
+        "patch"
       ],
       "automerge": true
     }
