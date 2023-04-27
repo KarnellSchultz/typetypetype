@@ -4,12 +4,9 @@ import { useUser } from '@clerk/nextjs'
 import { useWPM, useWordList } from 'components/hooks'
 import { useCountdown } from 'components/hooks'
 import { TestDuration } from './testDuration'
-import { SLICE_STEP, TGameDuration, useTypeStore } from './store'
+import { GameDurations, SLICE_STEP, TGameDuration, useTypeStore } from './store'
 import { useEffect, useRef } from 'react'
 import { Api, TGame } from 'lib/utils'
-import { mutate } from "swr"
-
-
 
 const postGame = async (wpm: TGame["wpm"], duration: TGame["duration"]) => {
     fetch(Api.Routes.games, {
@@ -56,67 +53,55 @@ export const TypingGame = () => {
 
     useEffect(() => {
         if (seconds <= 0) {
+            // FIX WHAT HAPPENS WHEN THE GAME ENDS
             setGameStatus("GAMEOVER")
             postGame(wpm, selectedDuration)
-            // setGameStatus("INIT")
+            // setGameStatus("RESET")
         }
     }, [seconds, selectedDuration, wpm])
+
+    const clearInput = () => setInputValue("")
+    const focusInput = () => {
+        inputRef.current?.focus()
+    }
 
     // Handlers
     const handleResetClick = () => {
         startAndStop()
         setGameStatus("RESET")
-    }
-
-    const focus = () => {
-        inputRef.current?.focus()
+        focusInput()
     }
 
     const durationClickHandler = (duration: TGameDuration) => {
+        focusInput()
         reset(duration)
         setSelectedDuration(duration)
     }
 
-    // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    //     e.preventDefault()
-    //     incrementCurrentWordIndex()
-    //     const isLastofSlice = currentWordIndex + 1 === sliceStep
 
-    //     if (isLastofSlice) incrementSlice()
-
-    //     if (inputValue.toLocaleLowerCase().trim() !== currentWord.word) {
-    //         setIncorrectList(currentWord)
-    //         setInputValue("")
-    //         return
-    //     }
-    //     setCorrectList(currentWord)
-    //     setInputValue("")
-    // }
+    const submitWord = (word: string, targetWord: string) => {
+        const isCorrect = word === targetWord
+        if (isCorrect) setCorrectList(currentWord)
+        if (!isCorrect) setIncorrectList(currentWord)
+        clearInput()
+    }
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (gameStatus === "INIT") {
             setGameStatus("PLAYING")
             startAndStop()
         }
-        const inputValue = inputRef.current?.value
-
+        const inputValue = inputRef.current?.value ?? ""
+        const formattedWord = inputValue.toLocaleLowerCase().trim()
         const isSpace = inputValue?.split("").pop() === " "
 
-        if (isSpace) {
-            incrementCurrentWordIndex()
-            const isLastofSlice = currentWordIndex + 1 === sliceStep
+        if (!isSpace) return setInputValue(e.currentTarget.value)
 
-            if (isLastofSlice) incrementSlice()
+        incrementCurrentWordIndex()
+        const isLastofSlice = currentWordIndex + 1 === sliceStep
+        if (isLastofSlice) incrementSlice()
 
-            if (inputValue.toLocaleLowerCase().trim() !== currentWord.word) {
-                setIncorrectList(currentWord)
-                setInputValue("")
-                return
-            }
-            setCorrectList(currentWord)
-            setInputValue("")
-        }
-        setInputValue(e.currentTarget.value)
+        submitWord(formattedWord, currentWord.word)
     }
 
     return (
@@ -163,6 +148,7 @@ export const TypingGame = () => {
                     <div className='p-2 px-4 bg-gray-200 rounded-sm' >{wpm}</div>
                     <button onClick={handleResetClick}
                         className="py-2 px-4 rounded-sm bg-gray-200 hover:bg-gray-400" type="button">
+                        <span className='rounded bg-green-300 p-2'>Start</span>
                     </button>
                 </div>
             </section>
@@ -171,8 +157,31 @@ export const TypingGame = () => {
             </section>
 
             <section className='py-4'>
-                <h3 className='text-xl flex justify-center py-4' >Options</h3>
-                <TestDuration selectedDuration={selectedDuration} durationClickHandler={durationClickHandler} />
+                <h3 className='text-xl flex justify-center py-4'>Options</h3>
+                <ul className='w-full' >
+                    <li className='flex w-full justify-between border-b py-1' >
+                        <div className='capitalize' >test duration</div>
+                        <div className='flex gap-2'>
+                            {
+                                Object.values(GameDurations).map(duration => {
+                                    const isSelected = selectedDuration === duration
+                                    return <button type='button'
+                                        className={`${isSelected && "bg-slate-300"} rounded-xl px-2`}
+                                        onClick={() => durationClickHandler(duration)}
+                                    >{duration}</button>
+                                }
+                                )
+                            }
+                        </div>
+                    </li>
+                    <li className='flex w-full justify-between border-b py-1 ' >
+                        <div className='capitalize'>highlight style</div>
+                        <div className='flex gap-2'>
+                            <button type="button">word</button>
+                            <button type="button" >character</button>
+                        </div>
+                    </li>
+                </ul>
             </section>
         </div>
     )
