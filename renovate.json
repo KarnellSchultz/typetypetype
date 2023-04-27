@@ -3,7 +3,7 @@
     "config:base"
   ],
   "schedule": [
-    "on tuesday and saturday"
+    "on saturday"
   ],
   "prCreation": "not-pending",
   "stabilityDays": 5,
