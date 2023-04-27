@@ -8,7 +8,6 @@ import { SLICE_STEP, TGameDuration, useTypeStore } from './store'
 import { useEffect, useRef } from 'react'
 import { Api, TGame } from 'lib/utils'
 import { mutate } from "swr"
-import { VscDebugRestart } from 'react-icons/Vsc'
 
 
 
@@ -164,7 +163,6 @@ export const TypingGame = () => {
                     <div className='p-2 px-4 bg-gray-200 rounded-sm' >{wpm}</div>
                     <button onClick={handleResetClick}
                         className="py-2 px-4 rounded-sm bg-gray-200 hover:bg-gray-400" type="button">
-                        <VscDebugRestart />
                     </button>
                 </div>
             </section>
