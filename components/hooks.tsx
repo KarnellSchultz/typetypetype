@@ -1,5 +1,5 @@
 import { useTypeStore } from "app/store";
-import { useEffect, useState } from "react";
+import { RefObject, useEffect, useState } from "react";
 import { TestWordType, WordListData } from "wordData";
 
 
@@ -102,4 +102,15 @@ export const useWPM = () => {
   const elapsedInMinutes = (selectedDuration - seconds) / 60 !== 0 ? (selectedDuration - seconds) / 60 : 1
   const wpm = Math.round(totalWords / elapsedInMinutes)
   return wpm
+}
+
+
+export const useFocusInput = (ref: RefObject<HTMLInputElement>) => {
+  const [gameStatus] = useTypeStore(({ gameStatus }) => [gameStatus])
+  useEffect(() => {
+    if (!ref.current) return
+    if (gameStatus === "RESET") {
+      ref.current?.focus()
+    }
+  }, [gameStatus])
 }

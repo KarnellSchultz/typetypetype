@@ -1,12 +1,12 @@
 'use client'
 
 import { useUser } from '@clerk/nextjs'
-import { useWPM, useWordList } from 'components/hooks'
+import { useFocusInput, useWPM, useWordList } from 'components/hooks'
 import { useCountdown } from 'components/hooks'
-import { TestDuration } from './testDuration'
-import { GameDurations, SLICE_STEP, TGameDuration, useTypeStore } from './store'
+import { SLICE_STEP, TGameDuration, useTypeStore } from './store'
 import { useEffect, useRef } from 'react'
 import { Api, TGame } from 'lib/utils'
+import { OptionsContainer } from './OptionsContainer'
 
 const postGame = async (wpm: TGame["wpm"], duration: TGame["duration"]) => {
     fetch(Api.Routes.games, {
@@ -20,6 +20,7 @@ const postGame = async (wpm: TGame["wpm"], duration: TGame["duration"]) => {
         })
     })
 }
+
 
 export const TypingGame = () => {
     const wordList = useWordList()
@@ -67,9 +68,9 @@ export const TypingGame = () => {
 
     // Handlers
     const handleResetClick = () => {
-        startAndStop()
+        // focusInput()
         setGameStatus("RESET")
-        focusInput()
+        startAndStop()
     }
 
     const durationClickHandler = (duration: TGameDuration) => {
@@ -104,6 +105,8 @@ export const TypingGame = () => {
         submitWord(formattedWord, currentWord.word)
     }
 
+    useFocusInput(inputRef)
+
     return (
         <div>
             <section className=' p-4 bg-gray-50'>
@@ -112,6 +115,20 @@ export const TypingGame = () => {
                         const isCurrentWord = testWord.word === currentWord.word
                         const isCorrect = correctList.has(testWord.id)
                         const isIncorrect = incorrectList.has(testWord.id)
+
+                        // const testWordArray = Array.from(testWord.word)
+
+                        // return (
+                        //     <span key={`${testWord.id}`}>
+                        //         {
+                        //             testWordArray.map(letter => {
+                        //                 return < span key={letter} >{letter}</span>
+                        //             })
+                        //         }
+                        //     </span>
+                        // )
+
+
                         return (
                             <span
                                 key={testWord.id}
@@ -123,7 +140,7 @@ export const TypingGame = () => {
                         )
                     })}
                 </div>
-            </section>
+            </section >
 
             <section className="py-4">
                 <input
@@ -157,32 +174,8 @@ export const TypingGame = () => {
             </section>
 
             <section className='py-4'>
-                <h3 className='text-xl flex justify-center py-4'>Options</h3>
-                <ul className='w-full' >
-                    <li className='flex w-full justify-between border-b py-1' >
-                        <div className='capitalize' >test duration</div>
-                        <div className='flex gap-2'>
-                            {
-                                Object.values(GameDurations).map(duration => {
-                                    const isSelected = selectedDuration === duration
-                                    return <button type='button'
-                                        className={`${isSelected && "bg-slate-300"} rounded-xl px-2`}
-                                        onClick={() => durationClickHandler(duration)}
-                                    >{duration}</button>
-                                }
-                                )
-                            }
-                        </div>
-                    </li>
-                    <li className='flex w-full justify-between border-b py-1 ' >
-                        <div className='capitalize'>highlight style</div>
-                        <div className='flex gap-2'>
-                            <button type="button">word</button>
-                            <button type="button" >character</button>
-                        </div>
-                    </li>
-                </ul>
+                <OptionsContainer selectedDuration={selectedDuration} durationClickHandler={durationClickHandler} />
             </section>
-        </div>
+        </div >
     )
 }
