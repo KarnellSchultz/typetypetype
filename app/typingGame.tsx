@@ -59,7 +59,7 @@ export const TypingGame = () => {
             postGame(wpm, selectedDuration)
             // setGameStatus("RESET")
         }
-    }, [seconds, selectedDuration, wpm])
+    }, [seconds, selectedDuration, setGameStatus, wpm])
 
     const clearInput = () => setInputValue("")
     const focusInput = () => {

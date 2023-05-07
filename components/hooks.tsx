@@ -6,21 +6,22 @@ import { TestWordType, WordListData } from "wordData";
 export function useKeyPress(targetKey: string): boolean {
   // State for keeping track of whether key is pressed
   const [keyPressed, setKeyPressed] = useState(false);
-  // If pressed key is our target key then set to true
-  function downHandler({ key }: { key?: string }): void {
-    if (key === targetKey) {
-      setKeyPressed(true);
-    }
-  }
 
-  // If released key is our target key then set to false
-  const upHandler = ({ key }: { key?: string }): void => {
-    if (key === targetKey) {
-      setKeyPressed(false);
-    }
-  };
   // Add event listeners
   useEffect(() => {
+    // If pressed key is our target key then set to true
+    const downHandler = ({ key }: { key?: string }): void => {
+      if (key === targetKey) {
+        setKeyPressed(true);
+      }
+    }
+
+    // If released key is our target key then set to false
+    const upHandler = ({ key }: { key?: string }): void => {
+      if (key === targetKey) {
+        setKeyPressed(false);
+      }
+    };
     window.addEventListener("keydown", downHandler);
     window.addEventListener("keyup", upHandler);
     // Remove event listeners on cleanup
@@ -28,7 +29,7 @@ export function useKeyPress(targetKey: string): boolean {
       window.removeEventListener("keydown", downHandler);
       window.removeEventListener("keyup", upHandler);
     };
-  }, []); // Empty array ensures that effect is only run on mount and unmount
+  }, [targetKey]); // Empty array ensures that effect is only run on mount and unmount
   return keyPressed;
 }
 
@@ -38,26 +39,24 @@ const MAX_TEST_WORDS = 200
 export const useWordList = (count = MAX_TEST_WORDS) => {
   const [list, setList] = useState<TestWordType[]>([])
 
-  const getRandomIndex = () => Math.floor(Math.random() * WordListData.length)
-  const getRandomWord = () => WordListData[getRandomIndex()]
-
-  const getUniqueWord = (set: Set<any>): TestWordType => {
-    const randomWord = getRandomWord()
-    if (set.has(randomWord)) return getUniqueWord(set)
-    return randomWord
-  }
-
-  const createTestList = () => {
-    const list: Set<TestWordType> = new Set()
-    for (let i = 1; i <= count; i++) {
-      list.add(getUniqueWord(list))
-    }
-    return Array.from(list)
-  }
-
   useEffect(() => {
-    setList(createTestList())
-  }, [])
+    const createTestList = () => {
+      const list: Set<TestWordType> = new Set()
+      for (let i = 1; i <= count; i++) {
+        list.add(getUniqueWord(list))
+      }
+      return Array.from(list)
+    }
+    const getUniqueWord = (set: Set<any>): TestWordType => {
+      const randomWord = getRandomWord()
+      if (set.has(randomWord)) return getUniqueWord(set)
+      return randomWord
+    }
+    const getRandomIndex = () => Math.floor(Math.random() * WordListData.length)
+    const getRandomWord = () => WordListData[getRandomIndex()]
+    const testList = createTestList()
+    setList(testList)
+  }, [count])
 
   return list
 }
@@ -73,7 +72,7 @@ export const useCountdown = (initSeconds: number) => {
       intervalId = setInterval(() => setSeconds(seconds - 1), 1000);
     }
     return () => clearInterval(intervalId);
-  }, [isRunning, seconds]);
+  }, [isRunning, seconds, setSeconds]);
 
   useEffect(() => {
     if (seconds <= 0) {
@@ -109,8 +108,7 @@ export const useFocusInput = (ref: RefObject<HTMLInputElement>) => {
   const [gameStatus] = useTypeStore(({ gameStatus }) => [gameStatus])
   useEffect(() => {
     if (!ref.current) return
-    if (gameStatus === "RESET") {
-      ref.current?.focus()
-    }
-  }, [gameStatus])
+    if (gameStatus !== "RESET") return
+    ref.current?.focus()
+  }, [gameStatus, ref])
 }
