@@ -108,6 +108,8 @@ export const useFocusInput = (ref: RefObject<HTMLInputElement>) => {
   const [gameStatus] = useTypeStore(({ gameStatus }) => [gameStatus])
   useEffect(() => {
     if (!ref.current) return
-    ref.current?.focus()
+    if (gameStatus === "READY") {
+      ref.current?.focus()
+    }
   }, [gameStatus, ref])
 }

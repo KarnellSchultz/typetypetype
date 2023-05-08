@@ -50,34 +50,27 @@ export const TypingGame = () => {
     const wpm = useWPM()
 
     const inputRef = useRef<HTMLInputElement>(null)
-
+    useFocusInput(inputRef)
 
     useEffect(() => {
         if (seconds <= 0) {
-            // FIX WHAT HAPPENS WHEN THE GAME ENDS
             setGameStatus("GAMEOVER")
             postGame(wpm, selectedDuration)
-            // setGameStatus("RESET")
         }
     }, [seconds, selectedDuration, setGameStatus, wpm])
 
     const clearInput = () => setInputValue("")
-    const focusInput = () => {
-        inputRef.current?.focus()
-    }
 
     // Handlers
     const handleResetClick = () => {
+        inputRef.current?.focus()
         setGameStatus("READY")
-        startAndStop()
     }
 
     const durationClickHandler = (duration: TGameDuration) => {
-        focusInput()
         reset(duration)
         setSelectedDuration(duration)
     }
-
 
     const submitWord = (word: string, targetWord: string) => {
         const isCorrect = word === targetWord
@@ -104,7 +97,6 @@ export const TypingGame = () => {
         submitWord(formattedWord, currentWord.word)
     }
 
-    useFocusInput(inputRef)
 
     return (
         <div>
@@ -114,19 +106,6 @@ export const TypingGame = () => {
                         const isCurrentWord = testWord.word === currentWord.word
                         const isCorrect = correctList.has(testWord.id)
                         const isIncorrect = incorrectList.has(testWord.id)
-
-                        // const testWordArray = Array.from(testWord.word)
-
-                        // return (
-                        //     <span key={`${testWord.id}`}>
-                        //         {
-                        //             testWordArray.map(letter => {
-                        //                 return < span key={letter} >{letter}</span>
-                        //             })
-                        //         }
-                        //     </span>
-                        // )
-
 
                         return (
                             <span
@@ -164,7 +143,7 @@ export const TypingGame = () => {
                     <div className='p-2 px-4 bg-gray-200 rounded-sm' >{wpm}</div>
                     <button onClick={handleResetClick}
                         className="py-2 px-4 rounded-sm bg-gray-200 hover:bg-gray-400" type="button">
-                        <span className='rounded bg-green-300 p-2'>Start</span>
+                        <span className='rounded p-2'>reset</span>
                     </button>
                 </div>
             </section>
