@@ -5,7 +5,7 @@ import { ServerLeaderboard } from './ServerLeaderboard';
 const Page = async () => {
     return (
         <div className='w-full'>
-            <section className='py-4 text-center'>
+            <section className='text-center'>
                 <h1 className="text-xl py-4 capitalize" >Profile</h1>
                 <UserCard />
             </section>

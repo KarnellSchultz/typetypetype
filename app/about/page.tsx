@@ -1,17 +1,21 @@
+import Link from "next/link";
+
 const AboutPage = () => {
     return (
-        <div className="text-center">
-            <h1 className="text-5xl font-bold">About</h1>
-            <p>The site is a work in progress, so you can expect bugs and missing features everywhere.</p>
-            <br />
-            <p className="text-xl">
-                Typetypetype is a typing speed game.
-                The goal is to type as many words as possible in a given time.
-                The game is over when the time runs out.
-            </p>
-            <p className="text-xl">
-                woot
-            </p>
+        <div>
+            <section className="text-center " >
+                <h1 className="text-xl text-center py-4 capitalize">about</h1>
+                <h2 className="text-lg text-center capitalize py-4">Test Statistics</h2>
+                <ul className="text-base text-left " >
+                    <li>Words per minute (WPM) - Calculated by dividing the number of characters typed by 5.
+                        Based on Sunburst Digials work, which can be found&nbsp;
+                        <Link className="underline"
+                            href="https://support.sunburst.com/hc/en-us/articles/229335208-Type-to-Learn-How-are-Words-Per-Minute-and-Accuracy-Calculated">
+                            here
+                        </Link>
+                    </li>
+                </ul>
+            </section>
         </div>
     );
 };
