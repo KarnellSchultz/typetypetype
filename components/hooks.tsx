@@ -62,7 +62,7 @@ export const useWordList = (count = MAX_TEST_WORDS) => {
 }
 
 
-export const useCountdown = (initSeconds: number) => {
+export const useCountdown = () => {
   const [seconds, setSeconds] = useTypeStore(({ seconds, setSeconds }) => [seconds, setSeconds]);
   // state to check stopwatch running or not
   const [isRunning, setIsRunning] = useState(false);

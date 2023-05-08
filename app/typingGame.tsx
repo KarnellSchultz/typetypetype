@@ -45,7 +45,7 @@ export const TypingGame = () => {
 
     const user = useUser()
 
-    const { seconds, isRunning, startAndStop, reset } = useCountdown(selectedDuration)
+    const { seconds, isRunning, startAndStop, reset } = useCountdown()
 
     const wpm = useWPM()
 
