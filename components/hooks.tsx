@@ -1,4 +1,5 @@
-import { useTypeStore } from "app/store";
+import { GameDurations, useTypeStore } from "app/store";
+import { getWordList } from "lib/utils";
 import { RefObject, useEffect, useState } from "react";
 import { TestWordType, WordListData } from "wordData";
 
@@ -37,30 +38,17 @@ export function useKeyPress(targetKey: string): boolean {
 const MAX_TEST_WORDS = 200
 
 export const useWordList = (count = MAX_TEST_WORDS) => {
-  const [list, setList] = useState<TestWordType[]>([])
+  const [wordList, setWordList] = useTypeStore(({ wordList, setWordList }) => [wordList, setWordList])
 
   useEffect(() => {
-    const createTestList = () => {
-      const list: Set<TestWordType> = new Set()
-      for (let i = 1; i <= count; i++) {
-        list.add(getUniqueWord(list))
-      }
-      return Array.from(list)
+    setWordList(getWordList())
+    return () => {
+      setWordList([])
     }
-    const getUniqueWord = (set: Set<any>): TestWordType => {
-      const randomWord = getRandomWord()
-      if (set.has(randomWord)) return getUniqueWord(set)
-      return randomWord
-    }
-    const getRandomIndex = () => Math.floor(Math.random() * WordListData.length)
-    const getRandomWord = () => WordListData[getRandomIndex()]
-    const testList = createTestList()
-    setList(testList)
-  }, [count])
+  }, [count, setWordList])
 
-  return list
+  return wordList
 }
-
 
 export const useCountdown = () => {
   const [seconds, setSeconds] = useTypeStore(({ seconds, setSeconds }) => [seconds, setSeconds]);
@@ -97,9 +85,18 @@ export const useWPM = () => {
   const { correctList, incorrectList, selectedDuration, seconds } =
     useTypeStore(({ correctList, incorrectList, selectedDuration, seconds }) =>
       ({ correctList, incorrectList, selectedDuration, seconds }))
-  const totalWords = correctList.size + incorrectList.size
-  const elapsedInMinutes = (selectedDuration - seconds) / 60 !== 0 ? (selectedDuration - seconds) / 60 : 1
-  const wpm = Math.round(totalWords / elapsedInMinutes)
+
+  let letterCount = 0
+  for (let values of correctList.values()) {
+    letterCount += values.length
+  }
+  for (let values of incorrectList.values()) {
+    letterCount += values.length
+  }
+  const spacesCount = correctList.size + incorrectList.size
+  const keysPressed = Math.round((letterCount + spacesCount) / 5)
+  const elapsedInMinutes = (selectedDuration - seconds) / 60 !== 0 ? (selectedDuration - seconds) / 60 : selectedDuration / 60
+  const wpm = Math.round(keysPressed / elapsedInMinutes)
   return wpm
 }
 

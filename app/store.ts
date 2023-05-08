@@ -1,5 +1,6 @@
-import { TestWordType } from 'wordData'
 import { create } from 'zustand'
+import { TestWordType } from 'wordData'
+import { getWordList } from 'lib/utils'
 
 export const SLICE_STEP = 20
 
@@ -29,16 +30,16 @@ export type TTypeStore = {
     setCorrectList: (value: TestWordType) => void
     incorrectList: Map<TestWordType["id"], TestWordType>
     setIncorrectList: (value: TestWordType) => void
-
     sliceStep: number,
     incrementSlice: () => void
     selectedDuration: TGameDuration,
     setSelectedDuration: (value: TGameDuration) => void
     gameStatus: TGameStatus,
     setGameStatus: (value: TGameStatus) => void
-
     seconds: number
     setSeconds: (value: number) => void
+    wordList: TestWordType[]
+    setWordList: (value?: TestWordType[]) => void
 }
 
 export const useTypeStore = create<TTypeStore>((set) => ({
@@ -90,4 +91,6 @@ export const useTypeStore = create<TTypeStore>((set) => ({
 
     seconds: GameDurations.FIFTEEN,
     setSeconds: (value) => set({ seconds: value }),
+    wordList: [],
+    setWordList: (value) => set({ wordList: value ?? getWordList() }),
 }))

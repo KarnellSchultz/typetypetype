@@ -23,8 +23,6 @@ const postGame = async (wpm: TGame["wpm"], duration: TGame["duration"]) => {
 
 
 export const TypingGame = () => {
-    const wordList = useWordList()
-
     const [inputValue, setInputValue] = useTypeStore(({ inputValue, setInputValue }) => [inputValue, setInputValue])
     const [currentWordIndex, incrementCurrentWordIndex] = useTypeStore(({ currentWordIndex, incrementCurrentWordIndex }) =>
         [currentWordIndex, incrementCurrentWordIndex])
@@ -37,8 +35,10 @@ export const TypingGame = () => {
         return [selectedDuration, setSelectedDuration]
     })
     const [gameStatus, setGameStatus] = useTypeStore(({ gameStatus, setGameStatus }) => [gameStatus, setGameStatus])
+    const setWordList = useTypeStore(({ setWordList }) => setWordList)
 
 
+    const wordList = useWordList()
     const wordSlice = wordList.slice(sliceStep - SLICE_STEP, sliceStep)
 
     const currentWord = wordList[currentWordIndex]
@@ -52,6 +52,7 @@ export const TypingGame = () => {
     const inputRef = useRef<HTMLInputElement>(null)
     useFocusInput(inputRef)
 
+
     useEffect(() => {
         if (seconds <= 0) {
             setGameStatus("GAMEOVER")
@@ -63,8 +64,10 @@ export const TypingGame = () => {
 
     // Handlers
     const handleResetClick = () => {
-        inputRef.current?.focus()
         setGameStatus("READY")
+        setWordList()
+        inputRef.current?.focus()
+        reset(selectedDuration)
     }
 
     const durationClickHandler = (duration: TGameDuration) => {
