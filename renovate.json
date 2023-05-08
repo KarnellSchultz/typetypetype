@@ -3,10 +3,12 @@
     "config:base"
   ],
   "schedule": [
-    "on saturday"
+    "after 10pm every weekday",
+    "before 5am every weekday"
   ],
   "prCreation": "not-pending",
-  "stabilityDays": 5,
+  "prConcurrentLimit": 5,
+  "stabilityDays": 2,
   "labels": [
     "deps"
   ],
@@ -14,8 +16,7 @@
     {
       "matchUpdateTypes": [
         "major",
-        "minor",
-        "patch"
+        "minor"
       ],
       "automerge": true
     }
