@@ -12,10 +12,9 @@ export const GameDurations = {
 export type TGameDuration = typeof GameDurations[keyof typeof GameDurations]
 
 const GameStatus = {
-    INIT: "INIT",
+    READY: "READY",
     PLAYING: 'PLAYING',
     GAMEOVER: 'GAMEOVER',
-    RESET: "RESET"
 } as const
 
 export type TGameStatus = typeof GameStatus[keyof typeof GameStatus]
@@ -60,12 +59,12 @@ export const useTypeStore = create<TTypeStore>((set) => ({
     selectedDuration: GameDurations.FIFTEEN,
     setSelectedDuration: (value) => set({ selectedDuration: value }),
 
-    gameStatus: GameStatus.INIT,
+    gameStatus: GameStatus.READY,
     setGameStatus: (value) => {
-        if (value === GameStatus.INIT) {
+        if (value === GameStatus.READY) {
             set((state) => ({
                 ...state,
-                gameStatus: GameStatus.INIT,
+                gameStatus: GameStatus.READY,
                 correctList: new Map(),
                 incorrectList: new Map(),
                 currentWordIndex: 0,
@@ -78,30 +77,12 @@ export const useTypeStore = create<TTypeStore>((set) => ({
             set((state) => ({
                 ...state,
                 gameStatus: GameStatus.PLAYING,
-                correctList: new Map(),
-                incorrectList: new Map(),
-                currentWordIndex: 0,
-                sliceStep: SLICE_STEP,
-                inputValue: '',
-            }))
-        }
-        if (value === GameStatus.RESET) {
-            set((state) => ({
-                ...state,
-                gameStatus: GameStatus.RESET,
-                correctList: new Map(),
-                incorrectList: new Map(),
-                currentWordIndex: 0,
-                sliceStep: SLICE_STEP,
-                inputValue: '',
-                seconds: state.selectedDuration,
             }))
         }
         if (value === GameStatus.GAMEOVER) {
             set((state) => ({
                 ...state,
                 gameStatus: GameStatus.GAMEOVER,
-                inputValue: '',
                 seconds: state.selectedDuration,
             }))
         }

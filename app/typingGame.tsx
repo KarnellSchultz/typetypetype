@@ -68,8 +68,7 @@ export const TypingGame = () => {
 
     // Handlers
     const handleResetClick = () => {
-        // focusInput()
-        setGameStatus("RESET")
+        setGameStatus("READY")
         startAndStop()
     }
 
@@ -88,7 +87,7 @@ export const TypingGame = () => {
     }
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (gameStatus === "INIT") {
+        if (gameStatus === "READY") {
             setGameStatus("PLAYING")
             startAndStop()
         }
