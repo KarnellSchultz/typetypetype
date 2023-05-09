@@ -33,6 +33,27 @@ export const OptionsContainer = (props: Props) => {
                         <button type="button" >character</button>
                     </div>
                 </li>
+                <li className='flex w-full justify-between border-b py-1 ' >
+                    <div className='capitalize'>word list</div>
+                    <div className='flex gap-2'>
+                        <button type="button">easy</button>
+                        <button type="button" >prose</button>
+                    </div>
+                </li>
+                <li className='flex w-full justify-between border-b py-1 ' >
+                    <div className='capitalize'>wpm</div>
+                    <div className='flex gap-2'>
+                        <button type="button">show</button>
+                        <button type="button" >hide</button>
+                    </div>
+                </li>
+                <li className='flex w-full justify-between border-b py-1 ' >
+                    <div className='capitalize'>timer</div>
+                    <div className='flex gap-2'>
+                        <button type="button">show</button>
+                        <button type="button" >hide</button>
+                    </div>
+                </li>
             </ul>
         </>)
 }
