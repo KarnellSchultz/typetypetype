@@ -7,6 +7,7 @@ import { SLICE_STEP, TGameDuration, useTypeStore } from './store'
 import { useEffect, useRef } from 'react'
 import { Api, TGame } from 'lib/utils'
 import { OptionsContainer } from './OptionsContainer'
+import { TestWord } from './TestWord'
 
 const postGame = async (wpm: TGame["wpm"], duration: TGame["duration"]) => {
     fetch(Api.Routes.games, {
@@ -26,10 +27,10 @@ export const TypingGame = () => {
     const [inputValue, setInputValue] = useTypeStore(({ inputValue, setInputValue }) => [inputValue, setInputValue])
     const [currentWordIndex, incrementCurrentWordIndex] = useTypeStore(({ currentWordIndex, incrementCurrentWordIndex }) =>
         [currentWordIndex, incrementCurrentWordIndex])
-    const [correctList, setCorrectList] = useTypeStore(({ correctList, setCorrectList }) =>
-        ([correctList, setCorrectList]))
-    const [incorrectList, setIncorrectList] = useTypeStore(({ incorrectList, setIncorrectList }) =>
-        ([incorrectList, setIncorrectList]))
+    const [setCorrectList] = useTypeStore(({ setCorrectList }) =>
+        ([setCorrectList]))
+    const [setIncorrectList] = useTypeStore(({ setIncorrectList }) =>
+        ([setIncorrectList]))
     const [sliceStep, incrementSlice] = useTypeStore(({ sliceStep, incrementSlice }) => [sliceStep, incrementSlice])
     const [selectedDuration, setSelectedDuration] = useTypeStore(({ selectedDuration, setSelectedDuration }) => {
         return [selectedDuration, setSelectedDuration]
@@ -42,25 +43,20 @@ export const TypingGame = () => {
     const wordSlice = wordList.slice(sliceStep - SLICE_STEP, sliceStep)
 
     const currentWord = wordList[currentWordIndex]
-
     const user = useUser()
-
-    const { seconds, isRunning, startAndStop, reset } = useCountdown()
-
+    const { seconds, startAndStop, reset } = useCountdown()
     const wpm = useWPM()
-
     const inputRef = useRef<HTMLInputElement>(null)
     useFocusInput(inputRef)
 
-
     useEffect(() => {
-        if (seconds <= 0) {
+        if (seconds <= 0 && wpm > 0) {
             setGameStatus("GAMEOVER")
             postGame(wpm, selectedDuration)
         }
     }, [seconds, selectedDuration, setGameStatus, wpm])
 
-    const clearInput = () => setInputValue("")
+
 
     // Handlers
     const handleResetClick = () => {
@@ -79,7 +75,7 @@ export const TypingGame = () => {
         const isCorrect = word === targetWord
         if (isCorrect) setCorrectList(currentWord)
         if (!isCorrect) setIncorrectList(currentWord)
-        clearInput()
+        setInputValue("")
     }
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,7 +85,7 @@ export const TypingGame = () => {
         }
         const inputValue = inputRef.current?.value ?? ""
         const formattedWord = inputValue.toLocaleLowerCase().trim()
-        const isSpace = inputValue?.split("").pop() === " "
+        const isSpace = inputValue?.at(-1) === " "
 
         if (!isSpace) return setInputValue(e.currentTarget.value)
 
@@ -105,23 +101,15 @@ export const TypingGame = () => {
         <div>
             <section className=' p-4 bg-gray-50'>
                 <div className='flex flex-wrap text-center'>
-                    {wordSlice.map((testWord) => {
-                        const isCurrentWord = testWord.word === currentWord.word
-                        const isCorrect = correctList.has(testWord.id)
-                        const isIncorrect = incorrectList.has(testWord.id)
+                    {wordSlice.map((testWord, idx) => {
 
                         return (
-                            <span
-                                key={testWord.id}
-                                aria-label={`${testWord.word}-${testWord.id}`}
-                                className={`px-1 rounded-sm ${isCorrect && "text-lime-600"} ${isIncorrect && "text-red-600"}
-                                    ${isCurrentWord && "bg-gray-300 transition-[background] ease-in-out"}`} >
-                                {testWord.word}
-                            </span>
+                            <TestWord key={`${testWord}-${idx}`} testWord={testWord} inputValue={inputValue} />
                         )
                     })}
                 </div>
             </section >
+
 
             <section className="py-4">
                 <input
