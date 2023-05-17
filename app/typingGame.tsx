@@ -5,57 +5,71 @@ import { useFocusInput, useWPM, useWordList } from 'components/hooks'
 import { useCountdown } from 'components/hooks'
 import { SLICE_STEP, TGameDuration, useTypeStore } from './store'
 import { useEffect, useRef } from 'react'
-import { Api, TGame } from 'lib/utils'
 import { OptionsContainer } from './OptionsContainer'
-import { TestWord } from './TestWord'
-
-const postGame = async (wpm: TGame["wpm"], duration: TGame["duration"]) => {
-    fetch(Api.Routes.games, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            wpm,
-            duration,
-        })
-    })
-}
-
+import { TestWordContainer } from './TestWord'
+import { Api, TGame } from 'lib/utils'
 
 export const TypingGame = () => {
-    const [inputValue, setInputValue] = useTypeStore(({ inputValue, setInputValue }) => [inputValue, setInputValue])
-    const [currentWordIndex, incrementCurrentWordIndex] = useTypeStore(({ currentWordIndex, incrementCurrentWordIndex }) =>
-        [currentWordIndex, incrementCurrentWordIndex])
-    const [setCorrectList] = useTypeStore(({ setCorrectList }) =>
-        ([setCorrectList]))
-    const [setIncorrectList] = useTypeStore(({ setIncorrectList }) =>
-        ([setIncorrectList]))
-    const [sliceStep, incrementSlice] = useTypeStore(({ sliceStep, incrementSlice }) => [sliceStep, incrementSlice])
-    const [selectedDuration, setSelectedDuration] = useTypeStore(({ selectedDuration, setSelectedDuration }) => {
-        return [selectedDuration, setSelectedDuration]
-    })
-    const [gameStatus, setGameStatus] = useTypeStore(({ gameStatus, setGameStatus }) => [gameStatus, setGameStatus])
-    const setWordList = useTypeStore(({ setWordList }) => setWordList)
+    const [
+        inputValue,
+        setInputValue,
+        currentWordIndex,
+        incrementCurrentWordIndex,
+        setCorrectList,
+        setIncorrectList,
+        sliceStep,
+        incrementSlice,
+        selectedDuration,
+        setSelectedDuration,
+        gameStatus,
+        setGameStatus,
+        setWordList,
+    ] = useTypeStore(state => [
+        state.inputValue,
+        state.setInputValue,
+        state.currentWordIndex,
+        state.incrementCurrentWordIndex,
+        state.setCorrectList,
+        state.setIncorrectList,
+        state.sliceStep,
+        state.incrementSlice,
+        state.selectedDuration,
+        state.setSelectedDuration,
+        state.gameStatus,
+        state.setGameStatus,
+        state.setWordList
+    ]);
 
+
+    const postGame = async (wpm: TGame["wpm"], duration: TGame["duration"]) => {
+        fetch(Api.Routes.games, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                wpm,
+                duration,
+            })
+        })
+    }
 
     const wordList = useWordList()
     const wordSlice = wordList.slice(sliceStep - SLICE_STEP, sliceStep)
 
     const currentWord = wordList[currentWordIndex]
-    const user = useUser()
     const { seconds, startAndStop, reset } = useCountdown()
     const wpm = useWPM()
     const inputRef = useRef<HTMLInputElement>(null)
     useFocusInput(inputRef)
 
     useEffect(() => {
+
         if (seconds <= 0 && wpm > 0) {
             setGameStatus("GAMEOVER")
             postGame(wpm, selectedDuration)
         }
     }, [seconds, selectedDuration, setGameStatus, wpm])
-
 
 
     // Handlers
@@ -96,15 +110,15 @@ export const TypingGame = () => {
         submitWord(formattedWord, currentWord.word)
     }
 
-
     return (
         <div>
             <section className=' p-4 bg-gray-50'>
                 <div className='flex flex-wrap text-center'>
                     {wordSlice.map((testWord, idx) => {
-
                         return (
-                            <TestWord key={`${testWord}-${idx}`} testWord={testWord} inputValue={inputValue} />
+                            <span key={`${testWord}-${idx}`}>
+                                <TestWordContainer testWord={testWord} inputValue={inputValue} />
+                            </span>
                         )
                     })}
                 </div>

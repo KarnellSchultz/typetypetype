@@ -10,7 +10,12 @@ export const GameDurations = {
     SIXTY: 60,
 } as const
 
+export const HighlightStyle = {
+    WORD: "word", CHAR: "character"
+} as const
+
 export type TGameDuration = typeof GameDurations[keyof typeof GameDurations]
+export type THighlightStyle = typeof HighlightStyle[keyof typeof HighlightStyle]
 
 const GameStatus = {
     READY: "READY",
@@ -32,14 +37,17 @@ export type TTypeStore = {
     setIncorrectList: (value: TestWordType) => void
     sliceStep: number,
     incrementSlice: () => void
-    selectedDuration: TGameDuration,
-    setSelectedDuration: (value: TGameDuration) => void
     gameStatus: TGameStatus,
     setGameStatus: (value: TGameStatus) => void
     seconds: number
     setSeconds: (value: number) => void
     wordList: TestWordType[]
     setWordList: (value?: TestWordType[]) => void
+    // Options
+    selectedDuration: TGameDuration,
+    setSelectedDuration: (value: TGameDuration) => void
+    selectedHighlightStyle: THighlightStyle
+    toggleSelectedHighlightStyle: () => void
 }
 
 export const useTypeStore = create<TTypeStore>((set) => ({
@@ -93,4 +101,6 @@ export const useTypeStore = create<TTypeStore>((set) => ({
     setSeconds: (value) => set({ seconds: value }),
     wordList: [],
     setWordList: (value) => set({ wordList: value ?? getWordList() }),
+    selectedHighlightStyle: HighlightStyle.CHAR,
+    toggleSelectedHighlightStyle: () => set((state) => ({ selectedHighlightStyle: state.selectedHighlightStyle !== HighlightStyle.WORD ? HighlightStyle.WORD : HighlightStyle.CHAR }))
 }))

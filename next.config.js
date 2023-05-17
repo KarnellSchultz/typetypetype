@@ -2,7 +2,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    serverComponentsExternalPackages: ['@Prisma/client']
+    serverComponentsExternalPackages: ['@Prisma/client'],
+    serverActions: true,
   },
 };
 

@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
     await prisma.game.create({
       data: {
         ...req,
-        userName: user?.username ?? 'Player Unknown',
+        userName: user?.username ?? 'Player Unknown 🤷‍♀️',
         userId: user?.id ?? '0',
       }
     })
