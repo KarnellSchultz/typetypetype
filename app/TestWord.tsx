@@ -1,6 +1,6 @@
 import { TestWordType } from "wordData"
 import { HighlightStyle, useTypeStore } from "./store"
-import { useWordList } from "components/hooks"
+import { useWordList } from "@components/hooks"
 import { motion } from "framer-motion"
 
 type Props = {

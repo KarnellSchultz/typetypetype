@@ -1,13 +1,12 @@
 'use client'
 
 import { useUser } from '@clerk/nextjs'
-import { useFocusInput, useWPM, useWordList } from 'components/hooks'
-import { useCountdown } from 'components/hooks'
 import { SLICE_STEP, TGameDuration, useTypeStore } from './store'
 import { useEffect, useRef } from 'react'
 import { OptionsContainer } from './OptionsContainer'
 import { TestWordContainer } from './TestWord'
-import { Api, TGame } from 'lib/utils'
+import { useFocusInput, useCountdown, useWPM, useWordList } from "@components/hooks"
+import { Api, TGame } from '@utils'
 
 export const TypingGame = () => {
     const [

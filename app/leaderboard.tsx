@@ -1,4 +1,4 @@
-import { TGame } from "lib/utils"
+import { TGame } from "@utils"
 
 type Props = { games: TGame[] }
 export const Leaderboard = ({ games }: Props) => {

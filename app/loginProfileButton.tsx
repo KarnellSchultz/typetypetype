@@ -1,7 +1,7 @@
 'use client'
 
 import { SignedIn, SignedOut } from "@clerk/nextjs/app-beta/client";
-import { PageRoutes } from "lib/utils"
+import { PageRoutes } from "@utils"
 import Link from "next/link"
 
 

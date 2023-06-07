@@ -7,6 +7,10 @@
       "esnext"
     ],
     "allowJs": true,
+    "declaration": true,
+    "composite": true,
+    "sourceMap": true,
+    "declarationMap": true,
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
@@ -20,8 +24,11 @@
     "baseUrl": ".",
     "paths": {
       "@components/*": [
-        "..components/*"
-      ]
+        "./components/*"
+      ],
+      "@utils": [
+        "./lib/utils"
+      ],
     },
     "incremental": true,
     "plugins": [
@@ -39,7 +46,9 @@
     "lib/prisma.js",
     "app/api/games/[userId]",
     "app/api/leaderboard/",
-    "app/api/leaderboard/[userId]", "app/providers.js", "app/providers.js",
+    "app/api/leaderboard/[userId]",
+    "app/providers.js",
+    "app/providers.js",
   ],
   "exclude": [
     "node_modules"

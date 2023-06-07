@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { TestWordType } from 'wordData'
-import { getWordList } from 'lib/utils'
+import { getWordList } from '@utils'
 
 export const SLICE_STEP = 20
 

@@ -1,5 +1,5 @@
 import { withClerkMiddleware, getAuth } from "@clerk/nextjs/server";
-import { PageRoutes, Api } from "lib/utils";
+import { PageRoutes, Api } from "@utils";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 

@@ -1,9 +1,9 @@
-import React from "react"
+
 import '../styles/globals.css'
 import { ClerkProvider } from "@clerk/nextjs/app-beta";
 import Link from "next/link";
-import { PageRoutes } from "lib/utils";
 import { LoginProfileButton } from "./loginProfileButton";
+import { PageRoutes } from "@utils";
 
 export const metadata = {
     title: 'Home',
